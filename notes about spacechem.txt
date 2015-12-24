@@ -1,0 +1,11 @@
+- Max combination is 109
+- min split is 1
+- Noble gases cannot be bonded.
+- one direction + one instruction per square per color.
+- 8 - 2 - 8 right-left 
+  4 - 4
+- Red waldo has priority over blue.
+- A waldo running into walls repeat instruction.
+- What instruction are enabled for puzzle.
+- If atom goes out of bounds the program stops.
+- Log everything to make graph.
