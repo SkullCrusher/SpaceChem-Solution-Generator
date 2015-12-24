@@ -1,3 +1,12 @@
 - Load the problem
 	- Ensure it is valid data.
 - 
+
+- Instructions
+	- Rotate
+	- Sync
+	- Bond
+	- Flip Flop
+	- Sense Atom
+	- Fuse
+	- 
