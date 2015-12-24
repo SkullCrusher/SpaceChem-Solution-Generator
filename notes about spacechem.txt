@@ -9,3 +9,5 @@
 - What instruction are enabled for puzzle.
 - If atom goes out of bounds the program stops.
 - Log everything to make graph.
+- Went a atom is sent out, it comes in the next reactor in the same
+- Grab and drop atom
