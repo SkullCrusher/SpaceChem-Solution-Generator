@@ -14,10 +14,39 @@
     <Filter Include="Sharing">
       <UniqueIdentifier>{5634a09e-b500-4cd3-92d2-18a31722aefe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{1c57e392-9602-488d-b8c1-7ea701db92ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Sharing.cpp">
+      <Filter>Sharing</Filter>
+    </ClCompile>
+    <ClCompile Include="Generation.cpp">
+      <Filter>Generation</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation.cpp">
+      <Filter>Simulation</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Sharing.h">
+      <Filter>Sharing</Filter>
+    </ClInclude>
+    <ClInclude Include="Generation.h">
+      <Filter>Generation</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation.h">
+      <Filter>Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="Definitions.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Problem_Definiton.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
