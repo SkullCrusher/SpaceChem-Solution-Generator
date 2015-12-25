@@ -31,6 +31,9 @@
     <ClCompile Include="Simulation.cpp">
       <Filter>Simulation</Filter>
     </ClCompile>
+    <ClCompile Include="Simulation_Controller.cpp">
+      <Filter>Simulation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sharing.h">
@@ -47,6 +50,9 @@
     </ClInclude>
     <ClInclude Include="Problem_Definiton.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation_Controller.h">
+      <Filter>Simulation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
