@@ -10,6 +10,7 @@
 #include "Definitions.h"
 #include "Problem_Definiton.h"
 
+	// To be done after.
 void PrintUsage(){
 	printf("--\n");
 	printf("--\n");
@@ -55,7 +56,42 @@ int main(int argc, char *argv[]) {
 
 
 		//Debugging. We are going to work on the simulation first.
+	
 	Problem_Definition debugging_def;
+
+	debugging_def.Add_Instruction(Instruction_Start_Left);
+	debugging_def.Add_Instruction(Instruction_Start_Right);
+	debugging_def.Add_Instruction(Instruction_Start_Up);
+	debugging_def.Add_Instruction(Instruction_Start_Down);
+	debugging_def.Add_Instruction(Instruction_Left);
+	debugging_def.Add_Instruction(Instruction_Right);
+	debugging_def.Add_Instruction(Instruction_Down);
+	debugging_def.Add_Instruction(Instruction_Up);
+	debugging_def.Add_Instruction(Instruction_Bond_Add);
+	debugging_def.Add_Instruction(Instruction_Bond_Remove);
+	debugging_def.Add_Instruction(Instruction_In_Alpha);
+	debugging_def.Add_Instruction(Instruction_Out_Omega);
+	debugging_def.Add_Instruction(Instruction_Rotate_R);
+	debugging_def.Add_Instruction(Instruction_Rotate_L);
+	debugging_def.Add_Instruction(Instruction_Grab);
+	debugging_def.Add_Instruction(Instruction_Drop);
+	debugging_def.Add_Instruction(Instruction_GrabDrop);
+
+		// The hard cap for the total cycles allow in the entire simulation.
+	debugging_def.Set_Cycle_Limit_Total(1000000);
+
+		// The hard cap for a single simulation.
+	debugging_def.Set_Cycle_Limit_Simulation(100);
+
+		// The hard cap for the number of simulations that can run before halting.
+	debugging_def.Set_Simulation_Max(10000);
+
+		// The hard cap for the of number of solutions found before halting.
+	debugging_def.Set_Simulation_Solution_Max(1);
+
+		// How many solutions to dump on halting.
+	debugging_def.Set_Simulation_Solution_Toaccept(1);
+
 	
 		// Create the simulation controller
 	Simulation_Controller Debug;

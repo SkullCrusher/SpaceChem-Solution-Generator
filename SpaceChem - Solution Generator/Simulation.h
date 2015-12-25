@@ -1,4 +1,4 @@
-// A simulation
+// A simulation of
 
 
 #ifndef Simulation_Header
@@ -7,23 +7,29 @@
 	// Required for definitions and global class.
 #include "Definitions.h"
 
+#include "Waldo.h"
+#include "Solution.h"
+
+
 class Simulation{
 	
+	Solution_Reactor Solution;
+
 
 		// Default constructor
-	public: Simulation(){
-
-	}
+	public: Simulation(){}
 
 		// Default destructor
-	public: ~Simulation(){
-
-	}
+	public: ~Simulation(){}
 
 		// Process the simulation.
-	int Tick(){
+	public: int Tick(){}
 
+		//Accept a new solution.
+	public: void Set_Solution(Solution_Reactor argument) {
+		Solution = argument;
 	}
+
 };
 
 

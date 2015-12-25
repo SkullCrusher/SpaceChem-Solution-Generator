@@ -1,5 +1,6 @@
 // The list of errors.
 #define Error_Incorrect_Argument_Count 1
+#define Error_Set_Int_Tile_OOB 2
 
 // The range of arguments that are required to process a problem.
 #define Minimum_Argument_Count 3

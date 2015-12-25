@@ -61,6 +61,7 @@ class Problem_Definition{
 		// Share with nodes at random.
 	bool Share_Node_Randomly;
 //---------- End of future use ------------
+
 		// Default constructor.
 	public: Problem_Definition(){
 
@@ -86,10 +87,16 @@ class Problem_Definition{
 		Share_Node_Randomly			= false;
 
 	}
+
 		// Default destructor.
 	public: ~Problem_Definition(){}
 
-
+	public: void Add_Instruction(int InstructionID)						{ Allow_Instructions.push_back(InstructionID); }
+	public: void Set_Cycle_Limit_Total(unsigned long long argument)		{ Cycle_Limit_Total = argument; }
+	public: void Set_Cycle_Limit_Simulation(unsigned long argument)		{ Cycle_Limit_Simulation = argument;  }
+	public: void Set_Simulation_Max(unsigned long argument)				{ Simulation_Max = argument; }
+	public: void Set_Simulation_Solution_Max(unsigned long argument)	{ Simulation_Solution_Max = argument; }
+	public: void Set_Simulation_Solution_Toaccept(unsigned long argument)	{ Simulation_Solution_Toaccept = argument;}
 };
 
 #endif

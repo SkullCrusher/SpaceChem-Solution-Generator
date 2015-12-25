@@ -34,6 +34,12 @@
     <ClCompile Include="Simulation_Controller.cpp">
       <Filter>Simulation</Filter>
     </ClCompile>
+    <ClCompile Include="Solution.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Waldo.cpp">
+      <Filter>Simulation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sharing.h">
@@ -52,6 +58,15 @@
       <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Simulation_Controller.h">
+      <Filter>Simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="Solution.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Atom.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Waldo.h">
       <Filter>Simulation</Filter>
     </ClInclude>
   </ItemGroup>
