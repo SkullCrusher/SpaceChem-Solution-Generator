@@ -11,13 +11,15 @@ struct Tile {
 		// true = red, false = blue
 	bool RedorBlue; // Might not be required.
 		
-		// The tile can only contain two instructions.
+		// The tile can only contain two instructions,
+		//		Instruction_1: used for an action instruction.
+		//		Instruction_2: used for an direction (not including the start)
 	int Instruction_1;
 	int Instruction_2;
 
 	Tile() {
-		Instruction_1 = -1;
-		Instruction_2 = -1;
+		Instruction_1 = Instruction_NOP;
+		Instruction_2 = Instruction_NOP;
 	}
 };
 
@@ -57,8 +59,22 @@ class Solution_Reactor {
 		// Default destructor.
 	public: ~Solution_Reactor(){}
 
+	public: Tile GetTile(short X, short Y, bool RedorBlue){
+			// Force inside the limit.
+		if (X < 0){ X = 0; }
+		if (X >= 10){ X = 9; }
+		if (Y < 0){ Y = 0; }
+		if (Y >= 8){ Y = 7; }
+
+		if (RedorBlue == Red_Tile){
+			return Red[X][Y];
+		}else{
+			return Blue[X][Y];
+		}
+	}
+
 		//Set an instruction to a tile. true = red, false = blue
-	public: int Set_Instruction_For_Tile(int x, int y, bool RedorBlue, int Instruction_1 = -1, int Instruction_2 = -1) {
+	public: int Set_Instruction_For_Tile(int x, int y, bool RedorBlue, int Instruction_1 = Instruction_NOP, int Instruction_2 = Instruction_NOP) {
 
 			// Catch
 		if (x < 0 || y < 0 || x > 9 || y > 7) {
@@ -72,6 +88,8 @@ class Solution_Reactor {
 			Blue[y][x].Instruction_1 = Instruction_1;
 			Blue[y][x].Instruction_2 = Instruction_2;
 		}
+
+		return Simulation_Continue;
 	}
 
 };

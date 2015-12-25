@@ -97,6 +97,13 @@ class Problem_Definition{
 	public: void Set_Simulation_Max(unsigned long argument)				{ Simulation_Max = argument; }
 	public: void Set_Simulation_Solution_Max(unsigned long argument)	{ Simulation_Solution_Max = argument; }
 	public: void Set_Simulation_Solution_Toaccept(unsigned long argument)	{ Simulation_Solution_Toaccept = argument;}
+
+
+	public: unsigned long long Get_Cycle_Limit_Total()		    { return Cycle_Limit_Total; }
+	public: unsigned long Get_Cycle_Limit_Simulation()		{ return Cycle_Limit_Simulation; }
+	public: unsigned long Get_Simulation_Max()				{ return Simulation_Max; }
+	public: unsigned long Get_Simulation_Solution_Max()	    { return Simulation_Solution_Max; }
+	public: unsigned long Get_Simulation_Solution_Toaccept()	{ return Simulation_Solution_Toaccept; }
 };
 
 #endif
