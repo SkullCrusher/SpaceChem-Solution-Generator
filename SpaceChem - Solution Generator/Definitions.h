@@ -26,7 +26,7 @@
 #define Waldo_Direction_Up				7
 #define Waldo_Direction_Down			8
 
-	// Collision check definitons
+	// Collision check definitons.
 #define Collision_No_Collision			0
 #define Collision_Yes_Collision			1
 
@@ -46,6 +46,13 @@
 #define	Atom_Two_Is_Above_One			2
 #define Atom_One_Is_Right_Two			3
 #define Atom_Two_Is_Right_One			4
+
+	// Atom CanAddBonds Definitions
+#define Atom_CanAddBonds_Left			1
+#define	Atom_CanAddBonds_Right			2
+#define Atom_CanAddBonds_Up				3
+#define	Atom_CanAddBonds_Down			4
+
 
 
 // Instruction list-----------------------------------------------

@@ -62,41 +62,124 @@ class Molecule {
 		return !Structure[X][Y].Placeholder;
 	}
 
-		// Increase the bond count on a atom.
-	private: void IncreaseBondCount(short X1, short Y1, short X2, short Y2){
-
-	}
 		// Checks to make sure the two atoms are within bonding range.
 	private: short IsSidebySide(short X1, short Y1, short X2, short Y2){
 		
-			// Left Right
-		if ((X1 + 1) == X2 && Y1 == Y2){
-			return Atom_Two_Is_Right_One;
-		}
-			// Right Left
-		if ((X1 - 1) == X2 && Y1 == Y2){
-			return Atom_One_Is_Right_Two;
-		}
+		// (log)
 
+			// Left Right
+		if ((X1 + 1) == X2 && Y1 == Y2){ return Atom_Two_Is_Right_One; }
+			// Right Left
+		if ((X1 - 1) == X2 && Y1 == Y2){ return Atom_One_Is_Right_Two; }
 			// Up Down
-		if (X1 == X2 && (Y1 + 1) == Y2){
-			return Atom_Two_Is_Above_One;
-		}
+		if (X1 == X2 && (Y1 + 1) == Y2){ return Atom_Two_Is_Above_One; }
 			// Down Up
-		if (X1 == X2 && (Y1 - 1) == Y2){
-			return Atom_One_Is_Above_Two;
-		}
+		if (X1 == X2 && (Y1 - 1) == Y2){ return Atom_One_Is_Above_Two; }
 
 		return Atom_Invalid;
 	}
 
+	
+		// Checks the max bond count to see if it will aloow it.
+	private: bool CanAddBonds(short X1, short Y1, short Direction) {
+
+		Atom Argument = Structure[X1][Y1];
+
+		if (Direction == Atom_CanAddBonds_Up) {
+				// If the number of current bonds is less then max return true else false.
+			if (Argument.Up_Bond < Argument.Details.Max_Bonds) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+
+		if (Direction == Atom_CanAddBonds_Down) {
+				// If the number of current bonds is less then max return true else false.
+			if (Argument.Down_Bond < Argument.Details.Max_Bonds) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+
+		if (Direction == Atom_CanAddBonds_Right) {
+				// If the number of current bonds is less then max return true else false.
+			if (Argument.Right_Bond < Argument.Details.Max_Bonds) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+
+		if (Direction == Atom_CanAddBonds_Left) {
+				// If the number of current bonds is less then max return true else false.
+			if (Argument.Left_Bond < Argument.Details.Max_Bonds) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+
+		return false;
+	}
+
+		// Increase the bond count on a atom.
 	public: void Add_Bond(short X1, short Y1, short X2, short Y2){
-		// (Log) invalid add bonds.
+			
+			// (Log) invalid add bonds.
 		bool A = CheckIfAtom(X1, Y1);
 		bool B = CheckIfAtom(X2, Y2);
 
 		if (A && B){
 
+				// See if the atoms are connected.
+			short Result = IsSidebySide(X1, Y1, X2, Y2);
+
+				// The atoms are too far away so drop this add bond.
+			if(Result == Atom_Invalid){
+				return;
+			}
+
+				// If there would be more then max bonds ignore.
+			if (Result == Atom_One_Is_Above_Two) {
+				if (CanAddBonds(X1, Y1, Atom_CanAddBonds_Down) && CanAddBonds(X2, Y2, Atom_CanAddBonds_Up)) {
+					// (log)
+					Structure[Y1][X1].Down_Bond++;
+					Structure[Y2][X2].Up_Bond++;
+				}else {
+					// (log)
+				}
+			}
+			if (Result == Atom_Two_Is_Above_One) {		
+				if (CanAddBonds(X1, Y1, Atom_CanAddBonds_Up) && CanAddBonds(X2, Y2, Atom_CanAddBonds_Down)) {
+					// (log)
+					Structure[Y1][X1].Up_Bond++;
+					Structure[Y2][X2].Down_Bond++;
+				}else {
+					// (log)
+				}
+			}
+			if (Result == Atom_One_Is_Right_Two) {
+				if (CanAddBonds(X1, Y1, Atom_CanAddBonds_Right) && CanAddBonds(X2, Y2, Atom_CanAddBonds_Left)) {
+					// (log)
+					Structure[Y1][X1].Right_Bond++;
+					Structure[Y2][X2].Left_Bond++;
+				}else {
+					// (log)
+				}
+			}
+			if (Result == Atom_Two_Is_Right_One) {
+				if (CanAddBonds(X1, Y1, Atom_CanAddBonds_Left) && CanAddBonds(X2, Y2, Atom_CanAddBonds_Right)) {
+					// (log)
+					Structure[Y2][X2].Right_Bond++;
+					Structure[Y1][X1].Left_Bond++;
+				}else {
+					// (log)
+				}
+			}
+
+			int debug = 0;
 		}
 	}
 
@@ -104,6 +187,15 @@ class Molecule {
 
 	}
 
+
+	public: void Set_Atom(short X, short Y, Atom argument) {
+
+			// Catch
+		if (X < 0 || Y < 0 || Y > 10 || X > 10) { return; }
+
+		Structure[X][Y] = argument;
+
+	}
 };
 
 #endif

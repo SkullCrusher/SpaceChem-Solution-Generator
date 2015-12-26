@@ -59,6 +59,20 @@ class Simulation_Controller{
 
 			// Limit the simulation to prevent unlimited running.
 		RunMe.Set_Cycle_Limit_Simulation(Problem_Rules.Get_Cycle_Limit_Simulation());
+				
+			// Debugging Infomation.
+		Atom_Info Info;
+		Info.Atomic_Number = 9;
+		Info.Max_Bonds = 1;
+
+		Atom F;
+		F.Placeholder = false;
+		F.Details = Info;
+
+		Molecule AlphaIn;
+
+		AlphaIn.Set_Atom(0, 0, F);
+
 
 			// Process the simulation.
 		int Results = Simulation_Continue;
