@@ -40,6 +40,12 @@
 	// Execution Definitions
 #define Execution_NoError				0
 
+	// Atom IsSidebySide Definitions
+#define Atom_Invalid					0
+#define Atom_One_Is_Above_Two			1
+#define	Atom_Two_Is_Above_One			2
+#define Atom_One_Is_Right_Two			3
+#define Atom_Two_Is_Right_One			4
 
 
 // Instruction list-----------------------------------------------

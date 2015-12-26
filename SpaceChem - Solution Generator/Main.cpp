@@ -40,7 +40,7 @@ char *LoadFileByName(std::string argument){
 int main(int argc, char *argv[]) {
 
 		// Debugging - Change later.
-	printf("SpaceChem Problem Solver - written by David Harkins");
+	printf("SpaceChem Solution Generator - written by David Harkins");
 
 		// Validate the arguments
 	if (argc < Minimum_Argument_Count || argc > Maximum_Argument_Count){

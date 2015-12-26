@@ -140,7 +140,7 @@ class Simulation{
 	private: short Execute_Instruction(Waldo &argument, bool RedorBlue){
 		
 			// Pull the instructions for that tile.
-		Tile Insturction = Solution.GetTile(argument.GetX(), argument.GetY(), RedorBlue);
+		Tile Instruction = Solution.GetTile(argument.GetX(), argument.GetY(), RedorBlue);
 		// Attempt to run the instruction in Instruction_1.
 
 		// Change the direction to the instruction in Instruction_2.
