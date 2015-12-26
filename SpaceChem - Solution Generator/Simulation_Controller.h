@@ -47,9 +47,9 @@ class Simulation_Controller{
 		TheChosenOne.Set_Instruction_For_Tile(4, 1, Red_Tile, Instruction_Bond_Remove,	Instruction_NOP);
 		TheChosenOne.Set_Instruction_For_Tile(5, 1, Red_Tile, Instruction_In_Alpha,		Instruction_NOP);
 		TheChosenOne.Set_Instruction_For_Tile(6, 1, Red_Tile, Instruction_Start_Left,	Instruction_NOP);
-		TheChosenOne.Set_Instruction_For_Tile(7, 1, Red_Tile, Instruction_Out_Omega,	Instruction_Start_Left);
-		TheChosenOne.Set_Instruction_For_Tile(2, 2, Red_Tile, Instruction_NOP,			Instruction_Start_Right);
-		TheChosenOne.Set_Instruction_For_Tile(7, 2, Red_Tile, Instruction_Drop,			Instruction_Start_Up);
+		TheChosenOne.Set_Instruction_For_Tile(7, 1, Red_Tile, Instruction_Out_Omega,	Instruction_Left);
+		TheChosenOne.Set_Instruction_For_Tile(2, 2, Red_Tile, Instruction_NOP,			Instruction_Right);
+		TheChosenOne.Set_Instruction_For_Tile(7, 2, Red_Tile, Instruction_Drop,			Instruction_Up);
 
 			
 		Simulation RunMe;
@@ -69,15 +69,33 @@ class Simulation_Controller{
 		F.Placeholder = false;
 		F.Details = Info;
 
+
+			// Debugging, Create the input molecule.
 		Molecule AlphaIn;
 
-		AlphaIn.Set_Atom(0, 0, F);
+		AlphaIn.Set_Atom(1, 1, F);
+		AlphaIn.Set_Atom(2, 1, F);
 
+		AlphaIn.Add_Bond(1, 1, 2, 1);
+
+		RunMe.Add_To_Input(AlphaIn, Simulation_Add_To_Input_Alpha);
+		RunMe.Add_To_Input(AlphaIn, Simulation_Add_To_Input_Alpha);
+		RunMe.Add_To_Input(AlphaIn, Simulation_Add_To_Input_Alpha);
+
+		int Total_Correct_Output = 0;
 
 			// Process the simulation.
 		int Results = Simulation_Continue;
 		while (Results == Simulation_Continue){
+
+				// Debugging, we keep adding the input to the simulation to make sure it's full.
+			RunMe.Add_To_Input(AlphaIn, Simulation_Add_To_Input_Alpha);
+			RunMe.Add_To_Input(AlphaIn, Simulation_Add_To_Input_Alpha);
+
+
 			Results = RunMe.Tick();
+
+			int debug = 0;
 		}
 		
 	

@@ -69,5 +69,8 @@
     <ClInclude Include="Waldo.h">
       <Filter>Simulation</Filter>
     </ClInclude>
+    <ClInclude Include="Fitness_Calculator.h">
+      <Filter>Simulation</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

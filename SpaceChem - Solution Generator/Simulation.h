@@ -10,21 +10,23 @@
 #include "Solution.h"
 #include "Atom.h"
 
+#include <vector>
+
 
 class Simulation{
 	
 		// The cap on cycles.
-	unsigned long Cycle_Limit_Simulation;
+	private: unsigned long Cycle_Limit_Simulation;
 
 		// How many cycles have been simulated,
-	unsigned long Cycles;
+	private: unsigned long Cycles;
 
 		// The solution to be simulated.
-	Solution_Reactor Solution;
+	private: Solution_Reactor Solution;
 
 		// The red and blue waldo which are the controlling parts of the simulation.
-	Waldo Red_Waldo;
-	Waldo Blue_Waldo;
+	private: Waldo Red_Waldo;
+	private: Waldo Blue_Waldo;
 
 	/* 
 				The in and out containers for molecules.
@@ -34,12 +36,85 @@ class Simulation{
 		Note: The reason why it is not one is if the molecules happen to be different
 		they might not collide so it requires a double buffer.
 	*/
-	Molecule In_Alpha[2];
-	Molecule Out_Omega[2];
-	
-	Molecule In_Beta[2];
-	Molecule Out_Phi[2];
 
+	private: Molecule In_Alpha[2];
+	private: Molecule Out_Omega[2];
+	
+	private: Molecule In_Beta[2];
+	private: Molecule Out_Phi[2];
+
+		// The molecules currently in the reactor.
+	private: std::vector<Molecule> Active_Molecules;
+
+		// Add a new molecule to the input (This will have to be changed later)
+	public: short Add_To_Input(Molecule argument, short IsAlphaOrBeta) {
+
+		if (IsAlphaOrBeta == Simulation_Add_To_Input_Alpha) {
+			// There are four cases, empty, full, last is empty, first is empty.
+
+				// Empty
+			if (In_Alpha[0].GetIsEmpty() && In_Alpha[1].GetIsEmpty()) {
+				In_Alpha[0] = argument;
+				return Simulation_Add_To_Input_Worked;
+			}
+
+				// Full
+			if (!In_Alpha[0].GetIsEmpty() && !In_Alpha[1].GetIsEmpty()) {
+				return Simulation_Add_To_Input_Full;
+			}
+
+				// First is empty, move the last to the first.
+			if (In_Alpha[0].GetIsEmpty() && !In_Alpha[1].GetIsEmpty()) {
+				In_Alpha[0] = In_Alpha[1];
+			}
+
+				// First is empty
+			if (In_Alpha[0].GetIsEmpty()) {
+				In_Alpha[0] = argument;
+				return Simulation_Add_To_Input_Worked;
+			}
+
+				// Last is empty
+			if (In_Alpha[1].GetIsEmpty()) {
+				In_Alpha[1] = argument;
+				return Simulation_Add_To_Input_Worked;
+			}
+		}
+		
+		if(IsAlphaOrBeta == Simulation_Add_To_Input_Beta){
+			// There are four cases, empty, full, last is empty, first is empty.
+
+				// Empty
+			if (In_Beta[0].GetIsEmpty() && In_Beta[1].GetIsEmpty()) {
+				In_Beta[0] = argument;
+				return Simulation_Add_To_Input_Worked;
+			}
+
+				// Full
+			if (!In_Beta[0].GetIsEmpty() && !In_Beta[1].GetIsEmpty()) {
+				return Simulation_Add_To_Input_Full;
+			}
+
+			// First is empty, move the last to the first.
+			if (In_Beta[0].GetIsEmpty() && !In_Beta[1].GetIsEmpty()) {
+				In_Beta[0] = In_Beta[1];
+			}
+
+				// First is empty (This might not be required)
+			if (In_Beta[0].GetIsEmpty()) {
+				In_Beta[0] = argument;
+				return Simulation_Add_To_Input_Worked;
+			}
+
+				// Last is empty
+			if (In_Beta[1].GetIsEmpty()) {
+				In_Beta[1] = argument;
+				return Simulation_Add_To_Input_Worked;
+			}
+		}
+
+		return Simulation_Add_To_Input_Worked;
+	}
 	
 		// Default constructor.
 	public: Simulation(){
@@ -137,18 +212,74 @@ class Simulation{
 	}
 
 		// Runs the instruction that is provided in Instruction_1 and used Instruction_2 for direction.
-	private: short Execute_Instruction(Waldo &argument, bool RedorBlue){
+/*TODO*/private: short Execute_Instruction(Waldo &argument, bool RedorBlue){
 		
 			// Pull the instructions for that tile.
 		Tile Instruction = Solution.GetTile(argument.GetX(), argument.GetY(), RedorBlue);
 		// Attempt to run the instruction in Instruction_1.
 
+		switch (Instruction.Instruction_1){
+
+			case Instruction_NOP:
+					// Do nothing.
+				break;
+			case Instruction_Bond_Add:
+					// Not required for prototype
+				break;
+			case Instruction_Bond_Remove: 
+					// TO DO
+				break;
+			case Instruction_In_Alpha:
+					// TO DO
+				break;
+			case Instruction_In_Beta: 
+					// Not required for prototype.
+				break;
+			case Instruction_Out_Omega: 
+					// TO DO
+				break;
+			case Instruction_Out_Psi: 
+					// Not required for prototype.
+				break;
+			case Instruction_Rotate_R: 
+					// Not required for prototype.
+				break;
+			case Instruction_Rotate_L: 
+					// Not required for prototype.
+				break;
+			case Instruction_Grab: 
+					// TO DO
+				break;
+			case Instruction_Drop: 
+					// TO DO
+				break;
+			case Instruction_GrabDrop: 
+					// TO DO
+				break;
+			case Instruction_Sync: 
+					// TO DO
+				break;
+		}
+
 		// Change the direction to the instruction in Instruction_2.
-
-
+		switch (Instruction.Instruction_2) {
+			case Instruction_Left: 
+				argument.Set_Direction(Waldo_Direction_Left);
+				break;
+			case Instruction_Right:
+				argument.Set_Direction(Waldo_Direction_Right);
+				break;
+			case Instruction_Up:
+				argument.Set_Direction(Waldo_Direction_Up);
+				break;
+			case Instruction_Down: 
+				argument.Set_Direction(Waldo_Direction_Down);
+				break;			
+			case Instruction_NOP:
+					// Do nothing.
+				break;
+		}
 		
-
-
 		return Execution_NoError;
 	}
 
@@ -247,6 +378,4 @@ class Simulation{
 	}
 
 };
-
-
 #endif

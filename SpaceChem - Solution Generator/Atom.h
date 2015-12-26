@@ -37,7 +37,7 @@ struct Atom{
 
 class Molecule {
 
-		// If the molecule is actually just a empty place holder.
+		// If the molecule is actually just a empty place holder (changed by Set_Atom).
 	private: bool IsEmpty;
 
 		// The structure is the layout of the atoms. Note, there is a center but the waldo changes the center rotation.
@@ -48,7 +48,7 @@ class Molecule {
 		IsEmpty = true;
 	}
 
-		// Basic utilities
+		// Basic utilities.
 	public: bool GetIsEmpty(){ return IsEmpty; }
 
 		// Checks if a location has an atom.
@@ -59,7 +59,7 @@ class Molecule {
 		}
 
 			// If something is a placeholder we know it's not a atom.
-		return !Structure[X][Y].Placeholder;
+		return !Structure[Y][X].Placeholder;
 	}
 
 		// Checks to make sure the two atoms are within bonding range.
@@ -79,11 +79,10 @@ class Molecule {
 		return Atom_Invalid;
 	}
 
-	
 		// Checks the max bond count to see if it will aloow it.
 	private: bool CanAddBonds(short X1, short Y1, short Direction) {
 
-		Atom Argument = Structure[X1][Y1];
+		Atom Argument = Structure[Y1][X1];
 
 		if (Direction == Atom_CanAddBonds_Up) {
 				// If the number of current bonds is less then max return true else false.
@@ -160,7 +159,7 @@ class Molecule {
 					// (log)
 				}
 			}
-			if (Result == Atom_One_Is_Right_Two) {
+			if (Result == Atom_Two_Is_Right_One) {
 				if (CanAddBonds(X1, Y1, Atom_CanAddBonds_Right) && CanAddBonds(X2, Y2, Atom_CanAddBonds_Left)) {
 					// (log)
 					Structure[Y1][X1].Right_Bond++;
@@ -169,7 +168,7 @@ class Molecule {
 					// (log)
 				}
 			}
-			if (Result == Atom_Two_Is_Right_One) {
+			if (Result == Atom_One_Is_Right_Two) {
 				if (CanAddBonds(X1, Y1, Atom_CanAddBonds_Left) && CanAddBonds(X2, Y2, Atom_CanAddBonds_Right)) {
 					// (log)
 					Structure[Y2][X2].Right_Bond++;
@@ -183,19 +182,25 @@ class Molecule {
 		}
 	}
 
-	public: void Remove_Bond(short X1, short Y1, short X2, short Y2){
+		// Remove the bond, this may cause the breakage of the molecule into multiple.
+/*TODO*/public: void Remove_Bond(short X1, short Y1, short X2, short Y2){
 
 	}
 
-
+		// Set the atom at a X and Y to the argument.
 	public: void Set_Atom(short X, short Y, Atom argument) {
+
+		IsEmpty = false;
 
 			// Catch
 		if (X < 0 || Y < 0 || Y > 10 || X > 10) { return; }
 
-		Structure[X][Y] = argument;
+		Structure[Y][X] = argument;
 
 	}
+
+		// Used in simulation.h to "delete" a molecule from the input with a simple flip of false to true.
+	public: void Set_IsEmpty(bool argument) { IsEmpty = argument; }
 };
 
 #endif

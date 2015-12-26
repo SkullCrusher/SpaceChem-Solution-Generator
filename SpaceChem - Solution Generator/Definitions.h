@@ -5,7 +5,7 @@
 #define Error_Incorrect_Argument_Count	1
 #define Error_Set_Int_Tile_OOB			2
 
-	// The range of arguments that are required to process a problem.
+	// (Main) The range of arguments that are required to process a problem.
 #define Minimum_Argument_Count			3
 #define Maximum_Argument_Count			5
 
@@ -20,11 +20,17 @@
 #define Simulation_InvalidSimulation	3
 #define Simulation_Collision			4
 
+	// Simulation Add_To_Input
+#define Simulation_Add_To_Input_Alpha	1
+#define Simulation_Add_To_Input_Beta	2
+#define Simulation_Add_To_Input_Full	3
+#define Simulation_Add_To_Input_Worked	4
+
 	// Waldo Definitons (same as instruction).
 #define Waldo_Direction_Left			5
 #define Waldo_Direction_Right			6
-#define Waldo_Direction_Up				7
-#define Waldo_Direction_Down			8
+#define Waldo_Direction_Down			7
+#define Waldo_Direction_Up				8
 
 	// Collision check definitons.
 #define Collision_No_Collision			0

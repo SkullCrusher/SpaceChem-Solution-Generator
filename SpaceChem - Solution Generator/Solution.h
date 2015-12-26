@@ -49,9 +49,6 @@ class Solution_Reactor {
 		// The positions of the bond tiles.
 	std::vector<Position> BondTiles;
 
-		// F, Atom number 9, Max Bond 1
-
-
 		// Default constructor.
 	public: Solution_Reactor() {
 		HasBeenSimulated = false;

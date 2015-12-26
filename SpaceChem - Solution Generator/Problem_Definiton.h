@@ -4,6 +4,9 @@
 #ifndef Problem_Definition_Header
 #define Problem_Definition_Header
 
+	//(TO DO) Used for the required output. 
+#include "Atom.h"
+
 #include <vector>
 
 class Problem_Definition{
