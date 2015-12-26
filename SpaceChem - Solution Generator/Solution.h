@@ -30,6 +30,9 @@ struct Position {
 
 class Solution_Reactor {
 
+		// The status of the solution, holds the error code if any.
+	private: short Status;
+
 		// If the reactor has been simulated skip resimulating.
 	private: bool HasBeenSimulated;
 
@@ -54,6 +57,8 @@ class Solution_Reactor {
 		HasBeenSimulated = false;
 		Fitness = 0;
 		Life_Span = 0;
+
+		Status = Solution_Unprocessed;
 	}
 
 		// Default destructor.
@@ -67,9 +72,9 @@ class Solution_Reactor {
 		if (Y >= 8){ Y = 7; }
 
 		if (RedorBlue == Red_Tile){
-			return Red[X][Y];
+			return Red[Y][X];
 		}else{
-			return Blue[X][Y];
+			return Blue[Y][X];
 		}
 	}
 
@@ -91,6 +96,11 @@ class Solution_Reactor {
 
 		return Simulation_Continue;
 	}
+
+	public: void Set_Status(short argument){ Status = argument; }
+	public: short Get_Status(){ return Status; }
+	public: void Set_HasBeenSimulated(bool argument){ HasBeenSimulated = argument; }
+	public: bool Get_HasBeenSimulated(){ return HasBeenSimulated; }
 
 };
 
