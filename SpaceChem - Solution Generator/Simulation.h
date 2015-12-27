@@ -170,6 +170,11 @@ class Simulation{
 
 		// Moves the waldo based off the direction inside it.
 	private: void MoveWaldo(Waldo &argument){
+
+			// The waldo is waiting for input so loop.
+		if (argument.GetIdle_For_Input()) {
+			return;
+		}
 		
 		if (argument.GetDirection() == Waldo_Direction_Left){
 				// Check if the waldo is at the edge, if so do nothing.
@@ -201,42 +206,142 @@ class Simulation{
 
 	}
 
+		// ------------------------------ Handles all of the instructions. ----------------------------------------
+	private: void Handle_Instruction_In_Alpha(Waldo &argument, bool RedorBlue) {
+		
+		// Pull the first one from the input and move the second to the first.
+		//If we don't have an input triggle a idle loop until we do.
+		if (In_Alpha[0].GetIsEmpty() && In_Alpha[1].GetIsEmpty()) {
+			// Set the waldo to idle.
+			argument.SetIdle_For_Input(true);
+			return;
+		}
+
+		// If there is a input in first use that.
+		if (!In_Alpha[0].GetIsEmpty()) {
+			// Center the molecule in the top left.
+			In_Alpha[0].Set_X(0);
+			In_Alpha[0].Set_Y(0);
+
+			// Add the molecule to the active list.
+			Active_Molecules.push_back(In_Alpha[0]);
+
+			// Set the trash flag on the input to "delete" it.
+			In_Alpha[0].Set_IsEmpty(true);
+
+			// Just shift them because it wont hurt anything.
+			In_Alpha[0] = In_Alpha[1];
+
+			return;
+		}
+
+		if (!In_Alpha[1].GetIsEmpty()) {
+			// Center the molecule in the top left.
+			In_Alpha[1].Set_X(0);
+			In_Alpha[1].Set_Y(0);
+
+			// Add the molecule to the active list.
+			Active_Molecules.push_back(In_Alpha[1]);
+
+			// Set the trash flag on the input to "delete" it.
+			In_Alpha[1].Set_IsEmpty(true);
+
+			return;
+		}
+
+	}
+
+/*TODO*/private: void Handle_Instruction_Bond_Remove(Waldo &argument, bool RedorBlue) {
+
+		int debug = 0;
+	}
+
+/*TODO*/private: void Handle_Instruction_Out_Omega(Waldo &argument, bool RedorBlue) {
+
+		int debug = 0;
+	}
+
+/*TODO*/private: void Handle_Instruction_Grab(Waldo &argument, bool RedorBlue) {
+
+		int debug = 0;
+	}
+
+/*TODO*/private: void Handle_Instruction_Drop(Waldo &argument, bool RedorBlue) {
+
+		int debug = 0;
+	}
+
+/*TODO*/private: void Handle_Instruction_Sync(Waldo &argument, bool RedorBlue) {
+
+		int debug = 0;
+	}
+
+		// ------------------------------     End of the instructions.     ----------------------------------------
+
+			// Checks if the molecule's atoms are out of the bounds of the reactor.
+/*TODO*/private: bool Is_Molecule_OutOfBounds(Molecule &argument) {
+
+		return false;
+	}
+
+			// Used by CheckForCollision to see if any Molecules overlap.
+/*TODO*/private: bool Do_Molecules_Overlap(Molecule &A, Molecule &B) {
+
+		return false;
+	}
+
 		// Checks the entire Reactor to see if there is a collision 
 			 // (Note to self, you might be able to reduce the processing time here by only checking the change)
-/*TODO*/private: short CheckForCollision(){
+	private: short CheckForCollision(){
 
-		//#define Collision_No_Collision			0
-		//#define Collision_Yes_Collision			1
-
+			// Check each molecule against the rest, honestly this is a pretty slow way of doing it but
+			// hopefully because active molecules is small enough it will not effect the speed.
+		for (unsigned int i = 0; i < Active_Molecules.size(); i++) {
+			for (unsigned int g = i + 1; g < Active_Molecules.size(); g++) {
+					// Check for overlap
+				if (Do_Molecules_Overlap(Active_Molecules[i], Active_Molecules[g])) {
+						// Yes, a overlap was detected. This simulation proves the solution is invalid.
+					return Collision_Yes_Collision;
+				}
+			}
+		}
+			// Check if any Molecules are out of bounds.
+		for (unsigned int i = 0; i < Active_Molecules.size(); i++) {
+			if (Is_Molecule_OutOfBounds(Active_Molecules[i])) {
+					//Yes, this molecule is out of bounds. This simulation proves the solution is invalid.
+				return Collision_Yes_Collision;
+			}
+		}
+		
 		return Collision_No_Collision;
 	}
 
 		// Runs the instruction that is provided in Instruction_1 and used Instruction_2 for direction.
-/*TODO*/private: short Execute_Instruction(Waldo &argument, bool RedorBlue){
+	private: short Execute_Instruction(Waldo &argument, bool RedorBlue){
 		
 			// Pull the instructions for that tile.
 		Tile Instruction = Solution.GetTile(argument.GetX(), argument.GetY(), RedorBlue);
-		// Attempt to run the instruction in Instruction_1.
 
+			// Attempt to run the instruction in Instruction_1.
 		switch (Instruction.Instruction_1){
 
 			case Instruction_NOP:
-					// Do nothing.
+				// Do nothing.
 				break;
 			case Instruction_Bond_Add:
 					// Not required for prototype
 				break;
 			case Instruction_Bond_Remove: 
-					// TO DO
+				Handle_Instruction_Bond_Remove(argument, RedorBlue);
 				break;
-			case Instruction_In_Alpha:
-					// TO DO
+			case Instruction_In_Alpha:					
+				Handle_Instruction_In_Alpha(argument, RedorBlue);				
 				break;
 			case Instruction_In_Beta: 
 					// Not required for prototype.
 				break;
 			case Instruction_Out_Omega: 
-					// TO DO
+				Handle_Instruction_Out_Omega(argument, RedorBlue);
 				break;
 			case Instruction_Out_Psi: 
 					// Not required for prototype.
@@ -248,21 +353,24 @@ class Simulation{
 					// Not required for prototype.
 				break;
 			case Instruction_Grab: 
-					// TO DO
+				Handle_Instruction_Grab(argument, RedorBlue);
 				break;
 			case Instruction_Drop: 
-					// TO DO
+				Handle_Instruction_Drop(argument, RedorBlue);
 				break;
 			case Instruction_GrabDrop: 
-					// TO DO
+					// Not required for prototype.
 				break;
 			case Instruction_Sync: 
-					// TO DO
+				Handle_Instruction_Sync(argument, RedorBlue);
 				break;
 		}
 
-		// Change the direction to the instruction in Instruction_2.
+			// Change the direction to the instruction in Instruction_2.
 		switch (Instruction.Instruction_2) {
+			case Instruction_NOP:
+				// Do nothing.
+				break;
 			case Instruction_Left: 
 				argument.Set_Direction(Waldo_Direction_Left);
 				break;
@@ -275,24 +383,12 @@ class Simulation{
 			case Instruction_Down: 
 				argument.Set_Direction(Waldo_Direction_Down);
 				break;			
-			case Instruction_NOP:
-					// Do nothing.
-				break;
 		}
 		
 		return Execution_NoError;
 	}
 
-	/*
-			 
-		#define Solution_Unprocessed			1	// The solution has not been processed in a simulation
-		#define Solution_Invalid_Collision		2	// The solution is invalid because it has a collision
-		#define Solution_Invalid_NoStart		3	// The solution is invalid because there is not start (requires 1)
-		#define Solution_Out_Of_Cycles			4	// The solution went past the cycle cap.
-		#define Solution_Accepted				5	// The solution is a valid solution.
-
-	*/
-
+		// This simulates a single cycle for both the Red Waldo and the Blue Waldo.
 	private: int Simulate_Cycle(){
 
 			// The steps of the simulation:
@@ -302,8 +398,8 @@ class Simulation{
 
 				// 1. Move Red Waldo.
 			MoveWaldo(Red_Waldo);
-
-				// 2. Check for collision (only if holding molecule).
+			/*TODO: only call checkforcollision if a instruction that caused it is executed.*/
+				// 2. Check for collision (only if holding molecule or inserting a new one).
 			if (Red_Waldo.GetGrabbing_Molecule()){
 				int Result = CheckForCollision();
 
@@ -322,21 +418,78 @@ class Simulation{
 				// 4. Set new direction if there instruction_2.
 			int Result = Execute_Instruction(Red_Waldo, Red_Tile);
 
-			// 5. Check for collision (only if there was an instruction that could cause).	
+			if (Result != Execution_NoError) {
+				// Set the information on the simulation.
+				Solution.Set_Status(Simulation_Add_To_Input_ExeErr);
+				Solution.Set_HasBeenSimulated(true);
 
+				return Simulation_Add_To_Input_ExeErr;
+			}
+
+				/*TODO: only call checkforcollision if a instruction that caused it is executed.*/
+			// 5. Check for collision (only if there was an instruction that could cause).	
+			int Result_Collision = CheckForCollision(); 
+
+				// If there is a collision, halt.
+			if (Result_Collision == Collision_Yes_Collision) {
+
+				// Set the information on the simulation.
+				Solution.Set_Status(Solution_Invalid_Collision);
+				Solution.Set_HasBeenSimulated(true);
+
+				return Simulation_Collision;
+			}
 		}
 		
-
+			// Check if there is a blue track we need to simulate
+		if (Blue_Waldo.GetActive()) {
 			
+				// 6. Move Blue Waldo.
+			MoveWaldo(Blue_Waldo);
 
-			// 6. Move Blue Waldo.
+			/*TODO: only call checkforcollision if a instruction that caused it is executed.*/
+				// 7. Check for collision (only if holding molecule or inserting a new one).
+			if (Blue_Waldo.GetGrabbing_Molecule()) {
+				int Result = CheckForCollision();
 
-			// 7. Check for collision (only if holding molecule)	
+					// If there is a collision, halt.
+				if (Result == Collision_Yes_Collision) {
 
-			// 8. Execute Blue Waldo instruction_1.
-			// 9. Set new direction if there instruction_2.
+						// Set the information on the simulation.
+					Solution.Set_Status(Solution_Invalid_Collision);
+					Solution.Set_HasBeenSimulated(true);
 
-			// 10. Check for collision (only if there was an instruction that could cause).	
+					return Simulation_Collision;
+				}
+			}
+
+				// 8. Execute Blue Waldo instruction_1.
+				// 9. Set new direction if there instruction_2.
+			int Result = Execute_Instruction(Blue_Waldo, Blue_Tile);
+
+			if (Result != Execution_NoError) {
+					// Set the information on the simulation.
+				Solution.Set_Status(Simulation_Add_To_Input_ExeErr);
+				Solution.Set_HasBeenSimulated(true);
+
+				return Simulation_Add_To_Input_ExeErr;
+			}
+
+			/*TODO: only call checkforcollision if a instruction that caused it is executed.*/
+				// 10. Check for collision (only if there was an instruction that could cause).	
+			int Result_Collision = CheckForCollision();
+
+				// If there is a collision, halt.
+			if (Result_Collision == Collision_Yes_Collision) {
+
+					// Set the information on the simulation.
+				Solution.Set_Status(Solution_Invalid_Collision);
+				Solution.Set_HasBeenSimulated(true);
+
+				return Simulation_Collision;
+			}
+		}
+			
 		
 
 		return Simulation_Continue;

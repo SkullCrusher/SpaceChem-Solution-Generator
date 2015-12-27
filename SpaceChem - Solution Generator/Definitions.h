@@ -25,6 +25,7 @@
 #define Simulation_Add_To_Input_Beta	2
 #define Simulation_Add_To_Input_Full	3
 #define Simulation_Add_To_Input_Worked	4
+#define Simulation_Add_To_Input_ExeErr	5
 
 	// Waldo Definitons (same as instruction).
 #define Waldo_Direction_Left			5

@@ -14,12 +14,16 @@ class Waldo{
 
 	bool Grabbing_Molecule;
 
+		// When the input is not there, wait and loop input until input.
+	bool Idle_For_Input;
+
 	public: Waldo(){
 		X = 0;
 		Y = 0;
 
 		Active = false;
 		Grabbing_Molecule = false;
+		Idle_For_Input = false;
 	}
 
 		// Basic utilities
@@ -31,12 +35,16 @@ class Waldo{
 	public: void SetY(short argument){ Y = argument; }
 	public: void SetActive(bool argument){ Active = argument; }
 	public: void SetGrabbing_Molecule(bool argument){ Grabbing_Molecule = argument; }
+	public: void SetIdle_For_Input(bool Argument) { Idle_For_Input = Argument; }
 
 	public: short GetX(){ return X; }
 	public: short GetY(){ return Y; }
 	public: bool GetActive(){ return Active; }
 	public: short GetDirection(){ return Direction; }
 	public: bool GetGrabbing_Molecule(){ return Grabbing_Molecule; }
+	public: bool GetIdle_For_Input() { return Idle_For_Input; }
+
+
 };
 
 

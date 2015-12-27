@@ -43,9 +43,14 @@ class Molecule {
 		// The structure is the layout of the atoms. Note, there is a center but the waldo changes the center rotation.
 	private: Atom Structure[11][11];
 
+	private: int X;
+	private: int Y;
+
 		// Default constructor.
 	public: Molecule(){
 		IsEmpty = true;
+		X = 0;
+		Y = 0;
 	}
 
 		// Basic utilities.
@@ -201,6 +206,11 @@ class Molecule {
 
 		// Used in simulation.h to "delete" a molecule from the input with a simple flip of false to true.
 	public: void Set_IsEmpty(bool argument) { IsEmpty = argument; }
+
+	public: int Get_X() { return X; }
+	public: int Get_Y() { return Y; }
+	public: void Set_X(int argument) { X = argument; }
+	public: void Set_Y(int argument) { Y = argument; }
 };
 
 #endif
