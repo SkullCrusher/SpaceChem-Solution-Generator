@@ -32,10 +32,9 @@ class Simulation_Controller{
 		Solution_Reactor TheChosenOne;
 
 			// The blue instructions.
-		TheChosenOne.Set_Instruction_For_Tile(1, 0, Blue_Tile, Instruction_Down,		Instruction_NOP);
+		TheChosenOne.Set_Instruction_For_Tile(1, 0, Blue_Tile, Instruction_NOP,			Instruction_Down);
 		TheChosenOne.Set_Instruction_For_Tile(2, 0, Blue_Tile, Instruction_Sync,		Instruction_NOP);
-		TheChosenOne.Set_Instruction_For_Tile(3, 0, Blue_Tile, Instruction_Start_Left,	Instruction_NOP);
-		TheChosenOne.Set_Instruction_For_Tile(7, 0, Blue_Tile, Instruction_NOP,			Instruction_Left);
+		TheChosenOne.Set_Instruction_For_Tile(7, 0, Blue_Tile, Instruction_Start_Left, Instruction_Left);
 		TheChosenOne.Set_Instruction_For_Tile(1, 1, Blue_Tile, Instruction_Grab,		Instruction_NOP);
 		TheChosenOne.Set_Instruction_For_Tile(7, 1, Blue_Tile, Instruction_Out_Omega,	Instruction_NOP);
 		TheChosenOne.Set_Instruction_For_Tile(1, 2, Blue_Tile, Instruction_NOP,			Instruction_Right);

@@ -271,9 +271,10 @@ class Simulation{
 		int debug = 0;
 	}
 
-/*TODO*/private: void Handle_Instruction_Sync(Waldo &argument, bool RedorBlue) {
-
-		int debug = 0;
+	private: void Handle_Instruction_Sync(Waldo &argument, bool RedorBlue) {
+		
+			// The only requirement is to set the sync bit on the waldo, the rest is handled in the Simulate_Cycle()
+		argument.Set_Idle_For_Sync(true);
 	}
 
 		// ------------------------------     End of the instructions.     ----------------------------------------
@@ -391,10 +392,16 @@ class Simulation{
 		// This simulates a single cycle for both the Red Waldo and the Blue Waldo.
 	private: int Simulate_Cycle(){
 
+			// Pre-step: If both are waiting on sync, reset the sync.
+		if (Red_Waldo.Get_Idle_For_Sync() && Blue_Waldo.Get_Idle_For_Sync()) {
+			Red_Waldo.Set_Idle_For_Sync(false);
+			Blue_Waldo.Set_Idle_For_Sync(false);
+		}
+
 			// The steps of the simulation:
 
-			// Check if there is a red track we need to simulate
-		if (Red_Waldo.GetActive()){
+			// Check if there is a red track we need to simulate. Also if the waldo is idling for sync skip.
+		if (Red_Waldo.GetActive() && !Red_Waldo.Get_Idle_For_Sync()){
 
 				// 1. Move Red Waldo.
 			MoveWaldo(Red_Waldo);
@@ -441,8 +448,8 @@ class Simulation{
 			}
 		}
 		
-			// Check if there is a blue track we need to simulate
-		if (Blue_Waldo.GetActive()) {
+			// Check if there is a blue track we need to simulate. Also if the waldo is idling for sync skip.
+		if (Blue_Waldo.GetActive() && !Blue_Waldo.Get_Idle_For_Sync()){
 			
 				// 6. Move Blue Waldo.
 			MoveWaldo(Blue_Waldo);
