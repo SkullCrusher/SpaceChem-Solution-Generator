@@ -3,6 +3,8 @@
 #ifndef Atom_Header
 #define Atom_Header
 
+#include <vector>
+
 	// Used in the Molecule class to create the structure.
 struct Atom_Info {
 	int Atomic_Number;
@@ -65,6 +67,17 @@ class Molecule {
 
 			// If something is a placeholder we know it's not a atom.
 		return !Structure[Y][X].Placeholder;
+	}
+
+		// Checks if a location has an atom based on a position on the reactor.
+	public: bool CheckIfAtom_Relative(short X_arg, short Y_arg) {
+			// Catch.
+		if (X > 10 || Y > 10 || X < 0 || Y < 0) {
+			return false;
+		}
+
+			// If something is a placeholder we know it's not a atom.
+		return !Structure[(Y_arg - Y)][(X_arg - X)].Placeholder;
 	}
 
 		// Checks to make sure the two atoms are within bonding range.
@@ -211,6 +224,29 @@ class Molecule {
 	public: int Get_Y() { return Y; }
 	public: void Set_X(int argument) { X = argument; }
 	public: void Set_Y(int argument) { Y = argument; }
+};
+
+	// How the molecules are transported for input/output
+struct Packed_Molecule {
+	std::vector<Molecule> Items;
+
+	bool IsEmpty = true;
+
+	public: bool GetIsEmpty() { return IsEmpty; }
+
+		// Used in simulation.h to "delete" a molecule from the input with a simple flip of false to true.
+	public: void Set_IsEmpty(bool argument) { IsEmpty = argument; }
+
+	public: void Set_X(int Argument) {
+		for (unsigned int i = 0; i < Items.size(); i++) {
+			Items[i].Set_X(Argument);
+		}
+	}
+	public: void Set_Y(int Argument) {
+		for (unsigned int i = 0; i < Items.size(); i++) {
+			Items[i].Set_Y(Argument);
+		}
+	}
 };
 
 #endif

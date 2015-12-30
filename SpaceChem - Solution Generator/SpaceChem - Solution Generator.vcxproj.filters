@@ -70,7 +70,7 @@
       <Filter>Simulation</Filter>
     </ClInclude>
     <ClInclude Include="Fitness_Calculator.h">
-      <Filter>Simulation</Filter>
+      <Filter>Generation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

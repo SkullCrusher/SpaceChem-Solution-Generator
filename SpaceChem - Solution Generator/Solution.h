@@ -6,7 +6,6 @@
 
 #include <vector>
 
-
 struct Tile {
 		// true = red, false = blue
 	bool RedorBlue; // Might not be required.
@@ -41,6 +40,16 @@ class Solution_Reactor {
 
 		// How many cycles the Solution has lived, the higher the life span the better chance it is good.
 	private: unsigned long long Life_Span;
+
+		// The toal count of symbols, red + blue
+	private: unsigned Symbol_Count_Total;
+	
+		// The count of the blue symbols.
+	private: unsigned Symbol_Count_Red;
+		
+		// The count of the red symbols
+	private: unsigned Symbol_Count_Blue;
+
 
 		// The reactor instruction layout for red and blue.
 	private: Tile Red[8][10];
@@ -83,12 +92,17 @@ class Solution_Reactor {
 			return Error_Set_Int_Tile_OOB;
 		}
 
+			// Used for the fitness calculation.
+		Symbol_Count_Total++;
+
 		if (RedorBlue) {
 			Red[y][x].Instruction_1 = Instruction_1;
 			Red[y][x].Instruction_2 = Instruction_2;
+			Symbol_Count_Red++;
 		}else{
 			Blue[y][x].Instruction_1 = Instruction_1;
 			Blue[y][x].Instruction_2 = Instruction_2;
+			Symbol_Count_Blue++;
 		}
 
 		return Simulation_Continue;

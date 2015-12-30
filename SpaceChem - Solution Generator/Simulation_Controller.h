@@ -77,9 +77,14 @@ class Simulation_Controller{
 
 		AlphaIn.Add_Bond(1, 1, 2, 1);
 
-		RunMe.Add_To_Input(AlphaIn, Simulation_Add_To_Input_Alpha);
-		RunMe.Add_To_Input(AlphaIn, Simulation_Add_To_Input_Alpha);
-		RunMe.Add_To_Input(AlphaIn, Simulation_Add_To_Input_Alpha);
+			// Just the input for the simulation.
+		Packed_Molecule Input_For_Debugging;
+		Input_For_Debugging.Items.push_back(AlphaIn);
+		Input_For_Debugging.Set_IsEmpty(false);
+
+		RunMe.Add_To_Input(Input_For_Debugging, Simulation_Add_To_Input_Alpha);
+		RunMe.Add_To_Input(Input_For_Debugging, Simulation_Add_To_Input_Alpha);
+		RunMe.Add_To_Input(Input_For_Debugging, Simulation_Add_To_Input_Alpha);
 
 		int Total_Correct_Output = 0;
 
@@ -88,10 +93,10 @@ class Simulation_Controller{
 		while (Results == Simulation_Continue){
 
 				// Debugging, we keep adding the input to the simulation to make sure it's full.
-			RunMe.Add_To_Input(AlphaIn, Simulation_Add_To_Input_Alpha);
-			RunMe.Add_To_Input(AlphaIn, Simulation_Add_To_Input_Alpha);
-
-
+			RunMe.Add_To_Input(Input_For_Debugging, Simulation_Add_To_Input_Alpha);
+			RunMe.Add_To_Input(Input_For_Debugging, Simulation_Add_To_Input_Alpha);
+			
+				// Debugging, Simulate the simulation
 			Results = RunMe.Tick();
 
 			int debug = 0;

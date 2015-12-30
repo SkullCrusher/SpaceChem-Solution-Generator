@@ -37,17 +37,17 @@ class Simulation{
 		they might not collide so it requires a double buffer.
 	*/
 
-	private: Molecule In_Alpha[2];
-	private: Molecule Out_Omega[2];
+	private: Packed_Molecule In_Alpha[2];
+	private: Packed_Molecule Out_Omega[2];
 	
-	private: Molecule In_Beta[2];
-	private: Molecule Out_Phi[2];
+	private: Packed_Molecule In_Beta[2];
+	private: Packed_Molecule Out_Phi[2];
 
 		// The molecules currently in the reactor.
 	private: std::vector<Molecule> Active_Molecules;
 
 		// Add a new molecule to the input (This will have to be changed later)
-	public: short Add_To_Input(Molecule argument, short IsAlphaOrBeta) {
+	public: short Add_To_Input(Packed_Molecule argument, short IsAlphaOrBeta) {
 
 		if (IsAlphaOrBeta == Simulation_Add_To_Input_Alpha) {
 			// There are four cases, empty, full, last is empty, first is empty.
@@ -180,6 +180,11 @@ class Simulation{
 				// Check if the waldo is at the edge, if so do nothing.
 			if (argument.GetX() > 0){
 				argument.SetX(argument.GetX() - 1);
+
+					// If the Waldo is holding a molecule move it also.
+				if (argument.GetGrabbing_Molecule()) {
+					Active_Molecules[argument.GetGrabbing_Molecule_Index()].Set_X(Active_Molecules[argument.GetGrabbing_Molecule_Index()].Get_X() - 1);
+				}
 			}
 		}
 
@@ -187,6 +192,11 @@ class Simulation{
 				// Check if the waldo is at the edge, if so do nothing.
 			if (argument.GetX() < 9){
 				argument.SetX(argument.GetX() + 1);
+
+					// If the Waldo is holding a molecule move it also.
+				if (argument.GetGrabbing_Molecule()) {
+					Active_Molecules[argument.GetGrabbing_Molecule_Index()].Set_X(Active_Molecules[argument.GetGrabbing_Molecule_Index()].Get_X() + 1);
+				}
 			}
 		}
 
@@ -194,6 +204,11 @@ class Simulation{
 				// Check if the waldo is at the edge, if so do nothing.
 			if (argument.GetY() > 0){
 				argument.SetY(argument.GetY() - 1);
+
+					// If the Waldo is holding a molecule move it also.
+				if (argument.GetGrabbing_Molecule()) {
+					Active_Molecules[argument.GetGrabbing_Molecule_Index()].Set_Y(Active_Molecules[argument.GetGrabbing_Molecule_Index()].Get_Y() - 1);
+				}
 			}
 		}
 
@@ -201,10 +216,31 @@ class Simulation{
 				// Check if the waldo is at the edge, if so do nothing.
 			if (argument.GetY() < 7){
 				argument.SetY(argument.GetY() + 1);
+
+					// If the Waldo is holding a molecule move it also.
+				if (argument.GetGrabbing_Molecule()) {
+					Active_Molecules[argument.GetGrabbing_Molecule_Index()].Set_Y(Active_Molecules[argument.GetGrabbing_Molecule_Index()].Get_Y() + 1);
+				}
 			}
 		}
 
 	}
+
+		// Searches the Active_Molecules and returns the index to it if found.
+/*TOTEST*/private: int FindIfMoleculeIsAtTile(int X, int Y) {
+
+			// Search Active_Molecules.
+		for (unsigned int i = 0; i < Active_Molecules.size(); i++) {
+			if (Active_Molecules[i].CheckIfAtom_Relative(X, Y)) {
+					// A atom is found at that position so return.
+				return i;
+			}
+		}
+
+			// No molecule found.
+		return -1; 
+	}
+
 
 		// ------------------------------ Handles all of the instructions. ----------------------------------------
 	private: void Handle_Instruction_In_Alpha(Waldo &argument, bool RedorBlue) {
@@ -217,33 +253,43 @@ class Simulation{
 			return;
 		}
 
-		// If there is a input in first use that.
+			// If there is a input in first use that.
 		if (!In_Alpha[0].GetIsEmpty()) {
-			// Center the molecule in the top left.
+				// Center the molecule in the top left.
 			In_Alpha[0].Set_X(0);
 			In_Alpha[0].Set_Y(0);
 
-			// Add the molecule to the active list.
-			Active_Molecules.push_back(In_Alpha[0]);
+				// Add the molecule to the active list.
+			Packed_Molecule Temp = In_Alpha[0];
 
-			// Set the trash flag on the input to "delete" it.
+			for (unsigned int i = 0; i < Temp.Items.size(); i++) {
+				Active_Molecules.push_back(Temp.Items[i]);
+			}
+			// Active_Molecules.push_back(In_Alpha[0]); // Old way
+			
+				// Set the trash flag on the input to "delete" it.
 			In_Alpha[0].Set_IsEmpty(true);
 
-			// Just shift them because it wont hurt anything.
+				// Just shift them because it wont hurt anything.
 			In_Alpha[0] = In_Alpha[1];
 
 			return;
 		}
 
 		if (!In_Alpha[1].GetIsEmpty()) {
-			// Center the molecule in the top left.
+				// Center the molecule in the top left.
 			In_Alpha[1].Set_X(0);
 			In_Alpha[1].Set_Y(0);
 
-			// Add the molecule to the active list.
-			Active_Molecules.push_back(In_Alpha[1]);
+				// Add the molecule to the active list.
+			Packed_Molecule Temp = In_Alpha[1];
 
-			// Set the trash flag on the input to "delete" it.
+			for (unsigned int i = 0; i < Temp.Items.size(); i++) {
+				Active_Molecules.push_back(Temp.Items[i]);
+			}
+			// Active_Molecules.push_back(In_Alpha[1]); // Old way
+			
+				// Set the trash flag on the input to "delete" it.
 			In_Alpha[1].Set_IsEmpty(true);
 
 			return;
@@ -258,19 +304,38 @@ class Simulation{
 
 /*TODO*/private: void Handle_Instruction_Out_Omega(Waldo &argument, bool RedorBlue) {
 
-		int debug = 0;
-	}
-
-/*TODO*/private: void Handle_Instruction_Grab(Waldo &argument, bool RedorBlue) {
+			// Go through each molecule and check if any is in the output area for omega.
+			// Make a list of the output and put them into a single output.
 
 		int debug = 0;
 	}
 
-/*TODO*/private: void Handle_Instruction_Drop(Waldo &argument, bool RedorBlue) {
+			// Grab the molecule so the waldo will move it with it.
+/*TOTEST*/private: void Handle_Instruction_Grab(Waldo &argument, bool RedorBlue) {
+		
+		int Result = FindIfMoleculeIsAtTile(argument.GetX(), argument.GetY());
+		
+			// There is no atom at this position.
+		if (Result == -1) {
+			return;
+		}
 
+		argument.SetGrabbing_Molecule(true);
+		argument.SetGrabbing_Molecule_Index(Result);
+		
 		int debug = 0;
 	}
 
+			// Have the waldo let go of the molecule.
+/*TOTEST*/private: void Handle_Instruction_Drop(Waldo &argument, bool RedorBlue) {
+
+		argument.SetGrabbing_Molecule(false);
+		argument.SetGrabbing_Molecule_Index(-1);
+		
+		int debug = 0;
+	}
+
+		// Trigger the sync requirement for the Waldo. This puts the Waldo in a state of idle until both hit it.
 	private: void Handle_Instruction_Sync(Waldo &argument, bool RedorBlue) {
 		
 			// The only requirement is to set the sync bit on the waldo, the rest is handled in the Simulate_Cycle()

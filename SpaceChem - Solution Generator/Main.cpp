@@ -51,6 +51,14 @@ int main(int argc, char *argv[]) {
 	}
 
 
+	//		IDEAS
+	//	Experiment ID:
+	//		- Web server for experiments.
+	//			:with json that sotres all possible
+	//
+	//
+	//
+
 		// Load the file argument.
 	//not sure of the format yet so we will skip this.
 
