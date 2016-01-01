@@ -80,6 +80,40 @@ class Molecule {
 		return !Structure[(Y_arg - Y)][(X_arg - X)].Placeholder;
 	}
 
+		// Checks for on output in a sqaure area (the entire atom has to be in the area). (Used for the output instruction to assemble a Packed_Molecule)
+	public: bool CheckIfAtom_IsInLocation(short X_arg_1, short Y_arg_1, short X_arg_2, short Y_arg_2){
+		// Catch.
+		if (X > 10 || Y > 10 || X < 0 || Y < 0) {
+			return false;
+		}
+
+		// We need to check every sqaure and make sure all of the atoms are in the area.
+		bool IsOutside = false;
+
+		for (unsigned int i = 0; i < 11; i++){
+			for (unsigned int g = 0; g < 11; g++){
+					// If the atom is not a placeholder (empty).
+				if (!Structure[i][g].Placeholder){
+					
+						// Check if inside outside our area.
+					if ((X_arg_1 - X + g) <= (X_arg_2 - X) && (Y_arg_1 - Y + i) <= (Y_arg_2 - Y)){
+					//if ((X + i) >= X_arg_1 && (X + i) <= X_arg_2 && (Y + g) >= Y_arg_1 && (Y + g) <= Y_arg_2){
+						// Is inside.
+						int debug = 0;
+					}else{
+						// Is outside so invalidate the output of this atom
+						IsOutside = true;
+						return false;
+					}
+					
+				}				
+			}
+		}
+			
+			// If all of the atoms are 
+		return true;
+	}
+
 		// Checks to make sure the two atoms are within bonding range.
 	private: short IsSidebySide(short X1, short Y1, short X2, short Y2){
 		

@@ -164,6 +164,7 @@
     <ClInclude Include="Simulation.h" />
     <ClInclude Include="Simulation_Controller.h" />
     <ClInclude Include="Solution.h" />
+    <ClInclude Include="TODO.h" />
     <ClInclude Include="Waldo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

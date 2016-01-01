@@ -231,6 +231,12 @@ class Simulation{
 
 			// Search Active_Molecules.
 		for (unsigned int i = 0; i < Active_Molecules.size(); i++) {
+
+				// Prevent the usage of NULL molecules.
+			if (Active_Molecules[i].GetIsEmpty()){
+				continue;
+			}
+
 			if (Active_Molecules[i].CheckIfAtom_Relative(X, Y)) {
 					// A atom is found at that position so return.
 				return i;
@@ -302,10 +308,31 @@ class Simulation{
 		int debug = 0;
 	}
 
-/*TODO*/private: void Handle_Instruction_Out_Omega(Waldo &argument, bool RedorBlue) {
+/*TOTEST*/private: void Handle_Instruction_Out_Omega(Waldo &argument, bool RedorBlue) {
+
+			// The argument to be sent into the pipe.
+		Packed_Molecule Output;
 
 			// Go through each molecule and check if any is in the output area for omega.
 			// Make a list of the output and put them into a single output.
+		for (unsigned int i = 0; i < Active_Molecules.size(); i++){
+
+				// Skip the molecule if it is empty. (Note is this to keep the same index for references later I will patch it to fix that)
+			if (Active_Molecules[i].GetIsEmpty()){
+				continue;
+			}
+				
+				// Check if the molecule is inside the output area.
+			bool Result = Active_Molecules[i].CheckIfAtom_IsInLocation(6, 0, 9, 4);
+		
+			if (Result){
+					// Add to the output pack.
+				Output.Items.push_back(Active_Molecules[i]);
+
+					// "Delete" the element from the active list.
+				Active_Molecules[i].Set_IsEmpty(true);
+			}
+		}
 
 		int debug = 0;
 	}
