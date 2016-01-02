@@ -20,6 +20,13 @@
 #define Simulation_InvalidSimulation	3
 #define Simulation_Collision			4
 
+#define Remove_Bond_NoError				0
+#define Remove_Bond_BreakUpMolecule		1		
+
+	// Add bonding pad
+#define Add_BondPad_NoError				0
+#define Add_BondPad_Error_Duplicate_Pos 1
+
 	// Simulation Add_To_Input
 #define Simulation_Add_To_Input_Alpha	1
 #define Simulation_Add_To_Input_Beta	2

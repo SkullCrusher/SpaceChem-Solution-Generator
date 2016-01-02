@@ -63,6 +63,7 @@ class Problem_Definition{
 
 		// Share with nodes at random.
 	bool Share_Node_Randomly;
+
 //---------- End of future use ------------
 
 		// Default constructor.

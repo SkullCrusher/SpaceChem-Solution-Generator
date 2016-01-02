@@ -116,6 +116,23 @@ class Simulation{
 		return Simulation_Add_To_Input_Worked;
 	}
 	
+		// This will be replaced later, it is only used for debugging.
+/*DEBUG*/private: short Add_To_Output(Packed_Molecule argument, short IsAlphaOrBeta){
+		Out_Omega[0] = argument;
+		return Simulation_Continue;
+	}
+
+	public: Packed_Molecule Remove_From_Output(){
+
+		Packed_Molecule Result;
+
+		Result = Out_Omega[0];
+
+		Out_Omega[0].Set_IsEmpty(true);
+
+		return Result;
+	}
+
 		// Default constructor.
 	public: Simulation(){
 		Cycle_Limit_Simulation = 0;
@@ -247,6 +264,16 @@ class Simulation{
 		return -1; 
 	}
 
+		// Uses the index list to change the Active_Molecule list into multiple molecules.
+	private: int BreakUpMolecules(std::vector<unsigned int> &Index_List){
+
+		// Note, this needs to check waldos to make sure they are not holding the atom. If they are
+		// Fix thier index. Also there might be a chance where two waldos grab the same molecule and split it
+		// That case should be looked into.
+	
+		return 0;
+	}
+	
 
 		// ------------------------------ Handles all of the instructions. ----------------------------------------
 	private: void Handle_Instruction_In_Alpha(Waldo &argument, bool RedorBlue) {
@@ -303,11 +330,73 @@ class Simulation{
 
 	}
 
-/*TODO*/private: void Handle_Instruction_Bond_Remove(Waldo &argument, bool RedorBlue) {
+		// Triggers all of the bonding pads to remove the bonds and it might split the molecule.
+/*TOTEST*/private: void Handle_Instruction_Bond_Remove(Waldo &argument, bool RedorBlue) {
+	
+		// A local list of bonding pads.
+	std::vector<Position> Bonding_Pad_Pos = Solution.Get_BondingPads();
+	
+		// The molecules that need to break into multiple.
+	std::vector<unsigned int> Break_Molecule_Index;
+
+		// Go through every molecule that is active.
+	for (unsigned int i = 0; i < Active_Molecules.size(); i++){
+			
+			// The indexes of the bonding pads so duplication of data is not required.
+		std::vector<unsigned int> Bonding_Pads_Connected;
+
+			// Go through all of the bonding pads.
+		for (unsigned int g = 0; g < Bonding_Pad_Pos.size(); g++){
+
+				// The current bonding pad we are testing against.
+			Position Temp = Bonding_Pad_Pos[g];
+
+				// Check if the bonding pad position effects this molecule. 
+			if (Active_Molecules[i].CheckIfAtom_Relative(Temp.X, Temp.Y)){
+				Bonding_Pads_Connected.push_back(g);
+			}
+		}
+
+			// All the bonding pads have been checked against the molecule.
+			// If two or more were found on the same molecule debond them.
+		if (Bonding_Pads_Connected.size() >= 2){
+
+				// Attempt to debond every molecule against every bonding pad, validation in the molecule
+				// function will catch invalid calls.
+			for (unsigned int j = 0; j < Bonding_Pads_Connected.size(); j++){
+				for (unsigned int t = j + 1; t < Bonding_Pads_Connected.size(); t++){
+
+						// Splitting them out like this makes it more human readable.
+					unsigned int X_1 = Bonding_Pad_Pos[Bonding_Pads_Connected[j]].X;
+					unsigned int Y_1 = Bonding_Pad_Pos[Bonding_Pads_Connected[j]].Y;
+
+					unsigned int X_2 = Bonding_Pad_Pos[Bonding_Pads_Connected[t]].X;
+					unsigned int Y_2 = Bonding_Pad_Pos[Bonding_Pads_Connected[t]].Y;
+
+					int Result = Active_Molecules[i].Remove_Bond(X_1, Y_1, X_2, Y_2);
+
+						// No error, do nothing.
+					if (Remove_Bond_NoError == Result){
+						continue;
+					}
+
+						// The molecule needs to be flagged to be split up after all the bonds are removed.
+					if (Remove_Bond_BreakUpMolecule == Result){
+						Break_Molecule_Index.push_back(i);
+					}
+				}
+			}
+		}
+
+	}
+
+			// Split the molecules up that require it.
+		BreakUpMolecules(Break_Molecule_Index);
 
 		int debug = 0;
 	}
 
+			//  Pack the molecules into a Packed_Molecule and put it in the output
 /*TOTEST*/private: void Handle_Instruction_Out_Omega(Waldo &argument, bool RedorBlue) {
 
 			// The argument to be sent into the pipe.
@@ -333,6 +422,11 @@ class Simulation{
 				Active_Molecules[i].Set_IsEmpty(true);
 			}
 		}
+
+		Output.Set_IsEmpty(false);
+
+			// Set the output
+		Out_Omega[0] = Output;
 
 		int debug = 0;
 	}

@@ -87,9 +87,7 @@ class Molecule {
 			return false;
 		}
 
-		// We need to check every sqaure and make sure all of the atoms are in the area.
-		bool IsOutside = false;
-
+			// We need to check every sqaure and make sure all of the atoms are in the area.
 		for (unsigned int i = 0; i < 11; i++){
 			for (unsigned int g = 0; g < 11; g++){
 					// If the atom is not a placeholder (empty).
@@ -97,20 +95,19 @@ class Molecule {
 					
 						// Check if inside outside our area.
 					if ((X_arg_1 - X + g) <= (X_arg_2 - X) && (Y_arg_1 - Y + i) <= (Y_arg_2 - Y)){
-					//if ((X + i) >= X_arg_1 && (X + i) <= X_arg_2 && (Y + g) >= Y_arg_1 && (Y + g) <= Y_arg_2){
-						// Is inside.
+						// (log)?
+							// Is inside, do nothing.
 						int debug = 0;
 					}else{
-						// Is outside so invalidate the output of this atom
-						IsOutside = true;
+						// (log)
+							// Is outside so invalidate the output of this atom
 						return false;
-					}
-					
+					}					
 				}				
 			}
 		}
 			
-			// If all of the atoms are 
+			// If all of the atoms are inside the area return true. 
 		return true;
 	}
 
@@ -235,8 +232,15 @@ class Molecule {
 	}
 
 		// Remove the bond, this may cause the breakage of the molecule into multiple.
-/*TODO*/public: void Remove_Bond(short X1, short Y1, short X2, short Y2){
+/*TODO*/public: int Remove_Bond(short X1, short Y1, short X2, short Y2){
 
+//#define Remove_Bond_NoError				0
+//#define Remove_Bond_BreakUpMolecule		1	
+
+	//return Remove_Bond_BreakUpMolecule;
+
+	int debug = 0;
+		return Remove_Bond_NoError;
 	}
 
 		// Set the atom at a X and Y to the argument.

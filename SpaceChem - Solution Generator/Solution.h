@@ -41,15 +41,17 @@ class Solution_Reactor {
 		// How many cycles the Solution has lived, the higher the life span the better chance it is good.
 	private: unsigned long long Life_Span;
 
-		// The toal count of symbols, red + blue
+		// The toal count of symbols, red + blue.
 	private: unsigned Symbol_Count_Total;
 	
 		// The count of the blue symbols.
 	private: unsigned Symbol_Count_Red;
 		
-		// The count of the red symbols
+		// The count of the red symbols.
 	private: unsigned Symbol_Count_Blue;
 
+		// The position of the bonding pads.
+	private: std::vector < Position > Bonding_Pad;
 
 		// The reactor instruction layout for red and blue.
 	private: Tile Red[8][10];
@@ -84,7 +86,7 @@ class Solution_Reactor {
 		}
 	}
 
-		//Set an instruction to a tile. true = red, false = blue
+		// Set an instruction to a tile. true = red, false = blue
 	public: int Set_Instruction_For_Tile(int x, int y, bool RedorBlue, int Instruction_1 = Instruction_NOP, int Instruction_2 = Instruction_NOP) {
 
 			// Catch
@@ -106,6 +108,29 @@ class Solution_Reactor {
 		}
 
 		return Simulation_Continue;
+	}
+	public: unsigned int Get_BondingPadCount(){ return Bonding_Pad.size(); }
+	public: std::vector<Position> Get_BondingPads(){ return BondTiles; }
+
+		// Add a new bonding pad to the solution.
+	public:	short Add_BondingPad(short X, short Y){
+
+			// Prevent placeing two at the same position
+		for (unsigned int i = 0; i < BondTiles.size(); i++){
+			if (BondTiles[i].X == X && BondTiles[i].Y == Y){
+				return Add_BondPad_Error_Duplicate_Pos;
+			}
+		}
+	
+			// Add to the bond tile.
+		Position Temp;
+		Temp.X = X;
+		Temp.Y = Y;
+
+		BondTiles.push_back(Temp);
+
+			// Return no error.
+		return Add_BondPad_NoError;
 	}
 
 	public: void Set_Status(short argument){ Status = argument; }

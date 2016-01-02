@@ -50,7 +50,11 @@ class Simulation_Controller{
 		TheChosenOne.Set_Instruction_For_Tile(2, 2, Red_Tile, Instruction_NOP,			Instruction_Right);
 		TheChosenOne.Set_Instruction_For_Tile(7, 2, Red_Tile, Instruction_Drop,			Instruction_Up);
 
-			
+			// Debugging, place the bonding pads
+		TheChosenOne.Add_BondingPad(1, 1);
+		TheChosenOne.Add_BondingPad(2, 1);
+
+
 		Simulation RunMe;
 
 			// Set the reactor to simulate.
@@ -77,6 +81,7 @@ class Simulation_Controller{
 
 		AlphaIn.Add_Bond(1, 1, 2, 1);
 
+
 			// Just the input for the simulation.
 		Packed_Molecule Input_For_Debugging;
 		Input_For_Debugging.Items.push_back(AlphaIn);
@@ -98,6 +103,13 @@ class Simulation_Controller{
 			
 				// Debugging, Simulate the simulation
 			Results = RunMe.Tick();
+
+				// Debugging, pull from the output.
+			Packed_Molecule Temp = RunMe.Remove_From_Output();
+
+			if (!Temp.IsEmpty){
+				int good = 0;
+			}
 
 			int debug = 0;
 		}
