@@ -1,0 +1,3 @@
+Reactor Error (Atom collision, input collision)
+Cycles: 32 (before collision)
+Symbols: 16

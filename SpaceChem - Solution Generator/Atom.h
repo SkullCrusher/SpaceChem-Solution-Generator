@@ -128,7 +128,7 @@ class Molecule {
 		return Atom_Invalid;
 	}
 
-		// Checks the max bond count to see if it will aloow it.
+		// Checks the max bond count to see if it will allow it.
 	private: bool CanAddBonds(short X1, short Y1, short Direction) {
 
 		Atom Argument = Structure[Y1][X1];
@@ -234,12 +234,108 @@ class Molecule {
 		// Remove the bond, this may cause the breakage of the molecule into multiple.
 /*TODO*/public: int Remove_Bond(short X1, short Y1, short X2, short Y2){
 
-//#define Remove_Bond_NoError				0
-//#define Remove_Bond_BreakUpMolecule		1	
+		// (Log) Check if valid points.
+	bool A = CheckIfAtom(X1, Y1);
+	bool B = CheckIfAtom(X2, Y2);
 
-	//return Remove_Bond_BreakUpMolecule;
+	if (A && B){
 
-	int debug = 0;
+		// See if the atoms are connected.
+		short Result = IsSidebySide(X1, Y1, X2, Y2);
+
+		// The atoms are too far away so drop this add bond.
+		if (Result == Atom_Invalid){
+			return Remove_Bond_NoError;
+		}
+
+		// If there would be more then max bonds ignore. (log)
+		if (Result == Atom_One_Is_Above_Two) {
+
+				// If there is no bond return with breakup trigger.
+			if (Structure[Y1][X1].Down_Bond == 0){
+				return Remove_Bond_BreakUpMolecule;
+			}
+
+				// If we only have one bond then we return with the trigger to break the molecule.
+			if (Structure[Y1][X1].Down_Bond == 1){
+
+				Structure[Y1][X1].Down_Bond--;
+				Structure[Y2][X2].Up_Bond--;
+
+				return Remove_Bond_BreakUpMolecule;
+			}else{
+				Structure[Y1][X1].Down_Bond++;
+				Structure[Y2][X2].Up_Bond++;
+
+				return Remove_Bond_NoError;
+			}
+		}
+		if (Result == Atom_Two_Is_Above_One) {
+
+				// If there is no bond return with breakup trigger.
+			if (Structure[Y1][X1].Up_Bond == 0){
+				return Remove_Bond_BreakUpMolecule;
+			}
+
+				// If we only have one bond then we return with the trigger to break the molecule.
+			if (Structure[Y1][X1].Up_Bond == 1){
+
+				Structure[Y1][X1].Up_Bond--;
+				Structure[Y2][X2].Down_Bond--;
+
+				return Remove_Bond_BreakUpMolecule;
+			}else{
+				Structure[Y1][X1].Up_Bond--;
+				Structure[Y2][X2].Down_Bond--;
+
+				return Remove_Bond_NoError;
+			}
+		}
+		if (Result == Atom_Two_Is_Right_One) {
+
+				// If there is no bond return with breakup trigger.
+			if (Structure[Y1][X1].Right_Bond == 0){
+				return Remove_Bond_BreakUpMolecule;
+			}
+
+				// If we only have one bond then we return with the trigger to break the molecule.
+			if (Structure[Y1][X1].Right_Bond == 1){
+
+				Structure[Y1][X1].Right_Bond--;
+				Structure[Y2][X2].Left_Bond--;
+
+				return Remove_Bond_BreakUpMolecule;
+			}else{
+				Structure[Y1][X1].Right_Bond--;
+				Structure[Y2][X2].Left_Bond--;
+
+				return Remove_Bond_NoError;
+			}
+		}
+		if (Result == Atom_One_Is_Right_Two) {
+
+				// If there is no bond return with breakup trigger.
+			if (Structure[Y1][X1].Right_Bond == 0){
+				return Remove_Bond_BreakUpMolecule;
+			}
+
+				// If we only have one bond then we return with the trigger to break the molecule.
+			if (Structure[Y2][X2].Right_Bond == 1){
+
+				Structure[Y2][X2].Right_Bond--;
+				Structure[Y1][X1].Left_Bond--;
+
+				return Remove_Bond_BreakUpMolecule;
+			}else{
+				Structure[Y2][X2].Right_Bond--;
+				Structure[Y1][X1].Left_Bond--;
+
+				return Remove_Bond_NoError;
+			}	
+		}
+	}
+		
+		int debug = 0;
 		return Remove_Bond_NoError;
 	}
 

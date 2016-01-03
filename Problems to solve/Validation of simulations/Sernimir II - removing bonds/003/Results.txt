@@ -1,0 +1,5 @@
+Assignment Complete:
+Cycles: 143
+Symbols: 15
+
+Notes: I found out that the output sends out molecules one at a time and does not pack them. 

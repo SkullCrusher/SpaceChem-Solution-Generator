@@ -265,12 +265,33 @@ class Simulation{
 	}
 
 		// Uses the index list to change the Active_Molecule list into multiple molecules.
-	private: int BreakUpMolecules(std::vector<unsigned int> &Index_List){
+/*TODO*/private: int BreakUpMolecules(std::vector<unsigned int> &Index_List){
 
 		// Note, this needs to check waldos to make sure they are not holding the atom. If they are
 		// Fix thier index. Also there might be a chance where two waldos grab the same molecule and split it
 		// That case should be looked into.
-	
+
+		
+			// Go through each molecule.
+		for (unsigned int i = 0; i < Index_List.size(); i++){
+
+			bool Red_Grabbing = false;
+			bool Blue_Grabbing = false;
+
+				// We check if it is attached to a waldo.
+			if (Red_Waldo.GetGrabbing_Molecule_Index() == Index_List[i]){
+				Red_Grabbing = true;
+			}
+
+				// We check if it is attached to a waldo.
+			if (Blue_Waldo.GetGrabbing_Molecule_Index() == Index_List[i]){
+				Blue_Grabbing = true;
+			}
+
+			
+
+		}
+
 		return 0;
 	}
 	
@@ -331,7 +352,7 @@ class Simulation{
 	}
 
 		// Triggers all of the bonding pads to remove the bonds and it might split the molecule.
-/*TOTEST*/private: void Handle_Instruction_Bond_Remove(Waldo &argument, bool RedorBlue) {
+	private: void Handle_Instruction_Bond_Remove(Waldo &argument, bool RedorBlue) {
 	
 		// A local list of bonding pads.
 	std::vector<Position> Bonding_Pad_Pos = Solution.Get_BondingPads();
@@ -396,8 +417,8 @@ class Simulation{
 		int debug = 0;
 	}
 
-			//  Pack the molecules into a Packed_Molecule and put it in the output
-/*TOTEST*/private: void Handle_Instruction_Out_Omega(Waldo &argument, bool RedorBlue) {
+		/*TOTEST*///  Pack the molecules into a Packed_Molecule and put it in the output
+	private: void Handle_Instruction_Out_Omega(Waldo &argument, bool RedorBlue) {
 
 			// The argument to be sent into the pipe.
 		Packed_Molecule Output;
@@ -431,8 +452,8 @@ class Simulation{
 		int debug = 0;
 	}
 
-			// Grab the molecule so the waldo will move it with it.
-/*TOTEST*/private: void Handle_Instruction_Grab(Waldo &argument, bool RedorBlue) {
+		/*TOTEST*/// Grab the molecule so the waldo will move it with it.
+	private: void Handle_Instruction_Grab(Waldo &argument, bool RedorBlue) {
 		
 		int Result = FindIfMoleculeIsAtTile(argument.GetX(), argument.GetY());
 		
@@ -447,8 +468,8 @@ class Simulation{
 		int debug = 0;
 	}
 
-			// Have the waldo let go of the molecule.
-/*TOTEST*/private: void Handle_Instruction_Drop(Waldo &argument, bool RedorBlue) {
+		/*TOTEST*/// Have the waldo let go of the molecule.
+	private: void Handle_Instruction_Drop(Waldo &argument, bool RedorBlue) {
 
 		argument.SetGrabbing_Molecule(false);
 		argument.SetGrabbing_Molecule_Index(-1);
@@ -513,7 +534,7 @@ class Simulation{
 		switch (Instruction.Instruction_1){
 
 			case Instruction_NOP:
-				// Do nothing.
+					// Do nothing.
 				break;
 			case Instruction_Bond_Add:
 					// Not required for prototype
@@ -556,7 +577,7 @@ class Simulation{
 			// Change the direction to the instruction in Instruction_2.
 		switch (Instruction.Instruction_2) {
 			case Instruction_NOP:
-				// Do nothing.
+					// Do nothing.
 				break;
 			case Instruction_Left: 
 				argument.Set_Direction(Waldo_Direction_Left);
@@ -719,6 +740,7 @@ class Simulation{
 		Solution = argument;
 	}
 
+		// Set how many cycles can be simulated before a force halt.
 	public: void Set_Cycle_Limit_Simulation(int argument){
 		Cycle_Limit_Simulation = argument;
 	}

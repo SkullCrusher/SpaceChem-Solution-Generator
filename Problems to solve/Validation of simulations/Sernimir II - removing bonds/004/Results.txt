@@ -1,0 +1,3 @@
+Reactor error (Atom collision from waldo moving into atom)
+Cycles: 29 (then collision)
+Symbols: 15
