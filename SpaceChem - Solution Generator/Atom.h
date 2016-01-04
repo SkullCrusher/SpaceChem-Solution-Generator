@@ -59,7 +59,7 @@ class Molecule {
 	public: bool GetIsEmpty(){ return IsEmpty; }
 
 		// Checks if a location has an atom.
-	private: bool CheckIfAtom(short X, short Y){
+	public: bool CheckIfAtom(short X, short Y){
 			// Catch.
 		if (X > 10 || Y > 10 || X < 0 || Y < 0){
 			return false;
@@ -231,8 +231,34 @@ class Molecule {
 		}
 	}
 
+		// Returns the bond count for that direction.
+	public: int BondCount(short X1, short Y1, short Direction){
+
+		Atom Argument = Structure[Y1][X1];
+
+			// Which direction is the caller interested in.
+
+		if (Direction == Atom_CanAddBonds_Up) {
+			return Argument.Up_Bond;			
+		}
+
+		if (Direction == Atom_CanAddBonds_Down) {
+			return Argument.Down_Bond;
+		}
+
+		if (Direction == Atom_CanAddBonds_Right) {
+			return Argument.Right_Bond;
+		}
+
+		if (Direction == Atom_CanAddBonds_Left) {
+			return Argument.Left_Bond;
+		}
+
+		return 0;
+	}
+
 		// Remove the bond, this may cause the breakage of the molecule into multiple.
-/*TODO*/public: int Remove_Bond(short X1, short Y1, short X2, short Y2){
+/*TOTEST*/public: int Remove_Bond(short X1, short Y1, short X2, short Y2){
 
 		// (Log) Check if valid points.
 	bool A = CheckIfAtom(X1, Y1);
@@ -342,13 +368,23 @@ class Molecule {
 		// Set the atom at a X and Y to the argument.
 	public: void Set_Atom(short X, short Y, Atom argument) {
 
-		IsEmpty = false;
-
 			// Catch
 		if (X < 0 || Y < 0 || Y > 10 || X > 10) { return; }
 
 		Structure[Y][X] = argument;
+	}
 
+			// Get the atom at a X and Y.
+	public: Atom Get_Atom(short X, short Y) {
+
+		// Catch
+		if (X < 0 || Y < 0 || Y > 10 || X > 10) { 
+			Atom Trash;
+
+			return Trash; 
+		}
+
+		return Structure[Y][X];
 	}
 
 		// Used in simulation.h to "delete" a molecule from the input with a simple flip of false to true.

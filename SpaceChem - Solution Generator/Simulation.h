@@ -264,6 +264,96 @@ class Simulation{
 		return -1; 
 	}
 
+		// This is pointed to a position on the tilemap and it follows the atom bonds and returns the attached. 
+	private: void TraceAtom(std::vector<Position> &Results, Molecule argument, short X, short Y){
+
+			// Check if the argument is an atom.
+		if (argument.CheckIfAtom(X, Y)){
+			
+				// It is a valid atom so add to the valid and then check it's bonds to see if they will be followed.
+			Position Current;
+
+			Current.X = X;
+			Current.Y = Y;
+
+			Results.push_back(Current);
+
+				// Check left.
+			if (argument.BondCount(X, Y, Atom_CanAddBonds_Left) > 0){
+				TraceAtom(Results, argument, X - 1, Y);
+			}
+
+				// Check Right.
+			if (argument.BondCount(X, Y, Atom_CanAddBonds_Right) > 0){
+				TraceAtom(Results, argument, X + 1, Y);
+			}
+
+				// Check Up.
+			if (argument.BondCount(X, Y, Atom_CanAddBonds_Up) > 0){
+				TraceAtom(Results, argument, X, Y - 1);
+			}
+
+				// Check Down.
+			if (argument.BondCount(X, Y, Atom_CanAddBonds_Down) > 0){
+				TraceAtom(Results, argument, X, Y + 1);
+			}
+		}		
+	}
+
+		// 	
+	private: std::vector<Molecule> Break_Molecule(Molecule argument){
+			std::vector<Molecule> Split;
+			
+			bool CanSplit = true;
+
+			
+
+				// Go though every possible atom in the molecule.
+			for (unsigned int i = 0; i < 11; i++){
+				for (unsigned int g = 0; g < 11; g++){
+
+					std::vector<Position> Result;
+				
+						// Trace the atom to find what it is connected to.
+					TraceAtom(Result, argument, g, i);
+						
+						// If it is connected to anything copy it and null it on argument.
+					if (Result.size() > 0){
+
+						Molecule New;
+
+							// Set general information.
+						New.Set_X(argument.Get_X());
+						New.Set_Y(argument.Get_Y());
+
+						New.Set_IsEmpty(false);
+
+							// Copy the atoms to the molecule.
+						for (unsigned int z = 0; z < Result.size(); z++){
+							
+								// Copy the atom.
+							New.Set_Atom(Result[z].X, Result[z].Y, argument.Get_Atom(Result[z].X, Result[z].Y));
+								
+							Atom Trash;
+
+								// Null the atom.
+							argument.Set_Atom(Result[z].X, Result[z].Y, Trash);
+						}
+
+						Split.push_back(New);
+
+						int debug = 0;
+					}
+
+				}
+			}
+
+
+			Where you were david. This kinda works but on the second split loop it creates two values instead of a single.
+
+			return Split;
+		}
+
 		// Uses the index list to change the Active_Molecule list into multiple molecules.
 /*TODO*/private: int BreakUpMolecules(std::vector<unsigned int> &Index_List){
 
@@ -277,7 +367,7 @@ class Simulation{
 
 			bool Red_Grabbing = false;
 			bool Blue_Grabbing = false;
-
+			
 				// We check if it is attached to a waldo.
 			if (Red_Waldo.GetGrabbing_Molecule_Index() == Index_List[i]){
 				Red_Grabbing = true;
@@ -288,7 +378,10 @@ class Simulation{
 				Blue_Grabbing = true;
 			}
 
+				// Break the molecule up.
+			std::vector<Molecule> Results = Break_Molecule(Active_Molecules[Index_List[i]]);
 			
+			int debug = 0;
 
 		}
 
