@@ -40,7 +40,7 @@ char *LoadFileByName(std::string argument){
 int main(int argc, char *argv[]) {
 
 		// Debugging - Change later.
-	printf("SpaceChem Solution Generator - written by David Harkins");
+	printf("SpaceChem Solution Generator - written by David Harkins.\n");
 
 		// Validate the arguments
 	if (argc < Minimum_Argument_Count || argc > Maximum_Argument_Count){
@@ -49,15 +49,6 @@ int main(int argc, char *argv[]) {
 			// Debugging - Disabled the return.
 		// return Error_Incorrect_Argument_Count;
 	}
-
-
-	//		IDEAS
-	//	Experiment ID:
-	//		- Web server for experiments.
-	//			:with json that sotres all possible
-	//
-	//
-	//
 
 		// Load the file argument.
 	//not sure of the format yet so we will skip this.

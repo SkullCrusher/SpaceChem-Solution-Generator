@@ -519,6 +519,11 @@ class Simulation{
 			if (Active_Molecules[i].GetIsEmpty()){
 				continue;
 			}
+
+				// Skip the molecule if it is being held by a waldo.
+			if (Red_Waldo.GetGrabbing_Molecule_Index() == i || Blue_Waldo.GetGrabbing_Molecule_Index() == i) {
+				continue;
+			}
 				
 				// Check if the molecule is inside the output area.
 			bool Result = Active_Molecules[i].CheckIfAtom_IsInLocation(6, 0, 9, 4);
@@ -571,13 +576,13 @@ class Simulation{
 	}
 		// ------------------------------     End of the instructions.     ----------------------------------------
 
-			// Checks if the molecule's atoms are out of the bounds of the reactor.
+		// Checks if the molecule's atoms are out of the bounds of the reactor.
 /*TODO*/private: bool Is_Molecule_OutOfBounds(Molecule &argument) {
 
 		return false;
 	}
 
-			// Used by CheckForCollision to see if any Molecules overlap.
+		// Used by CheckForCollision to see if any Molecules overlap.
 /*TODO*/private: bool Do_Molecules_Overlap(Molecule &A, Molecule &B) {
 
 		return false;
@@ -829,6 +834,7 @@ class Simulation{
 	public: void Set_Cycle_Limit_Simulation(int argument){
 		Cycle_Limit_Simulation = argument;
 	}
+
 
 };
 #endif
