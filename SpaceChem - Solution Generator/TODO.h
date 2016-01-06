@@ -3,6 +3,9 @@
 		- The output should be single molecules not packed, it turns out it costs a cycle to output a single molecule and they don't all go as one.
 			: The output needs to stall if it can't output. Also figure out which is output first.
 		- Start does not count towards the symbol count.
+		- If both waldos are grabbing the same molecule, don't double move and check if they are not going the same direction.
+
+		- Block output for molecules that are held by waldos.
 
 	Required new features
 		- Validation of the output to ensure it's matching the requirements.

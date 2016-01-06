@@ -50,9 +50,7 @@ class Molecule {
 
 		// Default constructor.
 	public: Molecule(){
-		IsEmpty = true;
-		X = 0;
-		Y = 0;
+		Reset();	// Makes sure all the data is clear.
 	}
 
 		// Basic utilities.
@@ -374,7 +372,7 @@ class Molecule {
 		Structure[Y][X] = argument;
 	}
 
-			// Get the atom at a X and Y.
+		// Get the atom at a X and Y.
 	public: Atom Get_Atom(short X, short Y) {
 
 		// Catch
@@ -385,6 +383,22 @@ class Molecule {
 		}
 
 		return Structure[Y][X];
+	}
+
+		// Fill the structure of the atom with NULL atoms and resets the data.
+	public: void Reset() {
+
+		IsEmpty = true;
+		X = 0;
+		Y = 0;
+
+		Atom Trash;
+		
+		for (unsigned int i = 0; i < 11; i++) {
+			for (unsigned int g = 0; g < 11; g++) {
+				Structure[i][g] = Trash;
+			}
+		}
 	}
 
 		// Used in simulation.h to "delete" a molecule from the input with a simple flip of false to true.
