@@ -264,37 +264,128 @@ class Simulation{
 		return -1; 
 	}
 
+		// Because the waldo works off index and the stack needs to be cleaned recalculate the index.
+/*TODOP*/private: void RecalculateWaldoHeld(Waldo &argument, bool RedorBlue) {
+
+	}
+
+		// This is pointed to a position on the tilemap and it follows the atom bonds and returns the attached. 
+	private: void TraceAtom(std::vector<Position> &Results, Molecule argument, short X, short Y){
+
+			// Check if the argument is an atom.
+		if (argument.CheckIfAtom(X, Y)){
+			
+				// It is a valid atom so add to the valid and then check it's bonds to see if they will be followed.
+			Position Current;
+
+			Current.X = X;
+			Current.Y = Y;
+
+			Results.push_back(Current);
+
+				// Check left.
+			if (argument.BondCount(X, Y, Atom_CanAddBonds_Left) > 0){
+				TraceAtom(Results, argument, X - 1, Y);
+			}
+
+				// Check Right.
+			if (argument.BondCount(X, Y, Atom_CanAddBonds_Right) > 0){
+				TraceAtom(Results, argument, X + 1, Y);
+			}
+
+				// Check Up.
+			if (argument.BondCount(X, Y, Atom_CanAddBonds_Up) > 0){
+				TraceAtom(Results, argument, X, Y - 1);
+			}
+
+				// Check Down.
+			if (argument.BondCount(X, Y, Atom_CanAddBonds_Down) > 0){
+				TraceAtom(Results, argument, X, Y + 1);
+			}
+		}		
+	}
+
+		// Creates new molecules based off the argument molecule. (Warning do not pass the molecule by reference it deletes data)
+	private: std::vector<Molecule> Break_Molecule(Molecule argument){
+			std::vector<Molecule> Split;
+
+				// Go though every possible atom in the molecule.
+			for (unsigned int i = 0; i < 11; i++){
+				for (unsigned int g = 0; g < 11; g++){
+
+					std::vector<Position> Result;
+				
+						// Trace the atom to find what it is connected to.
+					TraceAtom(Result, argument, g, i);
+						
+						// If it is connected to anything copy it and null it on argument.
+					if (Result.size() > 0){
+
+						Molecule New;
+
+							// I am not sure why but data is lasting through loops so clear all the data.
+						New.Reset();
+
+							// Set general information.
+						New.Set_X(argument.Get_X());
+						New.Set_Y(argument.Get_Y());
+
+						New.Set_IsEmpty(false);
+
+							// Copy the atoms to the molecule.
+						for (unsigned int z = 0; z < Result.size(); z++){
+							
+								// Copy the atom.
+							New.Set_Atom(Result[z].X, Result[z].Y, argument.Get_Atom(Result[z].X, Result[z].Y));
+								
+							Atom Trash;
+
+								// Null the atom.
+							argument.Set_Atom(Result[z].X, Result[z].Y, Trash);
+						}
+
+						Split.push_back(New);
+					}
+				}
+			}
+
+			return Split;
+		}
+
 		// Uses the index list to change the Active_Molecule list into multiple molecules.
-/*TODO*/private: int BreakUpMolecules(std::vector<unsigned int> &Index_List){
+	private: int BreakUpMolecules(std::vector<unsigned int> &Index_List){
 
 		// Note, this needs to check waldos to make sure they are not holding the atom. If they are
 		// Fix thier index. Also there might be a chance where two waldos grab the same molecule and split it
 		// That case should be looked into.
-
 		
 			// Go through each molecule.
 		for (unsigned int i = 0; i < Index_List.size(); i++){
 
-			bool Red_Grabbing = false;
-			bool Blue_Grabbing = false;
-
-				// We check if it is attached to a waldo.
-			if (Red_Waldo.GetGrabbing_Molecule_Index() == Index_List[i]){
-				Red_Grabbing = true;
+				// Break the molecule up.
+			std::vector<Molecule> Results = Break_Molecule(Active_Molecules[Index_List[i]]);
+	
+				// Delete the old molecule.
+			Active_Molecules.erase(Active_Molecules.begin() + Index_List[i]);
+				
+				// Put in the new molecules.
+			for (unsigned int g = 0; g < Results.size(); g++) {				
+				Active_Molecules.push_back(Results[g]);
 			}
 
-				// We check if it is attached to a waldo.
-			if (Blue_Waldo.GetGrabbing_Molecule_Index() == Index_List[i]){
-				Blue_Grabbing = true;
+				// We check if it is attached to a waldo, if so recalculate it's index.
+			if (Red_Waldo.GetGrabbing_Molecule_Index() == Index_List[i]) {
+				RecalculateWaldoHeld(Red_Waldo, Red_Tile);
 			}
 
-			
-
+				// We check if it is attached to a waldo, if so recalculate it's index.
+			if (Blue_Waldo.GetGrabbing_Molecule_Index() == Index_List[i]) {
+				RecalculateWaldoHeld(Blue_Waldo, Blue_Tile);
+			}
 		}
 
 		return 0;
 	}
-	
 
 		// ------------------------------ Handles all of the instructions. ----------------------------------------
 	private: void Handle_Instruction_In_Alpha(Waldo &argument, bool RedorBlue) {
@@ -354,67 +445,64 @@ class Simulation{
 		// Triggers all of the bonding pads to remove the bonds and it might split the molecule.
 	private: void Handle_Instruction_Bond_Remove(Waldo &argument, bool RedorBlue) {
 	
-		// A local list of bonding pads.
-	std::vector<Position> Bonding_Pad_Pos = Solution.Get_BondingPads();
+			// A local list of bonding pads.
+		std::vector<Position> Bonding_Pad_Pos = Solution.Get_BondingPads();
 	
-		// The molecules that need to break into multiple.
-	std::vector<unsigned int> Break_Molecule_Index;
+			// The molecules that need to break into multiple.
+		std::vector<unsigned int> Break_Molecule_Index;
 
-		// Go through every molecule that is active.
-	for (unsigned int i = 0; i < Active_Molecules.size(); i++){
+			// Go through every molecule that is active.
+		for (unsigned int i = 0; i < Active_Molecules.size(); i++){
 			
-			// The indexes of the bonding pads so duplication of data is not required.
-		std::vector<unsigned int> Bonding_Pads_Connected;
+				// The indexes of the bonding pads so duplication of data is not required.
+			std::vector<unsigned int> Bonding_Pads_Connected;
 
-			// Go through all of the bonding pads.
-		for (unsigned int g = 0; g < Bonding_Pad_Pos.size(); g++){
+				// Go through all of the bonding pads.
+			for (unsigned int g = 0; g < Bonding_Pad_Pos.size(); g++){
 
-				// The current bonding pad we are testing against.
-			Position Temp = Bonding_Pad_Pos[g];
+					// The current bonding pad we are testing against.
+				Position Temp = Bonding_Pad_Pos[g];
 
-				// Check if the bonding pad position effects this molecule. 
-			if (Active_Molecules[i].CheckIfAtom_Relative(Temp.X, Temp.Y)){
-				Bonding_Pads_Connected.push_back(g);
+					// Check if the bonding pad position effects this molecule. 
+				if (Active_Molecules[i].CheckIfAtom_Relative(Temp.X, Temp.Y)){
+					Bonding_Pads_Connected.push_back(g);
+				}
 			}
-		}
 
-			// All the bonding pads have been checked against the molecule.
-			// If two or more were found on the same molecule debond them.
-		if (Bonding_Pads_Connected.size() >= 2){
+				// All the bonding pads have been checked against the molecule.
+				// If two or more were found on the same molecule debond them.
+			if (Bonding_Pads_Connected.size() >= 2){
 
-				// Attempt to debond every molecule against every bonding pad, validation in the molecule
-				// function will catch invalid calls.
-			for (unsigned int j = 0; j < Bonding_Pads_Connected.size(); j++){
-				for (unsigned int t = j + 1; t < Bonding_Pads_Connected.size(); t++){
+					// Attempt to debond every molecule against every bonding pad, validation in the molecule
+					// function will catch invalid calls.
+				for (unsigned int j = 0; j < Bonding_Pads_Connected.size(); j++){
+					for (unsigned int t = j + 1; t < Bonding_Pads_Connected.size(); t++){
 
-						// Splitting them out like this makes it more human readable.
-					unsigned int X_1 = Bonding_Pad_Pos[Bonding_Pads_Connected[j]].X;
-					unsigned int Y_1 = Bonding_Pad_Pos[Bonding_Pads_Connected[j]].Y;
+							// Splitting them out like this makes it more human readable.
+						unsigned int X_1 = Bonding_Pad_Pos[Bonding_Pads_Connected[j]].X;
+						unsigned int Y_1 = Bonding_Pad_Pos[Bonding_Pads_Connected[j]].Y;
 
-					unsigned int X_2 = Bonding_Pad_Pos[Bonding_Pads_Connected[t]].X;
-					unsigned int Y_2 = Bonding_Pad_Pos[Bonding_Pads_Connected[t]].Y;
+						unsigned int X_2 = Bonding_Pad_Pos[Bonding_Pads_Connected[t]].X;
+						unsigned int Y_2 = Bonding_Pad_Pos[Bonding_Pads_Connected[t]].Y;
 
-					int Result = Active_Molecules[i].Remove_Bond(X_1, Y_1, X_2, Y_2);
+						int Result = Active_Molecules[i].Remove_Bond(X_1, Y_1, X_2, Y_2);
 
-						// No error, do nothing.
-					if (Remove_Bond_NoError == Result){
-						continue;
-					}
+							// No error, do nothing.
+						if (Remove_Bond_NoError == Result){
+							continue;
+						}
 
-						// The molecule needs to be flagged to be split up after all the bonds are removed.
-					if (Remove_Bond_BreakUpMolecule == Result){
-						Break_Molecule_Index.push_back(i);
+							// The molecule needs to be flagged to be split up after all the bonds are removed.
+						if (Remove_Bond_BreakUpMolecule == Result){
+							Break_Molecule_Index.push_back(i);
+						}
 					}
 				}
 			}
 		}
 
-	}
-
 			// Split the molecules up that require it.
 		BreakUpMolecules(Break_Molecule_Index);
-
-		int debug = 0;
 	}
 
 		/*TOTEST*///  Pack the molecules into a Packed_Molecule and put it in the output
@@ -429,6 +517,11 @@ class Simulation{
 
 				// Skip the molecule if it is empty. (Note is this to keep the same index for references later I will patch it to fix that)
 			if (Active_Molecules[i].GetIsEmpty()){
+				continue;
+			}
+
+				// Skip the molecule if it is being held by a waldo.
+			if (Red_Waldo.GetGrabbing_Molecule_Index() == i || Blue_Waldo.GetGrabbing_Molecule_Index() == i) {
 				continue;
 			}
 				
@@ -479,20 +572,17 @@ class Simulation{
 
 		// Trigger the sync requirement for the Waldo. This puts the Waldo in a state of idle until both hit it.
 	private: void Handle_Instruction_Sync(Waldo &argument, bool RedorBlue) {
-		
-			// The only requirement is to set the sync bit on the waldo, the rest is handled in the Simulate_Cycle()
-		argument.Set_Idle_For_Sync(true);
+		argument.Set_Idle_For_Sync(true); // The only requirement is to set the sync bit on the waldo, the rest is handled in the Simulate_Cycle()
 	}
-
 		// ------------------------------     End of the instructions.     ----------------------------------------
 
-			// Checks if the molecule's atoms are out of the bounds of the reactor.
+		// Checks if the molecule's atoms are out of the bounds of the reactor.
 /*TODO*/private: bool Is_Molecule_OutOfBounds(Molecule &argument) {
 
 		return false;
 	}
 
-			// Used by CheckForCollision to see if any Molecules overlap.
+		// Used by CheckForCollision to see if any Molecules overlap.
 /*TODO*/private: bool Do_Molecules_Overlap(Molecule &A, Molecule &B) {
 
 		return false;
@@ -744,6 +834,7 @@ class Simulation{
 	public: void Set_Cycle_Limit_Simulation(int argument){
 		Cycle_Limit_Simulation = argument;
 	}
+
 
 };
 #endif

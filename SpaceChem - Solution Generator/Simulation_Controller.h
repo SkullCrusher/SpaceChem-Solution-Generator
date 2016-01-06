@@ -81,6 +81,10 @@ class Simulation_Controller{
 
 		AlphaIn.Add_Bond(1, 1, 2, 1);
 
+			// Debugging, Create the input molecule.
+		Molecule Solution;
+
+		Solution.Set_Atom(1, 1, F);				
 
 			// Just the input for the simulation.
 		Packed_Molecule Input_For_Debugging;
@@ -92,7 +96,7 @@ class Simulation_Controller{
 		RunMe.Add_To_Input(Input_For_Debugging, Simulation_Add_To_Input_Alpha);
 
 		int Total_Correct_Output = 0;
-
+				
 			// Process the simulation.
 		int Results = Simulation_Continue;
 		while (Results == Simulation_Continue){
@@ -108,7 +112,21 @@ class Simulation_Controller{
 			Packed_Molecule Temp = RunMe.Remove_From_Output();
 
 			if (!Temp.IsEmpty){
+
+				// We check if the result molecule is the same as the solution. (note they don't have to apperent on the same position of the grid.)
+				if (Temp.Items[0] == Solution) {
+					int one_solution = 0;
+					Total_Correct_Output++;
+				}else {
+					int Simulation_crash_invalidout = 0;
+				}
+
+
 				int good = 0;
+			}
+
+			if (Total_Correct_Output == 10) {
+				int done = 1;
 			}
 
 			int debug = 0;

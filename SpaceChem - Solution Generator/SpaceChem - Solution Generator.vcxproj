@@ -146,6 +146,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Atom.cpp" />
     <ClCompile Include="Generation.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Sharing.cpp" />

@@ -94,21 +94,35 @@ class Solution_Reactor {
 			return Error_Set_Int_Tile_OOB;
 		}
 
-			// Used for the fitness calculation.
-		Symbol_Count_Total++;
+			// Used for the fitness calculation (starts do not count to the value.)
+		if (Instruction_1 != Instruction_Start_Left && Instruction_1 != Instruction_Start_Right 
+		 && Instruction_1 != Instruction_Start_Up   && Instruction_1 != Instruction_Start_Down) {
+			Symbol_Count_Total++;
+		}		
 
 		if (RedorBlue) {
 			Red[y][x].Instruction_1 = Instruction_1;
 			Red[y][x].Instruction_2 = Instruction_2;
-			Symbol_Count_Red++;
+
+				// starts do not count to the value.
+			if (Instruction_1 != Instruction_Start_Left && Instruction_1 != Instruction_Start_Right
+			 && Instruction_1 != Instruction_Start_Up   && Instruction_1 != Instruction_Start_Down) {
+				Symbol_Count_Red++;
+			}
 		}else{
 			Blue[y][x].Instruction_1 = Instruction_1;
 			Blue[y][x].Instruction_2 = Instruction_2;
-			Symbol_Count_Blue++;
+
+				// starts do not count to the value.
+			if (Instruction_1 != Instruction_Start_Left && Instruction_1 != Instruction_Start_Right
+			 && Instruction_1 != Instruction_Start_Up   && Instruction_1 != Instruction_Start_Down) {
+				Symbol_Count_Blue++;
+			}
 		}
 
 		return Simulation_Continue;
 	}
+
 	public: unsigned int Get_BondingPadCount(){ return Bonding_Pad.size(); }
 	public: std::vector<Position> Get_BondingPads(){ return BondTiles; }
 

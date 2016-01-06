@@ -40,6 +40,9 @@
     <ClCompile Include="Waldo.cpp">
       <Filter>Simulation</Filter>
     </ClCompile>
+    <ClCompile Include="Atom.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sharing.h">
