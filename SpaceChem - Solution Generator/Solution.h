@@ -35,6 +35,9 @@ class Solution_Reactor {
 		// If the reactor has been simulated skip resimulating.
 	private: bool HasBeenSimulated;
 
+		// The amount of cycles used on the simulation.
+	private: unsigned long Cycles;
+
 		// The level of fitness based off settings.
 	private: double Fitness;
 
@@ -65,6 +68,8 @@ class Solution_Reactor {
 		HasBeenSimulated = false;
 		Fitness = 0;
 		Life_Span = 0;
+
+		Cycles = 0;
 
 		Status = Solution_Unprocessed;
 	}
@@ -152,6 +157,17 @@ class Solution_Reactor {
 	public: void Set_HasBeenSimulated(bool argument){ HasBeenSimulated = argument; }
 	public: bool Get_HasBeenSimulated(){ return HasBeenSimulated; }
 
+	public: unsigned long Get_Cycles() {
+		return Cycles;
+	}
+
+	public: void Set_Cycles(unsigned long argument) {
+		Cycles = argument;
+	}
+
+	public: void Increment_Cycles() {
+		Cycles++;
+	}
 };
 
 #endif

@@ -95,7 +95,7 @@ Packed_Molecule Simulation::Remove_From_Output() {
 	// Default constructor.
 Simulation::Simulation() {
 	Cycle_Limit_Simulation = 0;
-	Cycles = 0;
+	//Cycles = 0;
 }
 
 	// Default destructor.
@@ -612,6 +612,11 @@ bool Simulation::Is_Molecule_OutOfBounds(Molecule &argument) {
 	// Used by CheckForCollision to see if any Molecules overlap.
 bool Simulation::Do_Molecules_Overlap(Molecule &A, Molecule &B) {
 
+		// One of the molecules is empty so do nothing.
+	if (A.Get_IsEmpty() || B.Get_IsEmpty()) {
+		return false;
+	}
+
 	// Go through all of the reactor.
 	for (unsigned int i = 0; i < 8; i++) {
 		for (unsigned int g = 0; g < 10; g++) {
@@ -733,12 +738,18 @@ int Simulation::Simulate_Cycle() {
 		Blue_Waldo.Set_Idle_For_Sync(false);
 	}
 
-	// Check if both waldos are holding the same molecule and are going different directions.
-	if (Red_Waldo.GetGrabbing_Molecule_Index() == Blue_Waldo.GetGrabbing_Molecule_Index()) {
-
-		// Make sure they are going the same direction.
-		if (Red_Waldo.GetDirection() != Blue_Waldo.GetDirection()) {
-			return Simulation_Waldo_Pulled_Wrong;
+		// Check if both waldos are holding the same molecule and are going different directions.
+	if (Red_Waldo.GetGrabbing_Molecule() && Blue_Waldo.GetGrabbing_Molecule()) {
+		
+			// Catch if their index is not real and they match.			
+		if (Blue_Waldo.GetGrabbing_Molecule_Index() != -1 && 
+			Red_Waldo.GetGrabbing_Molecule_Index() != -1 &&
+			Red_Waldo.GetGrabbing_Molecule_Index() == Blue_Waldo.GetGrabbing_Molecule_Index()){
+			
+				// Make sure they are going the same direction.
+			if (Red_Waldo.GetDirection() != Blue_Waldo.GetDirection()) {
+				return Simulation_Waldo_Pulled_Wrong;
+			}
 		}
 	}
 
@@ -847,25 +858,38 @@ int Simulation::Simulate_Cycle() {
 	// Process the simulation.
 int Simulation::Tick() {
 
-	// Halt the simulation if the cycles have reached the cap.
-	if (Cycles >= Cycle_Limit_Simulation) {
+		// Halt the simulation if the cycles have reached the cap.
+	if (Solution.Get_Cycles() >= Cycle_Limit_Simulation) {
+
+			// Set the status and it has been simulated.
+		Solution.Set_Status(Simulation_OutOfCycles);
+		Solution.Set_HasBeenSimulated(true);
+
 		return Simulation_OutOfCycles;
 	}
 
-	// If this is the first tick run the requirements to fill in the waldo.
-	if (Cycles == 0) {
+		// If this is the first tick run the requirements to fill in the waldo.
+	if (Solution.Get_Cycles() == 0) {
 		int Result = GenerateDefaults();
 
-		// If there was an error.
+			// If there was an error.
 		if (Result == Simulation_InvalidSimulation) {
+
+				// Set the status and it has been simulated.
+			Solution.Set_Status(Simulation_InvalidSimulation);
+			Solution.Set_HasBeenSimulated(true);
+
 			return Simulation_InvalidSimulation;
 		}
 	}
 
-	// Simulate a single cycle.
+		// Simulate a single cycle.
 	int Result = Simulate_Cycle();
 
-	Cycles++;
+		// Cycles++;
+	Solution.Increment_Cycles();
+
+	Solution.Set_Status(Result);
 
 	return Result; // Normally Simulation_Continue
 }

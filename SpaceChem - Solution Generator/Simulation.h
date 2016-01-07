@@ -18,10 +18,11 @@ class Simulation{
 	private: unsigned long Cycle_Limit_Simulation;
 
 		// How many cycles have been simulated,
-	private: unsigned long Cycles;
+	//private: unsigned long Cycles;
 
 		// The solution to be simulated.
 	private: Solution_Reactor Solution;
+			 
 
 		// The red and blue waldo which are the controlling parts of the simulation.
 	private: Waldo Red_Waldo;
@@ -31,9 +32,6 @@ class Simulation{
 				The in and out containers for molecules.
 		It is a buffer that the controller for the simulation has to handle.
 		We know that only two Molecule can be pulled in and pushed out on each cycle.
-
-		Note: The reason why it is not one is if the molecules happen to be different
-		they might not collide so it requires a double buffer.
 	*/
 
 	private: Packed_Molecule In_Alpha[2];
@@ -48,6 +46,9 @@ class Simulation{
 		// The order of placement, has the index of it.
 	private: std::vector<unsigned int> Output_Omega_Order;
 	private: std::vector<unsigned int> Output_Phi_Order;
+
+
+
 
 		// Add a new molecule to the input (This will have to be changed later)
 	public: short Add_To_Input(Packed_Molecule argument, short IsAlphaOrBeta);
@@ -93,13 +94,13 @@ class Simulation{
 		// Triggers all of the bonding pads to remove the bonds and it might split the molecule.
 	private: void Handle_Instruction_Bond_Remove(Waldo &argument, bool RedorBlue);
 
-		/*TOTEST*///  Pack the molecules into a Packed_Molecule and put it in the output
+		//  Pack the molecules into a Packed_Molecule and put it in the output
 	private: void Handle_Instruction_Out_Omega(Waldo &argument, bool RedorBlue);
 
-		/*TOTEST*/// Grab the molecule so the waldo will move it with it.
+		// Grab the molecule so the waldo will move it with it.
 	private: void Handle_Instruction_Grab(Waldo &argument, bool RedorBlue);
 
-		/*TOTEST*/ // Have the waldo let go of the molecule.
+		// Have the waldo let go of the molecule.
 	private: void Handle_Instruction_Drop(Waldo &argument, bool RedorBlue);
 
 		// Trigger the sync requirement for the Waldo. This puts the Waldo in a state of idle until both hit it.
@@ -130,6 +131,26 @@ class Simulation{
 
 		// Set how many cycles can be simulated before a force halt.
 	public: void Set_Cycle_Limit_Simulation(int argument);
+
+	public: void Set_Simulation_Status(int argument) {
+		Solution.Set_Status(argument);
+	}
+
+	public: int Get_Simulation_Status() {
+		return Solution.Get_Status();
+	}
+
+	public: bool Get_Is_Simulated() {
+		return Solution.Get_HasBeenSimulated();
+	}
+
+	public: void Set_Is_Simulated(bool argument) {
+		Solution.Set_HasBeenSimulated(argument);
+	}
+
+	public: Solution_Reactor GetSolution() {
+		return Solution;
+	}
 			
 };
 #endif

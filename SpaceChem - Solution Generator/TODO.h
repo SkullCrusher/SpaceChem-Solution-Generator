@@ -1,9 +1,7 @@
 /*
 	Bugs to fix:
-		- The output should be single molecules not packed, it turns out it costs a cycle to output a single molecule and they don't all go as one.
-			: The output needs to stall if it can't output. Also figure out which is output first.
-		
-		
+		- (kinda fixed, I patched it to just force one output) The output should be single molecules not packed. 
+					It turns out it costs a cycle to output a single molecule and they don't all go as one.		
 		- (Fixed) If both waldos are grabbing the same molecule, don't double move and check if they are not going the same direction.
 
 		- (Fixed) Block output for molecules that are held by waldos.
@@ -21,6 +19,8 @@
 	Future updates after prototype:
 		- Create a output idle if it is full.
 		- Add bond does not take two molecules and connect them.
+		- Change the validation of a molecule to hanlde any shape and just require a type of connection.
+			(Rules from the game\Output - Different shapes.png)
 
 
 		//		IDEAS
