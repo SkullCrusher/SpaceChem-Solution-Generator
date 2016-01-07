@@ -110,6 +110,25 @@ class Molecule {
 		return true;
 	}
 
+		// Check if any of the atoms are out of the bounds of the reactor.
+	public: bool CheckIfAtom_IsOutOfBounds() {
+
+		for (unsigned int i = 0; i < 11; i++) {
+			for (unsigned int g = 0; g < 11; g++) {
+
+					// If the atom is not a placeholder
+				if (!Structure[i][g].Placeholder) {
+						// If the atom is out of bounds, return with out of bounds.
+					if ((X + g) < 0 || (X + g) > 10 || (Y + i) < 0 || (Y + i) > 10){
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
 		// Checks to make sure the two atoms are within bonding range.
 	private: short IsSidebySide(short X1, short Y1, short X2, short Y2){
 		
@@ -366,7 +385,7 @@ if (Result == Atom_One_Is_Right_Two) {
 	return Remove_Bond_NoError;
 	}
 
-	// Set the atom at a X and Y to the argument.
+		// Set the atom at a X and Y to the argument.
 	public: void Set_Atom(short X, short Y, Atom argument) {
 
 		// Catch
@@ -375,7 +394,7 @@ if (Result == Atom_One_Is_Right_Two) {
 		Structure[Y][X] = argument;
 	}
 
-			// Get the atom at a X and Y.
+		// Get the atom at a X and Y.
 	public: Atom Get_Atom(short X, short Y) {
 
 		// Catch
@@ -388,7 +407,7 @@ if (Result == Atom_One_Is_Right_Two) {
 		return Structure[Y][X];
 	}
 
-			// Fill the structure of the atom with NULL atoms and resets the data.
+		// Fill the structure of the atom with NULL atoms and resets the data.
 	public: void Reset() {
 
 		IsEmpty = true;
@@ -404,7 +423,7 @@ if (Result == Atom_One_Is_Right_Two) {
 		}
 	}
 
-			// Used in simulation.h to "delete" a molecule from the input with a simple flip of false to true.
+		// Used in simulation.h to "delete" a molecule from the input with a simple flip of false to true.
 	public: void Set_IsEmpty(bool argument) { IsEmpty = argument; }
 
 	public: int Get_X() { return X; }
@@ -462,8 +481,7 @@ if (Result == Atom_One_Is_Right_Two) {
 
 	// To check if a molecule matches for solution. (they just have to have molecule the same).
  bool operator==(Molecule a, Molecule b){
-
-
+	 
 		// Find the first atom and move it all the way to the top left.
 	a.Align_Top_Left();
 	b.Align_Top_Left();
@@ -500,11 +518,10 @@ if (Result == Atom_One_Is_Right_Two) {
 	
 	return true;
 }
-
-
+ 
 
 	// How the molecules are transported for input/output
-struct Packed_Molecule {
+ struct Packed_Molecule {
 	std::vector<Molecule> Items;
 
 	bool IsEmpty = true;

@@ -11,6 +11,7 @@
 #include "Atom.h"
 
 #include <vector>
+#include <stack>
 
 
 class Simulation{
@@ -45,6 +46,10 @@ class Simulation{
 
 		// The molecules currently in the reactor.
 	private: std::vector<Molecule> Active_Molecules;
+
+		// The order of placement, has the index of it.
+	private: std::vector<unsigned int> Output_Omega_Order;
+	private: std::vector<unsigned int> Output_Phi_Order;
 
 		// Add a new molecule to the input (This will have to be changed later)
 	public: short Add_To_Input(Packed_Molecule argument, short IsAlphaOrBeta) {
@@ -118,7 +123,9 @@ class Simulation{
 	
 		// This will be replaced later, it is only used for debugging.
 /*DEBUG*/private: short Add_To_Output(Packed_Molecule argument, short IsAlphaOrBeta){
+		
 		Out_Omega[0] = argument;
+
 		return Simulation_Continue;
 	}
 
@@ -190,6 +197,11 @@ class Simulation{
 
 			// The waldo is waiting for input so loop.
 		if (argument.GetIdle_For_Input()) {
+			return;
+		}
+	
+			// If the waldo is waiting for the output to finish.
+		if (argument.GetIdle_For_Output()) {
 			return;
 		}
 		
@@ -510,30 +522,43 @@ class Simulation{
 
 			// The argument to be sent into the pipe.
 		Packed_Molecule Output;
+	
+	//private: std::stack<unsigned int> Output_Omega_Order;
+		bool Output_TF = false;
 
 			// Go through each molecule and check if any is in the output area for omega.
 			// Make a list of the output and put them into a single output.
-		for (unsigned int i = 0; i < Active_Molecules.size(); i++){
-
+		//for (unsigned int i = 0; i < Active_Molecules.size(); i++){
+		for (unsigned int i = 0; i < Output_Omega_Order.size(); i++) {
+			//Output_Omega_Order
 				// Skip the molecule if it is empty. (Note is this to keep the same index for references later I will patch it to fix that)
-			if (Active_Molecules[i].GetIsEmpty()){
+			if (Active_Molecules[Output_Omega_Order[i]].GetIsEmpty()){
 				continue;
 			}
 
 				// Skip the molecule if it is being held by a waldo.
-			if (Red_Waldo.GetGrabbing_Molecule_Index() == i || Blue_Waldo.GetGrabbing_Molecule_Index() == i) {
+			if (Red_Waldo.GetGrabbing_Molecule_Index() == Output_Omega_Order[i] || Blue_Waldo.GetGrabbing_Molecule_Index() == Output_Omega_Order[i]) {
 				continue;
 			}
 				
 				// Check if the molecule is inside the output area.
-			bool Result = Active_Molecules[i].CheckIfAtom_IsInLocation(6, 0, 9, 4);
+			bool Result = Active_Molecules[Output_Omega_Order[i]].CheckIfAtom_IsInLocation(6, 0, 9, 4);
 		
 			if (Result){
 					// Add to the output pack.
-				Output.Items.push_back(Active_Molecules[i]);
+				Output.Items.push_back(Active_Molecules[Output_Omega_Order[i]]);
 
 					// "Delete" the element from the active list.
-				Active_Molecules[i].Set_IsEmpty(true);
+				Active_Molecules[Output_Omega_Order[i]].Set_IsEmpty(true);
+
+					// Remove the active item from the output.
+				Output_Omega_Order.erase(Output_Omega_Order.begin() + i);
+
+					// There was an output.
+				Output_TF = true;
+
+					// forces it to be a single in the output.
+				break;
 			}
 		}
 
@@ -541,6 +566,12 @@ class Simulation{
 
 			// Set the output
 		Out_Omega[0] = Output;
+
+			// If there was no output release the waldo.
+		if (!Output_TF) {
+			argument.SetIdle_For_Output(false);
+		}
+
 
 		int debug = 0;
 	}
@@ -561,8 +592,32 @@ class Simulation{
 		int debug = 0;
 	}
 
-		/*TOTEST*/// Have the waldo let go of the molecule.
+		/*TOTEST*/ // Have the waldo let go of the molecule.
 	private: void Handle_Instruction_Drop(Waldo &argument, bool RedorBlue) {
+
+			// Omega
+		//if (Active_Molecules[argument.GetGrabbing_Molecule_Index()].Get_X() > 5 && Active_Molecules[argument.GetGrabbing_Molecule_Index()].Get_Y() < 4) {
+		if (argument.GetX() > 5 && argument.GetY() < 4) {
+			Output_Omega_Order.push_back(argument.GetGrabbing_Molecule_Index());
+
+			for (unsigned int i = 1; i < Output_Omega_Order.size(); i++) {
+				if (Output_Omega_Order[i] == argument.GetGrabbing_Molecule_Index()) {
+					Output_Omega_Order.erase(Output_Omega_Order.begin() + i);
+				}
+			}
+		}
+		
+			// Phi
+		//if (Active_Molecules[argument.GetGrabbing_Molecule_Index()].Get_X() > 5 && Active_Molecules[argument.GetGrabbing_Molecule_Index()].Get_Y() >= 4) {
+		if (argument.GetX() > 5 && argument.GetY() >= 4) {
+			Output_Phi_Order.push_back(argument.GetGrabbing_Molecule_Index());
+
+			for (unsigned int i = 1; i < Output_Phi_Order.size(); i++) {
+				if (Output_Phi_Order[i] == argument.GetGrabbing_Molecule_Index()) {
+					Output_Phi_Order.erase(Output_Phi_Order.begin() + i);
+				}
+			}
+		}
 
 		argument.SetGrabbing_Molecule(false);
 		argument.SetGrabbing_Molecule_Index(-1);
@@ -577,13 +632,42 @@ class Simulation{
 		// ------------------------------     End of the instructions.     ----------------------------------------
 
 		// Checks if the molecule's atoms are out of the bounds of the reactor.
-/*TODO*/private: bool Is_Molecule_OutOfBounds(Molecule &argument) {
+/*TOTEST*/private: bool Is_Molecule_OutOfBounds(Molecule &argument) {
+
+			// Only the molecules attached to the waldos have to be checked for out of bounds.
+		if (Red_Waldo.GetGrabbing_Molecule()) {
+			bool IsOutOfBounds = Active_Molecules[Red_Waldo.GetGrabbing_Molecule_Index()].CheckIfAtom_IsOutOfBounds();
+
+			if (IsOutOfBounds) {
+				return true;
+			}
+		}
+
+			// Only the molecules attached to the waldos have to be checked for out of bounds.
+		if (Blue_Waldo.GetGrabbing_Molecule()) {
+			bool IsOutOfBounds = Active_Molecules[Blue_Waldo.GetGrabbing_Molecule_Index()].CheckIfAtom_IsOutOfBounds();
+
+			if (IsOutOfBounds) {
+				return true;
+			}
+		}		
 
 		return false;
 	}
 
 		// Used by CheckForCollision to see if any Molecules overlap.
-/*TODO*/private: bool Do_Molecules_Overlap(Molecule &A, Molecule &B) {
+/*TOTEST*/private: bool Do_Molecules_Overlap(Molecule &A, Molecule &B) {
+
+			// Go through all of the reactor.
+		for (unsigned int i = 0; i < 8; i++) {
+			for (unsigned int g = 0; g < 10; g++) {
+
+					// Compare each atom and see if they match.
+				if (A.CheckIfAtom_Relative(g, i) == true && B.CheckIfAtom_Relative(g, i) == true) {
+					return true;
+				}
+			}
+		}
 
 		return false;
 	}
@@ -695,10 +779,19 @@ class Simulation{
 			Blue_Waldo.Set_Idle_For_Sync(false);
 		}
 
+			// Check if both waldos are holding the same molecule and are going different directions.
+		if (Red_Waldo.GetGrabbing_Molecule_Index() == Blue_Waldo.GetGrabbing_Molecule_Index()) {
+
+				// Make sure they are going the same direction.
+			if (Red_Waldo.GetDirection() != Blue_Waldo.GetDirection()) {
+				return Simulation_Waldo_Pulled_Wrong;
+			}
+		}
+		
 			// The steps of the simulation:
 
 			// Check if there is a red track we need to simulate. Also if the waldo is idling for sync skip.
-		if (Red_Waldo.GetActive() && !Red_Waldo.Get_Idle_For_Sync()){
+		if (Red_Waldo.GetActive()  && !Red_Waldo.Get_Idle_For_Sync()){
 
 				// 1. Move Red Waldo.
 			MoveWaldo(Red_Waldo);
@@ -792,9 +885,7 @@ class Simulation{
 
 				return Simulation_Collision;
 			}
-		}
-			
-		
+		}	
 
 		return Simulation_Continue;
 	}

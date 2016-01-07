@@ -77,7 +77,7 @@ class Simulation_Controller{
 		Molecule AlphaIn;
 
 		AlphaIn.Set_Atom(1, 1, F);
-		AlphaIn.Set_Atom(2, 1, F);
+		AlphaIn.Set_Atom(2, 1, F); // AlphaIn.Set_Atom(2, 1, F);
 
 		AlphaIn.Add_Bond(1, 1, 2, 1);
 

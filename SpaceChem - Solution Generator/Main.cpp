@@ -99,6 +99,9 @@ int main(int argc, char *argv[]) {
 
 		// Start the simulator.
 	int Result = Debug.Tick();
+	
+		// Debugging.
+	std::cout << Result;
 
 	return Result;
 }
