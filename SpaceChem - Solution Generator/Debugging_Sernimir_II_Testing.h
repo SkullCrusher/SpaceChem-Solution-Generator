@@ -513,9 +513,4 @@ void Debug_Test_Sernimir_II_008(Solution_Reactor &TheChosenOne, Problem_Definiti
 
 }
 
-
-
-
-
-
 #endif

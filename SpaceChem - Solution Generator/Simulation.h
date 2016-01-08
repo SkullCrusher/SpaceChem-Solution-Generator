@@ -151,6 +151,11 @@ class Simulation{
 	public: Solution_Reactor GetSolution() {
 		return Solution;
 	}
+
+		// Outside useage to fix the cycle count.
+	public: void Increment_Cycle_Count() {
+		Solution.Increment_Cycles();
+	}
 			
 };
 #endif

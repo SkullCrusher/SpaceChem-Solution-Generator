@@ -3,5 +3,5 @@ Cycles: 12 (until error)
 Symbols: 8
 
 Testing results:
-Return code - 
-Need to patch: 1/7/2015
+Return code - Simulation_Invalid_Output
+Approved: 1/8/2015

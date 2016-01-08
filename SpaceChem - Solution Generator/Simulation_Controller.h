@@ -51,7 +51,7 @@ class Simulation_Controller{
 		Packed_Molecule Input_For_Debugging;
 
 			// Test problem.
-		Debug_Test_Sernimir_II_008(TheChosenOne, Problem_Rules, RunMe, Input_For_Debugging, AlphaIn, Solution);
+		Debug_Test_Sernimir_II_006(TheChosenOne, Problem_Rules, RunMe, Input_For_Debugging, AlphaIn, Solution);
 	
 
 		
@@ -81,6 +81,7 @@ class Simulation_Controller{
 					}else{
 						RunMe.Set_Simulation_Status(Simulation_Invalid_Output);
 						RunMe.Set_Is_Simulated(true);
+						RunMe.Increment_Cycle_Count();
 						break;
 					}
 				}else {
