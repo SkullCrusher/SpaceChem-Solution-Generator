@@ -1,4 +1,24 @@
-//SpaceChem Problem Solver - Written by David Harkins
+/*
+	SpaceChem Solution Generator - Solves problems using the genetic algorithm.
+					Copyright(C) 2016 by David Harkins.
+
+	This program is free software : you can redistribute it and / or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation version 3 of the License.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
+
+
+
 #include <iostream>
 #include <stdlib.h>
 #include <fstream>
@@ -27,7 +47,7 @@ char *LoadFileByName(std::string argument){
 	if (file.is_open()){
 
 		size = file.tellg();
-		memblock = new char[size];
+		memblock = new char[(unsigned int) size];
 		file.seekg(0, std::ios::beg);
 		file.read(memblock, size);
 		file.close();

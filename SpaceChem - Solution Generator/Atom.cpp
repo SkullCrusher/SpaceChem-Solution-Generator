@@ -1,3 +1,20 @@
+/*
+	SpaceChem Solution Generator - Solves problems using the genetic algorithm.
+					Copyright(C) 2016 by David Harkins.
+
+	This program is free software : you can redistribute it and / or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation version 3 of the License.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #ifndef Atom_Header_C
 #define Atom_Header_C
 
@@ -15,25 +32,8 @@ bool Molecule::CheckIfAtom(short X, short Y) {
 	return !Structure[Y][X].Placeholder;
 }
 
-/*
 	// Checks if a location has an atom based on a position on the reactor.
 bool Molecule::CheckIfAtom_Relative(short X_arg, short Y_arg) {
-		// Catch.
-		if (X > 10 || Y > 10 || X < 0 || Y < 0) {
-			return false;
-		}
-
-		// If something is a placeholder we know it's not a atom.
-		return !Structure[(Y_arg - Y)][(X_arg - X)].Placeholder;
-	}
-*/
-
-	// Checks if a location has an atom based on a position on the reactor.
-bool Molecule::CheckIfAtom_Relative(short X_arg, short Y_arg) {
-	/*// Catch.
-	if (X > 10 || Y > 10 || X < 0 || Y < 0) {
-		return false;
-	}*/
 
 		// If the offset is more then the position then skip.
 	if (X > X_arg || Y > Y_arg || Y_arg < 0 || X_arg < 0) {
@@ -371,7 +371,6 @@ void Molecule::Set_Atom(short X, short Y, Atom argument) {
 
 	IsEmpty = false;
 }
-
 
 	// Get the atom at a X and Y.
 Atom Molecule::Get_Atom(short X, short Y) {

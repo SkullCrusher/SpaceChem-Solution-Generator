@@ -83,4 +83,7 @@
       <Filter>_Debugging</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="License.txt" />
+  </ItemGroup>
 </Project>
