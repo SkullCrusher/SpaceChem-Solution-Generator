@@ -40,11 +40,6 @@ bool Molecule::CheckIfAtom_Relative(short X_arg, short Y_arg) {
 		return false;
 	}
 
-
-
-
-
-
 	// If something is a placeholder we know it's not a atom.
 	return !Structure[(Y_arg - Y)][(X_arg - X)].Placeholder;
 }
@@ -373,6 +368,8 @@ void Molecule::Set_Atom(short X, short Y, Atom argument) {
 	if (X < 0 || Y < 0 || Y > 10 || X > 10) { return; }
 
 	Structure[Y][X] = argument;
+
+	IsEmpty = false;
 }
 
 

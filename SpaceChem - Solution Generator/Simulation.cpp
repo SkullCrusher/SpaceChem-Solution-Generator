@@ -530,7 +530,10 @@ void Simulation::Handle_Instruction_Out_Omega(Waldo &argument, bool RedorBlue) {
 		}
 	}
 
-	Output.Set_IsEmpty(false);
+		// Make sure the output is not empty.
+	if (Output.Items.size() >= 1) {
+		Output.Set_IsEmpty(false);
+	}
 
 		// Set the output
 	Out_Omega[0] = Output;
@@ -682,10 +685,10 @@ short Simulation::CheckForCollision() {
 	// Runs the instruction that is provided in Instruction_1 and used Instruction_2 for direction.
 short Simulation::Execute_Instruction(Waldo &argument, bool RedorBlue) {
 
-	// Pull the instructions for that tile.
+		// Pull the instructions for that tile.
 	Tile Instruction = Solution.GetTile(argument.GetX(), argument.GetY(), RedorBlue);
 
-	// Attempt to run the instruction in Instruction_1.
+		// Attempt to run the instruction in Instruction_1.
 	switch (Instruction.Instruction_1) {
 
 	case Instruction_NOP:
@@ -900,7 +903,7 @@ int Simulation::Tick() {
 				// Set the status and it has been simulated.
 			Solution.Set_Status(Simulation_InvalidSimulation);
 			Solution.Set_HasBeenSimulated(true);
-
+			
 			return Simulation_InvalidSimulation;
 		}
 	}

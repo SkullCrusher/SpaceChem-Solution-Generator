@@ -51,7 +51,7 @@ class Simulation_Controller{
 		Packed_Molecule Input_For_Debugging;
 
 			// Test problem.
-		Debug_Test_Sernimir_II_003(TheChosenOne, Problem_Rules, RunMe, Input_For_Debugging, AlphaIn, Solution);
+		Debug_Test_Sernimir_II_008(TheChosenOne, Problem_Rules, RunMe, Input_For_Debugging, AlphaIn, Solution);
 	
 
 		
@@ -75,11 +75,18 @@ class Simulation_Controller{
 				// Process the output.
 			if (!Temp.IsEmpty) {
 					// We check if the result molecule is the same as the solution. (note they don't have to apperent on the same position of the grid.)
-				if (Temp.Items[0] == Solution) {
-					Total_Correct_Output++;
+				if (Temp.Items.size() >= 1) {
+					if (Temp.Items[0] == Solution) {
+						Total_Correct_Output++;
+					}else{
+						RunMe.Set_Simulation_Status(Simulation_Invalid_Output);
+						RunMe.Set_Is_Simulated(true);
+						break;
+					}
 				}else {
 					RunMe.Set_Simulation_Status(Simulation_Invalid_Output);
 					RunMe.Set_Is_Simulated(true);
+					break;
 				}
 			}
 
