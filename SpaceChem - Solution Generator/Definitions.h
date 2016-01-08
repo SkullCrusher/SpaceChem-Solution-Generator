@@ -23,6 +23,7 @@
 #define Simulation_Collision			4
 #define Simulation_Waldo_Pulled_Wrong	5	// Both waldos are holding the same molecule and they go different directions.
 #define Simulation_Invalid_Output		6
+#define Simulation_Atom_OutOfBounds		7
 
 #define Remove_Bond_NoError				0
 #define Remove_Bond_BreakUpMolecule		1		

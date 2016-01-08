@@ -480,8 +480,13 @@ void Simulation::Handle_Instruction_Out_Omega(Waldo &argument, bool RedorBlue) {
 	// std::stack<unsigned int> Output_Omega_Order;
 	bool Output_TF = false;
 
+	bool Output_already = false;
+
+	int Left_To_Output = 0;
+
 	// Go through each molecule and check if any is in the output area for omega.
 	// Make a list of the output and put them into a single output.
+
 	//for (unsigned int i = 0; i < Active_Molecules.size(); i++){
 	for (unsigned int i = 0; i < Output_Omega_Order.size(); i++) {
 		//Output_Omega_Order
@@ -499,30 +504,39 @@ void Simulation::Handle_Instruction_Out_Omega(Waldo &argument, bool RedorBlue) {
 		bool Result = Active_Molecules[Output_Omega_Order[i]].CheckIfAtom_IsInLocation(6, 0, 9, 4);
 
 		if (Result) {
-			// Add to the output pack.
-			Output.Items.push_back(Active_Molecules[Output_Omega_Order[i]]);
+				// If there is another molecule ready to be output but one was already output idle.
+			if (Output_already) {
+				argument.SetIdle_For_Output(true);
+				Left_To_Output++;
+			} else {
 
-			// "Delete" the element from the active list.
-			Active_Molecules[Output_Omega_Order[i]].Set_IsEmpty(true);
+				// Add to the output pack.
+				Output.Items.push_back(Active_Molecules[Output_Omega_Order[i]]);
 
-			// Remove the active item from the output.
-			Output_Omega_Order.erase(Output_Omega_Order.begin() + i);
+				// "Delete" the element from the active list.
+				Active_Molecules[Output_Omega_Order[i]].Set_IsEmpty(true);
 
-			// There was an output.
-			Output_TF = true;
+				// Remove the active item from the output.
+				Output_Omega_Order.erase(Output_Omega_Order.begin() + i);
 
-			// forces it to be a single in the output.
-			break;
+				i--;
+
+				// There was an output.
+				Output_TF = true;
+
+				// forces it to be a single in the output.
+				Output_already = true;
+			}
 		}
 	}
 
 	Output.Set_IsEmpty(false);
 
-	// Set the output
+		// Set the output
 	Out_Omega[0] = Output;
 
-	// If there was no output release the waldo.
-	if (!Output_TF) {
+		// If there was no output release the waldo.
+	if (!Output_TF || Output_Omega_Order.size() == 0 || Left_To_Output == 0) {
 		argument.SetIdle_For_Output(false);
 	}
 
@@ -549,11 +563,17 @@ void Simulation::Handle_Instruction_Grab(Waldo &argument, bool RedorBlue) {
 	// Have the waldo let go of the molecule.
 void Simulation::Handle_Instruction_Drop(Waldo &argument, bool RedorBlue) {
 
+		// If the waldo is not grabbing a molecule skip.
+	if (!argument.GetGrabbing_Molecule()) {
+		return;
+	}
+
 	// Omega
 	//if (Active_Molecules[argument.GetGrabbing_Molecule_Index()].Get_X() > 5 && Active_Molecules[argument.GetGrabbing_Molecule_Index()].Get_Y() < 4) {
 	if (argument.GetX() > 5 && argument.GetY() < 4) {
-		Output_Omega_Order.push_back(argument.GetGrabbing_Molecule_Index());
-
+		//Output_Omega_Order.push_back(argument.GetGrabbing_Molecule_Index());
+		Output_Omega_Order.insert(Output_Omega_Order.begin(), argument.GetGrabbing_Molecule_Index());
+		
 		for (unsigned int i = 1; i < Output_Omega_Order.size(); i++) {
 			if (Output_Omega_Order[i] == argument.GetGrabbing_Molecule_Index()) {
 				Output_Omega_Order.erase(Output_Omega_Order.begin() + i);
@@ -564,7 +584,8 @@ void Simulation::Handle_Instruction_Drop(Waldo &argument, bool RedorBlue) {
 	// Phi
 	//if (Active_Molecules[argument.GetGrabbing_Molecule_Index()].Get_X() > 5 && Active_Molecules[argument.GetGrabbing_Molecule_Index()].Get_Y() >= 4) {
 	if (argument.GetX() > 5 && argument.GetY() >= 4) {
-		Output_Phi_Order.push_back(argument.GetGrabbing_Molecule_Index());
+		//Output_Phi_Order.push_back(argument.GetGrabbing_Molecule_Index());
+		Output_Phi_Order.insert(Output_Phi_Order.begin(), argument.GetGrabbing_Molecule_Index());
 
 		for (unsigned int i = 1; i < Output_Phi_Order.size(); i++) {
 			if (Output_Phi_Order[i] == argument.GetGrabbing_Molecule_Index()) {
@@ -617,14 +638,15 @@ bool Simulation::Do_Molecules_Overlap(Molecule &A, Molecule &B) {
 		return false;
 	}
 
+
 	// Go through all of the reactor.
 	for (unsigned int i = 0; i < 8; i++) {
 		for (unsigned int g = 0; g < 10; g++) {
 
-			// Compare each atom and see if they match.
+				// Compare each atom and see if they match.
 			if (A.CheckIfAtom_Relative(g, i) == true && B.CheckIfAtom_Relative(g, i) == true) {
 				return true;
-			}
+			}			
 		}
 	}
 

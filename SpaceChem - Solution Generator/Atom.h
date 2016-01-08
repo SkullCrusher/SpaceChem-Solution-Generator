@@ -60,6 +60,9 @@ class Molecule {
 		// Checks if a location has an atom based on a position on the reactor.
 	public: bool CheckIfAtom_Relative(short X_arg, short Y_arg);
 
+	//	// Checks if a location has an atom based on a position on the reactor.
+	//public: bool CheckIfAtom_Relative_V2(short X_arg, short Y_arg);
+
 		// Checks for on output in a sqaure area (the entire atom has to be in the area). (Used for the output instruction to assemble a Packed_Molecule)
 	public: bool CheckIfAtom_IsInLocation(short X_arg_1, short Y_arg_1, short X_arg_2, short Y_arg_2);
 

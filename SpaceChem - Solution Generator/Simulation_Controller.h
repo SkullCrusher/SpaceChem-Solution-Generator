@@ -51,7 +51,7 @@ class Simulation_Controller{
 		Packed_Molecule Input_For_Debugging;
 
 			// Test problem.
-		Debug_Test_Sernimir_II_001(TheChosenOne, Problem_Rules, RunMe, Input_For_Debugging, AlphaIn, Solution);
+		Debug_Test_Sernimir_II_003(TheChosenOne, Problem_Rules, RunMe, Input_For_Debugging, AlphaIn, Solution);
 	
 
 		

@@ -102,7 +102,15 @@ class Solution_Reactor {
 			// Used for the fitness calculation (starts do not count to the value.)
 		if (Instruction_1 != Instruction_Start_Left && Instruction_1 != Instruction_Start_Right 
 		 && Instruction_1 != Instruction_Start_Up   && Instruction_1 != Instruction_Start_Down) {
-			Symbol_Count_Total++;
+			
+				// If there are two instructions a move and action add two.
+			if (Instruction_1 != Instruction_NOP && Instruction_2 != Instruction_NOP) {
+				Symbol_Count_Total += 2;
+			}else {
+				Symbol_Count_Total++;
+			}
+
+
 		}		
 
 		if (RedorBlue) {
@@ -112,7 +120,13 @@ class Solution_Reactor {
 				// starts do not count to the value.
 			if (Instruction_1 != Instruction_Start_Left && Instruction_1 != Instruction_Start_Right
 			 && Instruction_1 != Instruction_Start_Up   && Instruction_1 != Instruction_Start_Down) {
-				Symbol_Count_Red++;
+
+					// If there are two instructions a move and action add two.
+				if (Instruction_1 != Instruction_NOP && Instruction_2 != Instruction_NOP) {
+					Symbol_Count_Red += 2;
+				}else {
+					Symbol_Count_Red++;
+				}
 			}
 		}else{
 			Blue[y][x].Instruction_1 = Instruction_1;
@@ -121,7 +135,13 @@ class Solution_Reactor {
 				// starts do not count to the value.
 			if (Instruction_1 != Instruction_Start_Left && Instruction_1 != Instruction_Start_Right
 			 && Instruction_1 != Instruction_Start_Up   && Instruction_1 != Instruction_Start_Down) {
-				Symbol_Count_Blue++;
+
+					// If there are two instructions a move and action add two.
+				if (Instruction_1 != Instruction_NOP && Instruction_2 != Instruction_NOP) {
+					Symbol_Count_Blue += 2;
+				}else {
+					Symbol_Count_Blue++;
+				}
 			}
 		}
 

@@ -1,3 +1,7 @@
 Cycle time out.
 Cycles: N/A
 Symbols used: 0 (start does not count as a symbol)
+
+Testing results:
+Return code - Simulation_OutOfCycles
+Approved: 1/7/2015

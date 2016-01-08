@@ -1,3 +1,7 @@
 Assignment complete
 Cycles: 79
 Symbols used: 18
+
+Testing results:
+Return code - Simulation_Complete
+Approved: 1/7/2015

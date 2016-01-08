@@ -15,6 +15,7 @@ bool Molecule::CheckIfAtom(short X, short Y) {
 	return !Structure[Y][X].Placeholder;
 }
 
+/*
 	// Checks if a location has an atom based on a position on the reactor.
 bool Molecule::CheckIfAtom_Relative(short X_arg, short Y_arg) {
 		// Catch.
@@ -25,6 +26,28 @@ bool Molecule::CheckIfAtom_Relative(short X_arg, short Y_arg) {
 		// If something is a placeholder we know it's not a atom.
 		return !Structure[(Y_arg - Y)][(X_arg - X)].Placeholder;
 	}
+*/
+
+	// Checks if a location has an atom based on a position on the reactor.
+bool Molecule::CheckIfAtom_Relative(short X_arg, short Y_arg) {
+	/*// Catch.
+	if (X > 10 || Y > 10 || X < 0 || Y < 0) {
+		return false;
+	}*/
+
+		// If the offset is more then the position then skip.
+	if (X > X_arg || Y > Y_arg || Y_arg < 0 || X_arg < 0) {
+		return false;
+	}
+
+
+
+
+
+
+	// If something is a placeholder we know it's not a atom.
+	return !Structure[(Y_arg - Y)][(X_arg - X)].Placeholder;
+}
 
 	// Checks for on output in a sqaure area (the entire atom has to be in the area). (Used for the output instruction to assemble a Packed_Molecule)
 bool Molecule::CheckIfAtom_IsInLocation(short X_arg_1, short Y_arg_1, short X_arg_2, short Y_arg_2) {

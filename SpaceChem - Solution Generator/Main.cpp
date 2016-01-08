@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
 	debugging_def.Set_Cycle_Limit_Total(1000000);
 
 		// The hard cap for a single simulation.
-	debugging_def.Set_Cycle_Limit_Simulation(100);
+	debugging_def.Set_Cycle_Limit_Simulation(200);
 
 		// The hard cap for the number of simulations that can run before halting.
 	debugging_def.Set_Simulation_Max(10000);
