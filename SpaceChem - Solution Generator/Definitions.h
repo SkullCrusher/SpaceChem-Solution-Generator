@@ -1,4 +1,19 @@
+/*
+	SpaceChem Solution Generator - Solves problems using the genetic algorithm.
+					Copyright(C) 2016 by David Harkins.
 
+	This program is free software : you can redistribute it and / or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation version 3 of the License.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
 
 
 	// The list of errors.
@@ -13,19 +28,27 @@
 #define Red_Tile						true
 #define Blue_Tile						false
 
+		// -- Error --
+
 	// Simulation Results.
 #define Simulation_Continue				0
-#define Simulation_Complete				1
+#define Simulation_Complete				1	// Accepted
 #define Simulation_OutOfCycles			2
 #define Simulation_InvalidSimulation	3
 #define Simulation_Collision			4
+#define Simulation_Waldo_Pulled_Wrong	5	// Both waldos are holding the same molecule and they go different directions.
+#define Simulation_Invalid_Output		6
+#define Simulation_Atom_OutOfBounds		7
 
 #define Remove_Bond_NoError				0
 #define Remove_Bond_BreakUpMolecule		1		
 
-	// Add bonding pad
+	// Add bonding pad.
 #define Add_BondPad_NoError				0
 #define Add_BondPad_Error_Duplicate_Pos 1
+
+
+
 
 	// Simulation Add_To_Input
 #define Simulation_Add_To_Input_Alpha	1
@@ -44,7 +67,7 @@
 #define Collision_No_Collision			0
 #define Collision_Yes_Collision			1
 
-	// Solution Definitions (status codes)
+	// Solution Definitions (status codes).
 #define Solution_Unprocessed			1	// The solution has not been processed in a simulation
 #define Solution_Invalid_Collision		2	// The solution is invalid because it has a collision
 #define Solution_Invalid_NoStart		3	// The solution is invalid because there is not start (requires 1)

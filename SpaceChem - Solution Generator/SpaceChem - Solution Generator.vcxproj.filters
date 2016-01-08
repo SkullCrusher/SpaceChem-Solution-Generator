@@ -17,6 +17,9 @@
     <Filter Include="Common">
       <UniqueIdentifier>{1c57e392-9602-488d-b8c1-7ea701db92ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="_Debugging">
+      <UniqueIdentifier>{a012a004-73d0-4944-aca7-af56f964724d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -76,5 +79,11 @@
       <Filter>Generation</Filter>
     </ClInclude>
     <ClInclude Include="TODO.h" />
+    <ClInclude Include="Debugging_Sernimir_II_Testing.h">
+      <Filter>_Debugging</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="License.txt" />
   </ItemGroup>
 </Project>

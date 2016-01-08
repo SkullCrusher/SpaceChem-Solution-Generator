@@ -1,3 +1,20 @@
+/*
+	SpaceChem Solution Generator - Solves problems using the genetic algorithm.
+					Copyright(C) 2016 by David Harkins.
+
+	This program is free software : you can redistribute it and / or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation version 3 of the License.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
 // This is a class to contain a possible solution (for just the reactor) to the problem.
 // Once a solution is made it cannot be change only new ones will be made based off the fitness.
 
@@ -5,6 +22,8 @@
 #define Solution_Reactor_Header
 
 #include <vector>
+
+#include "Fitness_Calculator.h"
 
 struct Tile {
 		// true = red, false = blue
@@ -35,8 +54,11 @@ class Solution_Reactor {
 		// If the reactor has been simulated skip resimulating.
 	private: bool HasBeenSimulated;
 
+		// The amount of cycles used on the simulation.
+	private: unsigned long Cycles;
+
 		// The level of fitness based off settings.
-	private: double Fitness;
+	private: Fitness Fit_Data;
 
 		// How many cycles the Solution has lived, the higher the life span the better chance it is good.
 	private: unsigned long long Life_Span;
@@ -63,8 +85,10 @@ class Solution_Reactor {
 		// Default constructor.
 	public: Solution_Reactor() {
 		HasBeenSimulated = false;
-		Fitness = 0;
+	
 		Life_Span = 0;
+
+		Cycles = 0;
 
 		Status = Solution_Unprocessed;
 	}
@@ -97,7 +121,15 @@ class Solution_Reactor {
 			// Used for the fitness calculation (starts do not count to the value.)
 		if (Instruction_1 != Instruction_Start_Left && Instruction_1 != Instruction_Start_Right 
 		 && Instruction_1 != Instruction_Start_Up   && Instruction_1 != Instruction_Start_Down) {
-			Symbol_Count_Total++;
+			
+				// If there are two instructions a move and action add two.
+			if (Instruction_1 != Instruction_NOP && Instruction_2 != Instruction_NOP) {
+				Symbol_Count_Total += 2;
+			}else {
+				Symbol_Count_Total++;
+			}
+
+
 		}		
 
 		if (RedorBlue) {
@@ -107,7 +139,13 @@ class Solution_Reactor {
 				// starts do not count to the value.
 			if (Instruction_1 != Instruction_Start_Left && Instruction_1 != Instruction_Start_Right
 			 && Instruction_1 != Instruction_Start_Up   && Instruction_1 != Instruction_Start_Down) {
-				Symbol_Count_Red++;
+
+					// If there are two instructions a move and action add two.
+				if (Instruction_1 != Instruction_NOP && Instruction_2 != Instruction_NOP) {
+					Symbol_Count_Red += 2;
+				}else {
+					Symbol_Count_Red++;
+				}
 			}
 		}else{
 			Blue[y][x].Instruction_1 = Instruction_1;
@@ -116,7 +154,13 @@ class Solution_Reactor {
 				// starts do not count to the value.
 			if (Instruction_1 != Instruction_Start_Left && Instruction_1 != Instruction_Start_Right
 			 && Instruction_1 != Instruction_Start_Up   && Instruction_1 != Instruction_Start_Down) {
-				Symbol_Count_Blue++;
+
+					// If there are two instructions a move and action add two.
+				if (Instruction_1 != Instruction_NOP && Instruction_2 != Instruction_NOP) {
+					Symbol_Count_Blue += 2;
+				}else {
+					Symbol_Count_Blue++;
+				}
 			}
 		}
 
@@ -152,6 +196,17 @@ class Solution_Reactor {
 	public: void Set_HasBeenSimulated(bool argument){ HasBeenSimulated = argument; }
 	public: bool Get_HasBeenSimulated(){ return HasBeenSimulated; }
 
+	public: unsigned long Get_Cycles() {
+		return Cycles;
+	}
+
+	public: void Set_Cycles(unsigned long argument) {
+		Cycles = argument;
+	}
+
+	public: void Increment_Cycles() {
+		Cycles++;
+	}
 };
 
 #endif

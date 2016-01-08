@@ -1,6 +1,24 @@
+/*
+	SpaceChem Solution Generator - Solves problems using the genetic algorithm.
+					Copyright(C) 2016 by David Harkins.
+
+	This program is free software : you can redistribute it and / or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation version 3 of the License.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #ifndef Simulation_Controller_Header
 #define Simulation_Controller_Header
+
+#include <vector>
 
 	// Required for definitions and global class.
 #include "Definitions.h"
@@ -10,6 +28,9 @@
 	// Core parts of the program.
 #include "Simulation.h"
 #include "Generation.h"
+
+	// Debugging, Senimir II
+#include "Debugging_Sernimir_II_Testing.h"
 
 
 class Simulation_Controller{
@@ -25,114 +46,99 @@ class Simulation_Controller{
 
 	}
 
-		// Run the program.
-	public: int Tick(){
+		// Used for the prototype to handle bulk input.
+	public: std::vector<Solution_Reactor> Input;
+
+
+	private: int Debug_Prototype_Simulate_Reactor(int Index) {
 		
 			// Debugging I am just putting my solution in to test the simulation
 		Solution_Reactor TheChosenOne;
-
-			// The blue instructions.
-		TheChosenOne.Set_Instruction_For_Tile(1, 0, Blue_Tile, Instruction_NOP,			Instruction_Down);
-		TheChosenOne.Set_Instruction_For_Tile(2, 0, Blue_Tile, Instruction_Sync,		Instruction_NOP);
-		TheChosenOne.Set_Instruction_For_Tile(7, 0, Blue_Tile, Instruction_Start_Left, Instruction_Left);
-		TheChosenOne.Set_Instruction_For_Tile(1, 1, Blue_Tile, Instruction_Grab,		Instruction_NOP);
-		TheChosenOne.Set_Instruction_For_Tile(7, 1, Blue_Tile, Instruction_Out_Omega,	Instruction_NOP);
-		TheChosenOne.Set_Instruction_For_Tile(1, 2, Blue_Tile, Instruction_NOP,			Instruction_Right);
-		TheChosenOne.Set_Instruction_For_Tile(7, 2, Blue_Tile, Instruction_Drop,		Instruction_Up);
-
-			// The red instructions.
-		TheChosenOne.Set_Instruction_For_Tile(2, 1, Red_Tile, Instruction_Grab,			Instruction_Down);
-		TheChosenOne.Set_Instruction_For_Tile(3, 1, Red_Tile, Instruction_Sync,			Instruction_NOP);
-		TheChosenOne.Set_Instruction_For_Tile(4, 1, Red_Tile, Instruction_Bond_Remove,	Instruction_NOP);
-		TheChosenOne.Set_Instruction_For_Tile(5, 1, Red_Tile, Instruction_In_Alpha,		Instruction_NOP);
-		TheChosenOne.Set_Instruction_For_Tile(6, 1, Red_Tile, Instruction_Start_Left,	Instruction_NOP);
-		TheChosenOne.Set_Instruction_For_Tile(7, 1, Red_Tile, Instruction_Out_Omega,	Instruction_Left);
-		TheChosenOne.Set_Instruction_For_Tile(2, 2, Red_Tile, Instruction_NOP,			Instruction_Right);
-		TheChosenOne.Set_Instruction_For_Tile(7, 2, Red_Tile, Instruction_Drop,			Instruction_Up);
-
-			// Debugging, place the bonding pads
-		TheChosenOne.Add_BondingPad(1, 1);
-		TheChosenOne.Add_BondingPad(2, 1);
-
-
+			
 		Simulation RunMe;
-
-			// Set the reactor to simulate.
-		RunMe.Set_Solution(TheChosenOne);
-
-			// Limit the simulation to prevent unlimited running.
-		RunMe.Set_Cycle_Limit_Simulation(Problem_Rules.Get_Cycle_Limit_Simulation());
-				
-			// Debugging Infomation.
-		Atom_Info Info;
-		Info.Atomic_Number = 9;
-		Info.Max_Bonds = 1;
-
-		Atom F;
-		F.Placeholder = false;
-		F.Details = Info;
-
 
 			// Debugging, Create the input molecule.
 		Molecule AlphaIn;
-
-		AlphaIn.Set_Atom(1, 1, F);
-		AlphaIn.Set_Atom(2, 1, F);
-
-		AlphaIn.Add_Bond(1, 1, 2, 1);
-
+		
 			// Debugging, Create the input molecule.
 		Molecule Solution;
 
-		Solution.Set_Atom(1, 1, F);				
-
 			// Just the input for the simulation.
 		Packed_Molecule Input_For_Debugging;
-		Input_For_Debugging.Items.push_back(AlphaIn);
-		Input_For_Debugging.Set_IsEmpty(false);
 
-		RunMe.Add_To_Input(Input_For_Debugging, Simulation_Add_To_Input_Alpha);
-		RunMe.Add_To_Input(Input_For_Debugging, Simulation_Add_To_Input_Alpha);
-		RunMe.Add_To_Input(Input_For_Debugging, Simulation_Add_To_Input_Alpha);
+			// Test problem.
+		Debug_Test_Sernimir_II_006(TheChosenOne, Problem_Rules, RunMe, Input_For_Debugging, AlphaIn, Solution);
+	
+
+		
 
 		int Total_Correct_Output = 0;
-				
+
 			// Process the simulation.
 		int Results = Simulation_Continue;
-		while (Results == Simulation_Continue){
+		while (Results == Simulation_Continue) {
 
-				// Debugging, we keep adding the input to the simulation to make sure it's full.
+				// Keep adding the input to the simulation to make sure it's full.
 			RunMe.Add_To_Input(Input_For_Debugging, Simulation_Add_To_Input_Alpha);
 			RunMe.Add_To_Input(Input_For_Debugging, Simulation_Add_To_Input_Alpha);
-			
-				// Debugging, Simulate the simulation
+
+				// Simulate the simulation
 			Results = RunMe.Tick();
 
-				// Debugging, pull from the output.
+				// Pull from the output.
 			Packed_Molecule Temp = RunMe.Remove_From_Output();
 
-			if (!Temp.IsEmpty){
-
-				// We check if the result molecule is the same as the solution. (note they don't have to apperent on the same position of the grid.)
-				if (Temp.Items[0] == Solution) {
-					int one_solution = 0;
-					Total_Correct_Output++;
+				// Process the output.
+			if (!Temp.IsEmpty) {
+					// We check if the result molecule is the same as the solution. (note they don't have to apperent on the same position of the grid.)
+				if (Temp.Items.size() >= 1) {
+					if (Temp.Items[0] == Solution) {
+						Total_Correct_Output++;
+					}else{
+						RunMe.Set_Simulation_Status(Simulation_Invalid_Output);
+						RunMe.Set_Is_Simulated(true);
+						RunMe.Increment_Cycle_Count(); // Because the validation is outside of the simulation it needs to increase one cycle.
+						break;
+					}
 				}else {
-					int Simulation_crash_invalidout = 0;
+					RunMe.Set_Simulation_Status(Simulation_Invalid_Output);
+					RunMe.Set_Is_Simulated(true);
+					break;
 				}
-
-
-				int good = 0;
 			}
 
+				// We accept it and return.
 			if (Total_Correct_Output == 10) {
-				int done = 1;
-			}
+				RunMe.Set_Simulation_Status(Simulation_Complete);
+				RunMe.Set_Is_Simulated(true);
 
-			int debug = 0;
+					// testing to see the size.
+				Input.push_back(RunMe.GetSolution());
+
+				return Simulation_Complete;
+			}
 		}
 		
-	
+		RunMe.Set_Simulation_Status(Results);
+		RunMe.Set_Is_Simulated(true);
+
+		return Results;
+	}
+
+		// Run the program.
+	public: int Tick(){
+		
+			// In the future the simulation controller will handle multiple reactors but for the prototype it just handles one.
+
+		/*
+		for (unsigned int i = 0; i < Input.size(); i++) {
+			Debug_Prototype_Simulate_Reactor(i);
+		}
+		*/
+		for (unsigned int i = 0; i < 1000; i++) {
+			Debug_Prototype_Simulate_Reactor(0);
+		}
+
 		return 0;
 	}
 

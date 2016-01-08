@@ -1,3 +1,7 @@
 Runs out of cycles
 Cycles: N/A
 Symbols: 9
+
+Testing results:
+Return code - Simulation_OutOfCycles
+Approved: 1/7/2015

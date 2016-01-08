@@ -1,3 +1,8 @@
 Reactor Error (Atom collision, input collision)
 Cycles: 32 (before collision)
 Symbols: 16
+
+
+Testing results:
+Return code - Simulation_Collision
+Approved: 1/7/2015 

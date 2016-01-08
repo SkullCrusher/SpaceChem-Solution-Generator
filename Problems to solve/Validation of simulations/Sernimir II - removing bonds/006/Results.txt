@@ -1,3 +1,7 @@
 Invalid molecule output (F was accepted but got f2)
 Cycles: 12 (until error)
 Symbols: 8
+
+Testing results:
+Return code - Simulation_Invalid_Output
+Approved: 1/8/2015
