@@ -167,6 +167,7 @@
     <ClInclude Include="Simulation_Controller.h" />
     <ClInclude Include="Solution.h" />
     <ClInclude Include="TODO.h" />
+    <ClInclude Include="Utilities.h" />
     <ClInclude Include="Waldo.h" />
   </ItemGroup>
   <ItemGroup>

@@ -24,6 +24,9 @@
 
 struct Fitness {
 
+		// If the fitness calculator has generated the data.
+	bool HasBeenProcessed;
+
 	// Order is how important they are to the fitness.
 
 		// 1. How many correct molecules were outputted (Higher the better).
@@ -43,7 +46,13 @@ struct Fitness {
 			// To calculate: Symbol_Count = Red + Blue;
 	unsigned int Symbol_Count;
 	
-	
+	Fitness() {
+		HasBeenProcessed			= false;
+		Correct_Molecules_Output	= 0;
+		Correct_Molecules_Created	= 0;
+		Distance_To_Output_Partial	= 0;
+		Symbol_Count				= 0;
+	}
 
 
 		// After prototype
@@ -61,13 +70,18 @@ class Fitness_Calculator{
 
 	}
 
-/*	public: Fitness Calculate_Fitness(Solution_Reactor &argument) {
+		/*	
+	public: void Calculate_Fitness(Solution_Reactor &argument) {
 	//	Correct_Molecules_Output
 		Fitness Result;
+	}
+	*/
 
+	public: void Calculate_Fitness(int debug) {
+		//	Correct_Molecules_Output
+		Fitness Result;
+	}
 
-		return Result;
-	}*/
 
 
 };

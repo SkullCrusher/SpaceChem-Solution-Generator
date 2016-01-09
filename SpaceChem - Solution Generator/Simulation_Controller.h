@@ -38,19 +38,12 @@ class Simulation_Controller{
 	Problem_Definition Problem_Rules;
 
 		// Default constructor
-	public: Simulation_Controller(){
-
-	}
+	public: Simulation_Controller(){}
 		// Default destructor
-	public: ~Simulation_Controller(){
-
-	}
-
-		// Used for the prototype to handle bulk input.
-	public: std::vector<Solution_Reactor> Input;
+	public: ~Simulation_Controller(){}
 
 
-	private: int Debug_Prototype_Simulate_Reactor(int Index) {
+	private: int Prototype_Simulate_Reactor(Solution_Reactor &argument) {
 		
 			// Debugging I am just putting my solution in to test the simulation
 		Solution_Reactor TheChosenOne;
@@ -68,7 +61,8 @@ class Simulation_Controller{
 
 			// Test problem.
 		Debug_Test_Sernimir_II_006(TheChosenOne, Problem_Rules, RunMe, Input_For_Debugging, AlphaIn, Solution);
-	
+
+		TheChosenOne = argument;
 
 		
 
@@ -113,7 +107,7 @@ class Simulation_Controller{
 				RunMe.Set_Is_Simulated(true);
 
 					// testing to see the size.
-				Input.push_back(RunMe.GetSolution());
+				argument = RunMe.GetSolution();
 
 				return Simulation_Complete;
 			}
@@ -126,18 +120,15 @@ class Simulation_Controller{
 	}
 
 		// Run the program.
-	public: int Tick(){
+	public: int Tick(std::vector<Solution_Reactor> &Solution_Pool){
 		
 			// In the future the simulation controller will handle multiple reactors but for the prototype it just handles one.
-
-		/*
-		for (unsigned int i = 0; i < Input.size(); i++) {
-			Debug_Prototype_Simulate_Reactor(i);
-		}
-		*/
-		for (unsigned int i = 0; i < 1000; i++) {
-			Debug_Prototype_Simulate_Reactor(0);
-		}
+		for (unsigned int i = 0; i < Solution_Pool.size(); i++) {
+				// If the solution has not been simulated
+			if (!Solution_Pool[i].Get_HasBeenSimulated()) {
+				Prototype_Simulate_Reactor(Solution_Pool[i]);
+			}
+		}		
 
 		return 0;
 	}

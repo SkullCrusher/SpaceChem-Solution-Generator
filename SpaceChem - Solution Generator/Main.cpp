@@ -15,67 +15,27 @@
 	along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-
-
-
-
 #include <iostream>
 #include <stdlib.h>
 #include <fstream>
 
 	// Each core part of the program.
+
 #include "Simulation_Controller.h"
+#include "Generation.h"
 
 	// Commonly used definitions for all core parts of the program.
 #include "Definitions.h"
 #include "Problem_Definiton.h"
+#include "Fitness_Calculator.h"
 
-	// To be done after.
-void PrintUsage(){
-	printf("--\n");
-	printf("--\n");
+	// Functions that are used by the main.
+#include "Utilities.h"
 
-}
+Problem_Definition LoadProblemDefinitionFile(std::string Path) {
 
-	// Load file by full path and return a pointer to a char *str or null.
-char *LoadFileByName(std::string argument){
+	// For debugging the definition is just hard coded.
 
-	std::streampos size;
-	char * memblock;
-
-	std::ifstream file(argument.c_str(), std::ios::in | std::ios::binary | std::ios::ate);
-	if (file.is_open()){
-
-		size = file.tellg();
-		memblock = new char[(unsigned int) size];
-		file.seekg(0, std::ios::beg);
-		file.read(memblock, size);
-		file.close();
-
-	}else{ return NULL; }
-
-	return memblock;
-}
-
-int main(int argc, char *argv[]) {
-
-		// Debugging - Change later.
-	printf("SpaceChem Solution Generator - written by David Harkins.\n");
-
-		// Validate the arguments
-	if (argc < Minimum_Argument_Count || argc > Maximum_Argument_Count){
-		PrintUsage();
-
-			// Debugging - Disabled the return.
-		// return Error_Incorrect_Argument_Count;
-	}
-
-		// Load the file argument.
-	//not sure of the format yet so we will skip this.
-
-
-		//Debugging. We are going to work on the simulation first.
-	
 	Problem_Definition debugging_def;
 
 	debugging_def.Add_Instruction(Instruction_Start_Left);
@@ -96,32 +56,75 @@ int main(int argc, char *argv[]) {
 	debugging_def.Add_Instruction(Instruction_Drop);
 	debugging_def.Add_Instruction(Instruction_GrabDrop);
 
-		// The hard cap for the total cycles allow in the entire simulation.
+	// The hard cap for the total cycles allow in the entire simulation.
 	debugging_def.Set_Cycle_Limit_Total(1000000);
 
-		// The hard cap for a single simulation.
+	// The hard cap for a single simulation.
 	debugging_def.Set_Cycle_Limit_Simulation(200);
 
-		// The hard cap for the number of simulations that can run before halting.
+	// The hard cap for the number of simulations that can run before halting.
 	debugging_def.Set_Simulation_Max(10000);
 
-		// The hard cap for the of number of solutions found before halting.
+	// The hard cap for the of number of solutions found before halting.
 	debugging_def.Set_Simulation_Solution_Max(1);
 
-		// How many solutions to dump on halting.
+	// How many solutions to dump on halting.
 	debugging_def.Set_Simulation_Solution_Toaccept(1);
 
+	// --- The odds for generation. ---
+	debugging_def.Set_Solution_Pool_Size(500);
+	debugging_def.Set_Odds_On_Random_ToPlace(20);
+
+	return debugging_def;
+}
+
+int main(int argc, char *argv[]) {
+
+		// Debugging - Change later.
+	printf("SpaceChem Solution Generator - written by David Harkins.\n");
+
+		// Validate the arguments
+	if (argc < Minimum_Argument_Count || argc > Maximum_Argument_Count){
+		PrintUsage();
+
+			// Debugging - Disabled the return.
+		// return Error_Incorrect_Argument_Count;
+	}
+
+		// Load the file argument. Create the definition of the problem that needs to be solved.	
+	Problem_Definition Simulation_Definition = LoadProblemDefinitionFile("debugging");
 	
-		// Create the simulation controller
-	Simulation_Controller Debug;
+		// Create the simulation controller that handles all simulations.
+	Simulation_Controller Simulation_Handle;
 
-	Debug.Set_Problem_Definition(debugging_def);
+		// Set the definition into the simulation controller.
+	Simulation_Handle.Set_Problem_Definition(Simulation_Definition);
 
-		// Start the simulator.
-	int Result = Debug.Tick();
+
+		// The pool of solutions that need to be simulated.
+	std::vector<Solution_Reactor> Solution_Pool;
+
+		// The class that handles the generation and mutation of solutions.
+	Generation Generation_Handle;
+
+		// The class that handles post processing of the solutions.
+	Fitness_Calculator Fitness_Handle;
+
 	
-		// Debugging.
-	std::cout << Result;
+	bool Accepted_Solution = false;
 
-	return Result;
+	while (!Accepted_Solution) {
+
+			// Handle generation.
+		Generation_Handle.Generate_Single_Reactor(Simulation_Definition, Solution_Pool);
+
+			// Simulate the pool.
+		Simulation_Handle.Tick(Solution_Pool);
+
+			// Process the results, Note this should have the Solution_Pool as an argument.
+		Fitness_Handle.Calculate_Fitness(0);
+	}
+
+
+	return 0;
 }

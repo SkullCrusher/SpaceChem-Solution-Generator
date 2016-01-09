@@ -46,8 +46,69 @@ class Problem_Definition{
 		// The instructions that are possible to use.
 	private: std::vector<short> Allow_Instructions;
 
+		// Get an allowed instruction by index.
+	public: short Get_Instruction(unsigned int index) {
+
+			// Catch.
+		if (index >= Allow_Instructions.size()) {
+			return Instruction_NOP;
+		}
+
+		return Allow_Instructions[index];
+	}
+	public: short Get_Instruction_Size() { return Allow_Instructions.size(); }
+
+		// Odds are calculated 1 out of odds. For 100% chance the odds would be 1, 1 out of 1.
+	private: int Odds_To_Add_Instruction;
+	private: int Odds_To_Remove_Instruction;
+	private: int Odds_To_Change_Instruction;
+	private: int Odds_To_Move_Instruction;
+	private: int Odds_To_Change_Color;
+	private: int Odds_To_Change_Direction;
+		
+		// Used by random generation to determine if a new direction should be placed.
+	private: int Odds_To_Set_Direction;
+
+		// If it is not red it will be blue. (normally 50/50 so 1 out of 2);
+	private: int Odds_To_Be_Red;
+
+		// How many solutions should be paired.
+	private: int Number_To_Crossover;
+
+		// The number of simulations to work with.
+	private: unsigned int Solution_Pool_Size;
+
+	public: unsigned int Get_Solution_Pool_Size() { return Solution_Pool_Size; }
+	public: void Set_Solution_Pool_Size(unsigned int argument) { Solution_Pool_Size = argument; }
+	
+		// What are the odds to randomly generate a new one.
+	private: int Odds_To_Randomly_Generate;
+				
+		// The odds on randomly generating to place an instruction.
+	private: int Odds_On_Random_ToPlace;
+
+	public: int Get_Odds_On_Random_ToPlace() { return Odds_On_Random_ToPlace; }
+	public: void Set_Odds_On_Random_ToPlace(int argument) {
+		if (argument == 0) {
+			Odds_On_Random_ToPlace = -1;
+		}else{
+			Odds_On_Random_ToPlace = argument;
+		}
+	}
 
 
+
+
+
+
+
+
+
+
+
+
+
+	
 //---------- For future use ------------
 		// What is the max number of reactors that can be placed.
 	int Reactor_Max;
@@ -87,8 +148,17 @@ class Problem_Definition{
 	public: Problem_Definition(){
 
 			// These need to be set by the user.
-		Cycle_Limit_Total = 1;
-		Cycle_Limit_Simulation = 1;
+		Cycle_Limit_Total			= 1;
+		Cycle_Limit_Simulation		= 1;
+
+		Odds_To_Add_Instruction		= 0;
+		Odds_To_Remove_Instruction	= 0;
+		Odds_To_Change_Instruction	= 0;
+		Odds_To_Move_Instruction	= 0;
+		Odds_To_Change_Color		= 0;
+		Number_To_Crossover			= 0;
+		Solution_Pool_Size			= 0;
+		Odds_On_Random_ToPlace		= 0;
 
 
 			//----- Future use --------
