@@ -35,7 +35,7 @@ class Simulation{
 	private: unsigned long Cycle_Limit_Simulation;
 
 		// How many cycles have been simulated,
-	//private: unsigned long Cycles;
+	//private: unsigned long Cycles; // It has been moved to solution_Reactor.
 
 		// The solution to be simulated.
 	private: Solution_Reactor Solution;

@@ -21,10 +21,52 @@
 #ifndef Problem_Definition_Header
 #define Problem_Definition_Header
 
-	//(TO DO) Used for the required output. 
+	// Used for the required output. 
 #include "Atom.h"
 
 #include <vector>
+
+	// A structure to contain all of the odds because of how many there are.
+struct Odds {
+		// Odds for random mutations.		
+	int To_Mutate;
+	int Add_Instruction;
+	int Remove_Instruction;
+	int Change_Instruction;
+	int Move_Instruction;
+	int Change_Color;
+	int Change_Direction;
+
+
+		// Odds for if the Generate_Mate_Reactor.
+	int How_Many_To_Mate;
+
+		// What are the odds to randomly generate a new one.
+	int Randomly_Generate;
+
+		// The odds on randomly generating to place an instruction object.
+	int Random_ToPlace;
+
+		// The odds on randomly generating to place an instuction.
+	int Set_Instruction;
+
+		// Used by random generation to determine if a new direction should be placed.
+	int Set_Direction;
+
+		// Used by random, if it is not red it will be blue. (normally 50/50 so 1 out of 2);
+	int Color;
+
+
+	Odds() {
+		Add_Instruction		= 1;
+		Remove_Instruction	= 1;
+		Change_Instruction	= 1;
+		Move_Instruction	= 1;
+		Change_Color		= 1;
+				
+		Random_ToPlace		= 1;
+	}
+};
 
 class Problem_Definition{
 
@@ -58,48 +100,16 @@ class Problem_Definition{
 	}
 	public: short Get_Instruction_Size() { return Allow_Instructions.size(); }
 
-		// Odds are calculated 1 out of odds. For 100% chance the odds would be 1, 1 out of 1.
-	private: int Odds_To_Add_Instruction;
-	private: int Odds_To_Remove_Instruction;
-	private: int Odds_To_Change_Instruction;
-	private: int Odds_To_Move_Instruction;
-	private: int Odds_To_Change_Color;
-	private: int Odds_To_Change_Direction;
-		
-		// Used by random generation to determine if a new direction should be placed.
-	private: int Odds_To_Set_Direction;
 
-		// If it is not red it will be blue. (normally 50/50 so 1 out of 2);
-	private: int Odds_To_Be_Red;
 
 		// How many solutions should be paired.
-	private: int Number_To_Crossover;
+	private: int Number_To_Crossover; // not sure what this was for. Debugging
 
 		// The number of simulations to work with.
-	private: unsigned int Solution_Pool_Size;
+	public: unsigned int Solution_Pool_Size;
 
-	public: unsigned int Get_Solution_Pool_Size() { return Solution_Pool_Size; }
-	public: void Set_Solution_Pool_Size(unsigned int argument) { Solution_Pool_Size = argument; }
-	
-		// What are the odds to randomly generate a new one.
-	private: int Odds_To_Randomly_Generate;
-				
-		// The odds on randomly generating to place an instruction.
-	private: int Odds_On_Random_ToPlace;
-
-	public: int Get_Odds_On_Random_ToPlace() { return Odds_On_Random_ToPlace; }
-	public: void Set_Odds_On_Random_ToPlace(int argument) {
-		if (argument == 0) {
-			Odds_On_Random_ToPlace = -1;
-		}else{
-			Odds_On_Random_ToPlace = argument;
-		}
-	}
-
-
-
-
-
+		// Odds are calculated 1 out of odds. For 100% chance the odds would be 1, 1 out of 1.
+	public: Odds Odds_Table;
 
 
 
@@ -151,14 +161,8 @@ class Problem_Definition{
 		Cycle_Limit_Total			= 1;
 		Cycle_Limit_Simulation		= 1;
 
-		Odds_To_Add_Instruction		= 0;
-		Odds_To_Remove_Instruction	= 0;
-		Odds_To_Change_Instruction	= 0;
-		Odds_To_Move_Instruction	= 0;
-		Odds_To_Change_Color		= 0;
-		Number_To_Crossover			= 0;
-		Solution_Pool_Size			= 0;
-		Odds_On_Random_ToPlace		= 0;
+		Number_To_Crossover			= 1;
+		Solution_Pool_Size			= 1;
 
 
 			//----- Future use --------

@@ -8,7 +8,7 @@
 		- (Fixed) Start does not count towards the symbol count.
 		
 	Required new features
-		- Validation of the output to ensure it's matching the requirements.
+		- (Done?) Validation of the output to ensure it's matching the requirements.
 	
 	Notes:
 		- Check to make sure any function that pulls from the active_molecule pool checks to make sure if the molecule is empty or not.
@@ -21,6 +21,7 @@
 		- Add bond does not take two molecules and connect them.
 		- Change the validation of a molecule to hanlde any shape and just require a type of connection.
 			(Rules from the game\Output - Different shapes.png)
+		- Change the generation to prevent divide by zero and check for any invalid settings.
 
 
 		//		IDEAS

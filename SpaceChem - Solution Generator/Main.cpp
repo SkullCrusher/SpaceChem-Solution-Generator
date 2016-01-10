@@ -34,8 +34,7 @@
 
 Problem_Definition LoadProblemDefinitionFile(std::string Path) {
 
-	// For debugging the definition is just hard coded.
-
+		// For debugging the definition is just hard coded.
 	Problem_Definition debugging_def;
 
 	debugging_def.Add_Instruction(Instruction_Start_Left);
@@ -56,24 +55,36 @@ Problem_Definition LoadProblemDefinitionFile(std::string Path) {
 	debugging_def.Add_Instruction(Instruction_Drop);
 	debugging_def.Add_Instruction(Instruction_GrabDrop);
 
-	// The hard cap for the total cycles allow in the entire simulation.
+		// The hard cap for the total cycles allow in the entire simulation.
 	debugging_def.Set_Cycle_Limit_Total(1000000);
 
-	// The hard cap for a single simulation.
+		// The hard cap for a single simulation.
 	debugging_def.Set_Cycle_Limit_Simulation(200);
 
-	// The hard cap for the number of simulations that can run before halting.
+		// The hard cap for the number of simulations that can run before halting.
 	debugging_def.Set_Simulation_Max(10000);
 
-	// The hard cap for the of number of solutions found before halting.
+		// The hard cap for the of number of solutions found before halting.
 	debugging_def.Set_Simulation_Solution_Max(1);
 
-	// How many solutions to dump on halting.
+		// How many solutions to dump on halting.
 	debugging_def.Set_Simulation_Solution_Toaccept(1);
 
-	// --- The odds for generation. ---
-	debugging_def.Set_Solution_Pool_Size(500);
-	debugging_def.Set_Odds_On_Random_ToPlace(20);
+		// --- The odds for generation. ---
+	debugging_def.Solution_Pool_Size = 500;
+	debugging_def.Odds_Table.Random_ToPlace = 2;
+
+		// -- Odds for randomly generating. ---
+	debugging_def.Odds_Table.Set_Instruction = 7;
+	debugging_def.Odds_Table.Set_Direction = 7;
+	debugging_def.Odds_Table.Color = 2;
+
+		// -- Odds fopr mutation generation. ---
+	//debugging_def.
+
+		// Randomly mate odds.
+//	debugging_def.Set_Odds_Should_Mate(10);
+
 
 	return debugging_def;
 }
