@@ -32,6 +32,28 @@
 	// Functions that are used by the main.
 #include "Utilities.h"
 
+Odds Debug_Generate_Odds() {
+	Odds Temp;
+
+		// The odds to mutate.
+	Temp.OddsTo_Mutate				= 10;  // (1 out of 10)
+
+		// The odds on mutation to add a new instruction.
+	Temp.Mutate_Add_Instruction		= 5;
+	Temp.Mutate_Remove_Instruction	= 5;
+	Temp.Mutate_Change_Instruction	= 5;
+	Temp.Mutate_Move_Instruction	= 5;
+	Temp.Mutate_Change_Color		= 5;
+	Temp.Mutate_Change_Direction	= 1;
+
+		// Randomly generate
+	Temp.Set_Instruction			= 7;
+	Temp.Set_Direction				= 7;
+	Temp.Color						= 2;
+
+	return Temp;
+}
+
 Problem_Definition LoadProblemDefinitionFile(std::string Path) {
 
 		// For debugging the definition is just hard coded.
@@ -72,18 +94,15 @@ Problem_Definition LoadProblemDefinitionFile(std::string Path) {
 
 		// --- The odds for generation. ---
 	debugging_def.Solution_Pool_Size = 500;
-	debugging_def.Odds_Table.Random_ToPlace = 2;
+	debugging_def.Odds_Table.Random_ToPlace = 5;
 
 		// -- Odds for randomly generating. ---
 	debugging_def.Odds_Table.Set_Instruction = 7;
 	debugging_def.Odds_Table.Set_Direction = 7;
 	debugging_def.Odds_Table.Color = 2;
 
-		// -- Odds fopr mutation generation. ---
-	//debugging_def.
-
-		// Randomly mate odds.
-//	debugging_def.Set_Odds_Should_Mate(10);
+		// Generate the odds table.
+	debugging_def.Odds_Table = Debug_Generate_Odds();
 
 
 	return debugging_def;

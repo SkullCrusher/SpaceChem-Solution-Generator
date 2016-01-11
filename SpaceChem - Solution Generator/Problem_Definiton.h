@@ -28,14 +28,16 @@
 
 	// A structure to contain all of the odds because of how many there are.
 struct Odds {
-		// Odds for random mutations.		
-	int To_Mutate;
-	int Add_Instruction;
-	int Remove_Instruction;
-	int Change_Instruction;
-	int Move_Instruction;
-	int Change_Color;
-	int Change_Direction;
+
+		// Odds for random mutations.			
+	int OddsTo_Mutate;
+	int Mutate_Add_Instruction;
+	int Mutate_Remove_Instruction;
+	int Mutate_Change_Instruction;
+	int Mutate_Move_Instruction;
+	int Mutate_Change_Color;
+	int Mutate_Change_Direction;
+		// End of random odds of mutation.
 
 
 		// Odds for if the Generate_Mate_Reactor.
@@ -47,6 +49,8 @@ struct Odds {
 		// The odds on randomly generating to place an instruction object.
 	int Random_ToPlace;
 
+		// -- Random --
+
 		// The odds on randomly generating to place an instuction.
 	int Set_Instruction;
 
@@ -56,13 +60,15 @@ struct Odds {
 		// Used by random, if it is not red it will be blue. (normally 50/50 so 1 out of 2);
 	int Color;
 
+		// -- Random --
+
 
 	Odds() {
-		Add_Instruction		= 1;
-		Remove_Instruction	= 1;
-		Change_Instruction	= 1;
-		Move_Instruction	= 1;
-		Change_Color		= 1;
+		Mutate_Add_Instruction		= 1;
+		Mutate_Remove_Instruction	= 1;
+		Mutate_Change_Instruction	= 1;
+		Mutate_Move_Instruction	= 1;
+		Mutate_Change_Color		= 2;
 				
 		Random_ToPlace		= 1;
 	}

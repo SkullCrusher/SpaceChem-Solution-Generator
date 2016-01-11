@@ -46,8 +46,89 @@ class Generation_Mutation {
 			// Generate the random seed that is used.
 		srand((unsigned int)time(NULL));
 	}
+		// Add an instruction for a random mutation.
+	private: void Add_Instruction(Problem_Definition &Rules, Solution_Reactor &argument) {
 
-	// Randomly mutates a single reactor.
+			// Pick a random spot to place the new instruction.
+		short X = rand() % 10;
+		short Y = rand() % 8;
+
+			// Generate the default instructions.
+		short Instruction_1 = Rules.Get_Instruction(rand() % (Rules.Get_Instruction_Size() - 1));
+		short Instruction_2 = Instruction_NOP;
+
+			// Default is Blue.
+		bool RedorBlue = Blue_Tile;
+
+			// Generate the odds.
+		int Odds_Red = rand() % Rules.Odds_Table.Color;
+
+		
+			// Pick which direction it goes.
+		int Direction_Odds = rand() % 4;
+
+		if (Direction_Odds == 0) { Instruction_2 = Instruction_Left; }
+		if (Direction_Odds == 1) { Instruction_2 = Instruction_Right; }
+		if (Direction_Odds == 2) { Instruction_2 = Instruction_Down; }
+		if (Direction_Odds == 3) { Instruction_2 = Instruction_Up; }
+				
+			// If the color should be set to red.
+		if (Odds_Red == 0) {
+			RedorBlue = Red_Tile;
+		}
+
+			// Skip if both are empty.
+		if (Instruction_1 != Instruction_NOP || Instruction_2 != Instruction_NOP) {
+			argument.Set_Instruction_For_Tile(X, Y, RedorBlue, Instruction_1, Instruction_2);
+		}
+	}
+
+		// Remove an instruction for a random mutation.
+	private: void Change_Remove_Instruction(Problem_Definition &Rules, Solution_Reactor &argument) {
+
+		// Pick a random spot to remove instruction.
+		short X = rand() % 10;
+		short Y = rand() % 8;
+
+		// Generate the default instructions.
+		short Instruction_1 = Instruction_NOP;
+		short Instruction_2 = Instruction_NOP;
+
+		// Default is Blue.
+		bool RedorBlue = Blue_Tile;
+
+		// Generate the odds.
+		int Odds_Red = rand() % Rules.Odds_Table.Color;
+
+		// If the color should be set to red.
+		if (Odds_Red == 0) {
+			RedorBlue = Red_Tile;
+		}
+
+		argument.Set_Instruction_For_Tile(X, Y, RedorBlue, Instruction_1, Instruction_2);		
+	}
+
+		// Change an instruction for a random mutation.
+/*TODO*/private: void Change_Instruction(Problem_Definition &Rules, Solution_Reactor &argument) {
+		
+	}
+
+		// Move an instruction for a random mutation.
+/*TODO*/private: void Move_Instruction(Problem_Definition &Rules, Solution_Reactor &argument) {
+		
+	}
+
+		// Change the color of an instruction for a mutation.
+/*TODO*/private: void Change_Color(Problem_Definition &Rules, Solution_Reactor &argument) {
+		
+	}
+
+		// Change the direction of an instruction for a mutation.
+/*TODO*/private: void Change_Direction(Problem_Definition &Rules, Solution_Reactor &argument) {
+		
+	}
+
+		// Randomly mutates a single reactor.
 	protected: void Generate_Mutation_Reactor(Problem_Definition &Rules, Solution_Reactor argument, std::vector<Solution_Reactor> &Pool) {
 		/* Mutation
 		- Moving chunks of instructions.
@@ -57,36 +138,48 @@ class Generation_Mutation {
 		- Randomly changing the color of the instruction.
 		*/
 
-		// Generate random to see if the reactor should mutate.
-		int Should_Mutate = rand() % Rules.Odds_Table.To_Mutate;
+			// Generate random to see if the reactor should mutate.
+		int Should_Mutate = rand() % Rules.Odds_Table.OddsTo_Mutate;
 
-		// Check the odds.
+			// Check the odds.
 		if (Should_Mutate == 0) {
 
+				// The mutated simulation.
 			Solution_Reactor Mutation = argument;
 
-			// Generate the odds for each mutation.
-			int Should_Add_Instruction		= rand() % Rules.Odds_Table.Add_Instruction;
-			int Should_Remove_Instruction	= rand() % Rules.Odds_Table.Remove_Instruction;
-			int Should_Change_Instruction	= rand() % Rules.Odds_Table.Change_Instruction;
-			int Should_Move_Instruction		= rand() % Rules.Odds_Table.Move_Instruction;
-			int Should_Change_Color			= rand() % Rules.Odds_Table.Change_Color;
-			int Should_Change_Direction		= rand() % Rules.Odds_Table.Change_Direction;
+				// Force a resimulation of the solution.
+			Mutation.Set_HasBeenSimulated(false);
 
-			// Add a random instruction to the solution.
-			if (Should_Add_Instruction == 0) {
+				// Generate the odds for each mutation.
+			int Should_Add_Instruction		= rand() % Rules.Odds_Table.Mutate_Add_Instruction;
+			int Should_Remove_Instruction	= rand() % Rules.Odds_Table.Mutate_Remove_Instruction;
+			int Should_Change_Instruction	= rand() % Rules.Odds_Table.Mutate_Change_Instruction;
+			int Should_Move_Instruction		= rand() % Rules.Odds_Table.Mutate_Move_Instruction;
+			int Should_Change_Color			= rand() % Rules.Odds_Table.Mutate_Change_Color;
+			int Should_Change_Direction		= rand() % Rules.Odds_Table.Mutate_Change_Direction;
 
+				// Add a random instruction to the solution.
+			if (Should_Add_Instruction == 0)	{ Add_Instruction(Rules, Mutation); }
+			if (Should_Remove_Instruction == 0) { Change_Remove_Instruction(Rules, Mutation); }
+			if (Should_Change_Instruction == 0) { Change_Instruction(Rules, Mutation); }
+			if (Should_Move_Instruction == 0)	{ Move_Instruction(Rules, Mutation); }
+			if (Should_Change_Color == 0)		{ Change_Color(Rules, Mutation); }
+			if (Should_Change_Direction == 0)	{ Change_Direction(Rules, Mutation); }
+
+				// Only add the mutation if there was a mutation.
+			if (Should_Add_Instruction == 0		|| 
+				Should_Remove_Instruction == 0	|| 
+				Should_Change_Instruction == 0	|| 
+				Should_Move_Instruction == 0	|| 
+				Should_Change_Color == 0		|| 
+				Should_Change_Direction == 0) {
+
+					// Add the mutation to the pool.
+				Pool.push_back(Mutation);
 			}
 		}
 	}
 
-	private: void Mutation_Add_Instruction(Problem_Definition &Rules, Solution_Reactor &argument) {
-
-	}
-
-	private: void Mutation_Remove_Instruction(Problem_Definition &Rules, Solution_Reactor &argument) {
-
-	}
 };
 
 	// Used to combine solutions.
@@ -94,7 +187,7 @@ class Generation_Mate {
 
 	public: Generation_Mate() {
 			// Generate the random seed that is used.
-		srand((unsigned int)time(NULL));
+		srand((unsigned int) time(NULL));
 	}
 			// Randomly mutates a single reactor.
 	protected: void Generate_Mate_Reactor(Problem_Definition &Rules, std::vector<Solution_Reactor> &argument) {
