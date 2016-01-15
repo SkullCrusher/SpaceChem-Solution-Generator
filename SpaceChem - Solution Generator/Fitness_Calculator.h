@@ -21,47 +21,10 @@
 #define Fitness_Calculator_Header
 
 #include "Solution.h"
+#include <vector>
+#include "Definitions.h"
 
-struct Fitness {
-
-		// If the fitness calculator has generated the data.
-	bool HasBeenProcessed;
-
-	// Order is how important they are to the fitness.
-
-		// 1. How many correct molecules were outputted (Higher the better).
-	unsigned int Correct_Molecules_Output;
-
-		// 2. How many correct molecules were created (Higher the better).
-	unsigned int Correct_Molecules_Created;
-		
-		// 3. How far are the created molecules to the output. (Lower the better)
-			// To calculate: (Total distance for all correct molecules) / (Correct_Molecules_Created)	
-	double Distance_To_Output_Partial;
-
-		// 4. How long did the simulation take.
-	unsigned long Cycle_Time;
-
-		// 5. How many symbols are used (Lower the better).
-			// To calculate: Symbol_Count = Red + Blue;
-	unsigned int Symbol_Count;
-	
-	Fitness() {
-		HasBeenProcessed			= false;
-		Correct_Molecules_Output	= 0;
-		Correct_Molecules_Created	= 0;
-		Distance_To_Output_Partial	= 0;
-		Symbol_Count				= 0;
-	}
-
-
-		// After prototype
-	double Percent_To_Creating_Correct_Molecule;
-	unsigned int Reactor_Count;
-	unsigned int Total_Pipe_Length;	
-	unsigned long Total_Atoms_Trashed;
-
-};
+#include "Fitness_Data.h"
 
 class Fitness_Calculator{
 
@@ -70,16 +33,21 @@ class Fitness_Calculator{
 
 	}
 
-		/*	
-	public: void Calculate_Fitness(Solution_Reactor &argument) {
-	//	Correct_Molecules_Output
-		Fitness Result;
-	}
-	*/
+		// This generates the fitness of the input reactor.
+	private: void Generate_Reactor_Fitness(Solution_Reactor &argument){
 
-	public: void Calculate_Fitness(int debug) {
-		//	Correct_Molecules_Output
-		Fitness Result;
+	}
+		// Process the input pool and generate a fitness for each of the elements if they were simualated.
+	public: void Calculate_Fitness(std::vector<Solution_Reactor> &argument) {
+	
+			// Process each of the solutions to see how fit it is.
+		for (unsigned int i = 0; i < argument.size(); i++){
+				// Check if the solution has been simulated.
+			if (argument[i].Get_HasBeenSimulated()){
+					// Generate fitness data about it.
+				Generate_Reactor_Fitness(argument[i]);
+			}
+		}
 	}
 
 

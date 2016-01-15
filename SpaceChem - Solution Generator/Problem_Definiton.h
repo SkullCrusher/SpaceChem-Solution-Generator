@@ -104,7 +104,7 @@ class Problem_Definition{
 
 		return Allow_Instructions[index];
 	}
-	public: short Get_Instruction_Size() { return Allow_Instructions.size(); }
+	public: short Get_Instruction_Size() { return (short) Allow_Instructions.size(); }
 
 
 

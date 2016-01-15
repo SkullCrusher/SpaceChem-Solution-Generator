@@ -85,6 +85,9 @@
     <ClInclude Include="Utilities.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Fitness_Data.h">
+      <Filter>Generation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="License.txt" />

@@ -46,24 +46,23 @@ bool Molecule::CheckIfAtom_Relative(short X_arg, short Y_arg) {
 
 	// Checks for on output in a sqaure area (the entire atom has to be in the area). (Used for the output instruction to assemble a Packed_Molecule)
 bool Molecule::CheckIfAtom_IsInLocation(short X_arg_1, short Y_arg_1, short X_arg_2, short Y_arg_2) {
-		// Catch.
+			// Catch.
 		if (X > 10 || Y > 10 || X < 0 || Y < 0) {
 			return false;
 		}
 
-		// We need to check every sqaure and make sure all of the atoms are in the area.
+			// We need to check every sqaure and make sure all of the atoms are in the area.
 		for (unsigned int i = 0; i < 11; i++) {
 			for (unsigned int g = 0; g < 11; g++) {
-				// If the atom is not a placeholder (empty).
+					// If the atom is not a placeholder (empty).
 				if (!Structure[i][g].Placeholder) {
 
 					// Check if inside outside our area.
-					if ((X_arg_1 - X + g) <= (X_arg_2 - X) && (Y_arg_1 - Y + i) <= (Y_arg_2 - Y)) {
+					if (((X_arg_1 - X + (int) g) <= (X_arg_2 - X)) && ((Y_arg_1 - Y + (int) i) <= (Y_arg_2 - Y))) {
 						// (log)?
 						// Is inside, do nothing.
 						int debug = 0;
-					}
-					else {
+					}else {
 						// (log)
 						// Is outside so invalidate the output of this atom
 						return false;
@@ -72,7 +71,7 @@ bool Molecule::CheckIfAtom_IsInLocation(short X_arg_1, short Y_arg_1, short X_ar
 			}
 		}
 
-		// If all of the atoms are inside the area return true. 
+			// If all of the atoms are inside the area return true. 
 		return true;
 	}
 

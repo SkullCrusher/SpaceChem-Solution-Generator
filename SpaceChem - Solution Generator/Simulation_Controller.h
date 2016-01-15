@@ -64,6 +64,8 @@ class Simulation_Controller{
 
 		TheChosenOne = argument;
 
+		I need to fix this.
+
 		
 
 		int Total_Correct_Output = 0;

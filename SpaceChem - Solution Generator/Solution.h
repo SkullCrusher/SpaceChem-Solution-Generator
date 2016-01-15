@@ -23,7 +23,8 @@
 
 #include <vector>
 
-#include "Fitness_Calculator.h"
+#include "Fitness_Data.h"
+#include "Definitions.h"
 
 struct Tile {
 		// true = red, false = blue
@@ -167,7 +168,7 @@ class Solution_Reactor {
 		return Simulation_Continue;
 	}
 
-	public: unsigned int Get_BondingPadCount(){ return Bonding_Pad.size(); }
+	public: unsigned int Get_BondingPadCount(){ return (unsigned int) Bonding_Pad.size(); }
 	public: std::vector<Position> Get_BondingPads(){ return BondTiles; }
 
 		// Add a new bonding pad to the solution.

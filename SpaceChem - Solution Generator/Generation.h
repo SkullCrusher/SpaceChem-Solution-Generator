@@ -37,7 +37,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include "Problem_Definiton.h"
-#include "Fitness_Calculator.h"
+//#include "Fitness_Calculator.h"
 
 	// Used to mutate solutions.
 class Generation_Mutation {

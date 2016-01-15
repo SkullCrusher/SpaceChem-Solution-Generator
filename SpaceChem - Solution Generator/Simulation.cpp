@@ -18,8 +18,9 @@
 #ifndef Simulation_C
 #define Simulation_C
 
+#include "Solution.h"
 #include "Simulation.h"
-#include "Fitness_Calculator.h"
+#include "Definitions.h"
 
 	// Add a new molecule to the input (This will have to be changed later)
 short Simulation::Add_To_Input(Packed_Molecule argument, short IsAlphaOrBeta) {

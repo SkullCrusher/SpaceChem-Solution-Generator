@@ -152,7 +152,7 @@ int main(int argc, char *argv[]) {
 		Simulation_Handle.Tick(Solution_Pool);
 
 			// Process the results, Note this should have the Solution_Pool as an argument.
-		Fitness_Handle.Calculate_Fitness(0);
+		Fitness_Handle.Calculate_Fitness(Solution_Pool);
 	}
 
 
