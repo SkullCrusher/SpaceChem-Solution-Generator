@@ -19,11 +19,16 @@
 	Utilities.h - Used to store functions called directly by main.
 */
 
+
+
 	// To be done after.
 void PrintUsage() {
 	printf("--\n");
 	printf("--\n");
+}
 
+void PrintStartInfomation(){
+	printf("SpaceChem Solution Generator - written by David Harkins.\n");
 }
 
 	// Load file by full path and return a pointer to a char *str or null.

@@ -107,7 +107,6 @@ class Problem_Definition{
 	public: short Get_Instruction_Size() { return (short) Allow_Instructions.size(); }
 
 
-
 		// How many solutions should be paired.
 	private: int Number_To_Crossover; // not sure what this was for. Debugging
 
@@ -117,7 +116,8 @@ class Problem_Definition{
 		// Odds are calculated 1 out of odds. For 100% chance the odds would be 1, 1 out of 1.
 	public: Odds Odds_Table;
 
-
+		// How many bonding pads are in a standard reactor.
+	public: short Reactor_Standard_Bonding_Count;
 
 
 

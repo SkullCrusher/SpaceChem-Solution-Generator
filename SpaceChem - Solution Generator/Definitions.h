@@ -20,8 +20,13 @@
 #define Error_Incorrect_Argument_Count	1
 #define Error_Set_Int_Tile_OOB			2
 
+	// The definitions of the tasks.
+#define Command_Line_OP_TEST			0
+#define Command_Line_OP_SAF				1
+#define Command_Line_OP_CS				2
+
 	// (Main) The range of arguments that are required to process a problem.
-#define Minimum_Argument_Count			3
+#define Minimum_Argument_Count			0	// 0 mainly for debugging.
 #define Maximum_Argument_Count			5
 
 	// Red and blue so it's easier to remember.
@@ -41,7 +46,12 @@
 #define Simulation_Atom_OutOfBounds		7
 
 #define Remove_Bond_NoError				0
-#define Remove_Bond_BreakUpMolecule		1		
+#define Remove_Bond_BreakUpMolecule		1	
+
+	// The different types of reactors.
+#define Reactor_Standard				0
+
+
 
 	// Add bonding pad.
 #define Add_BondPad_NoError				0

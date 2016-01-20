@@ -212,7 +212,12 @@ class Generation_Random {
 
 	Solution_Reactor Result;
 
-	// Randomly fill the reactor with elements based off the odds.
+		// Randomly place the bonding pads, make sure they don't overlap.
+	// Debugging, for prototype. Just add 2 random bonding pads.
+	Result.Add_BondingPad(rand() % 10, rand() % 8);
+	Result.Add_BondingPad(rand() % 10, rand() % 8);
+
+		// Randomly fill the reactor with elements based off the odds.
 	for (unsigned int g = 0; g < 8; g++) {
 		for (unsigned int i = 0; i < 10; i++) {
 			// Use the odds and a random number to get the odds.

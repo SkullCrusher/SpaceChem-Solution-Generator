@@ -42,11 +42,48 @@ class Simulation_Controller{
 		// Default destructor
 	public: ~Simulation_Controller(){}
 
+    private: void Debug_Prototype_Fill_In_Reactor(Solution_Reactor &TheChosenOne, Problem_Definition &Problem_Rules, Simulation &RunMe, Packed_Molecule &Input_For_Debugging, Molecule &AlphaIn, Molecule &Solution) {
 
-	private: int Prototype_Simulate_Reactor(Solution_Reactor &argument) {
+	// Set the reactor to simulate.
+	RunMe.Set_Solution(TheChosenOne);
+
+	// Limit the simulation to prevent unlimited running.
+	RunMe.Set_Cycle_Limit_Simulation(Problem_Rules.Get_Cycle_Limit_Simulation());
+
+	// Debugging Infomation.
+	Atom_Info Info;
+	Info.Atomic_Number = 9;
+	Info.Max_Bonds = 1;
+
+	Atom F;
+	F.Placeholder = false;
+	F.Details = Info;
+
+	// Create the input molecule.
+	AlphaIn.Set_Atom(1, 1, F);
+	AlphaIn.Set_Atom(2, 1, F);
+
+	AlphaIn.Add_Bond(1, 1, 2, 1);
+
+	AlphaIn.Set_IsEmpty(false);
+
+	// Create the input molecule.
+	Solution.Set_Atom(1, 1, F);
+
+	// Just the input for the simulation.
+	Input_For_Debugging.Items.push_back(AlphaIn);
+	Input_For_Debugging.Set_IsEmpty(false);
+
+	RunMe.Add_To_Input(Input_For_Debugging, Simulation_Add_To_Input_Alpha);
+	RunMe.Add_To_Input(Input_For_Debugging, Simulation_Add_To_Input_Alpha);
+	RunMe.Add_To_Input(Input_For_Debugging, Simulation_Add_To_Input_Alpha);
+
+}
+
+private: int Prototype_Simulate_Reactor(Solution_Reactor &argument) {
 		
 			// Debugging I am just putting my solution in to test the simulation
-		Solution_Reactor TheChosenOne;
+	//	Solution_Reactor TheChosenOne; // Provided by outside source.
 			
 		Simulation RunMe;
 
@@ -56,15 +93,14 @@ class Simulation_Controller{
 			// Debugging, Create the input molecule.
 		Molecule Solution;
 
-			// Just the input for the simulation.
+			// Debugging, Just the input for the prototype simulation.
 		Packed_Molecule Input_For_Debugging;
 
-			// Test problem.
-		Debug_Test_Sernimir_II_006(TheChosenOne, Problem_Rules, RunMe, Input_For_Debugging, AlphaIn, Solution);
+			//A debugging Test problem.
+		//Debug_Test_Sernimir_II_006(TheChosenOne, Problem_Rules, RunMe, Input_For_Debugging, AlphaIn, Solution);
+		//TheChosenOne = argument;
 
-		TheChosenOne = argument;
-
-		I need to fix this.
+		Debug_Prototype_Fill_In_Reactor(argument, Problem_Rules, RunMe, Input_For_Debugging, AlphaIn, Solution);
 
 		
 
@@ -108,7 +144,7 @@ class Simulation_Controller{
 				RunMe.Set_Simulation_Status(Simulation_Complete);
 				RunMe.Set_Is_Simulated(true);
 
-					// testing to see the size.
+					// Pull the solution data from the simulation.
 				argument = RunMe.GetSolution();
 
 				return Simulation_Complete;
@@ -118,6 +154,9 @@ class Simulation_Controller{
 		RunMe.Set_Simulation_Status(Results);
 		RunMe.Set_Is_Simulated(true);
 
+			// Pull the solution data from the simulation.
+		argument = RunMe.GetSolution();
+
 		return Results;
 	}
 
@@ -126,7 +165,8 @@ class Simulation_Controller{
 		
 			// In the future the simulation controller will handle multiple reactors but for the prototype it just handles one.
 		for (unsigned int i = 0; i < Solution_Pool.size(); i++) {
-				// If the solution has not been simulated
+
+				// If the solution has not been simulated, simulate it.
 			if (!Solution_Pool[i].Get_HasBeenSimulated()) {
 				Prototype_Simulate_Reactor(Solution_Pool[i]);
 			}
@@ -139,7 +179,6 @@ class Simulation_Controller{
 		//Basic Utilities
 	public: void Set_Problem_Definition(Problem_Definition argument){ Problem_Rules = argument; }
 	
-
 };
 
 
