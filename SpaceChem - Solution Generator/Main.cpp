@@ -151,7 +151,10 @@ int Handle_Input(Problem_Definition Simulation_Definition){
 struct CommandLine{
 
 		// What operation should be done.
-	int Operation;
+	int Operation = Command_Line_OP_NOP;
+
+		// For the error code.
+	int Status_Code = Command_Line_NoError;
 
 		// The path to the definition problem. 
 	std::string In_FilePath = "";
@@ -188,29 +191,83 @@ CommandLine ParseCommandLine(int argc, char *argv[]){
 
 	CommandLine Result;
 
-	for (unsigned int i = 1; i < argc; i++){
+	for (int i = 1; i < argc; i++){
 		// Operations:
 			// -OP_Test  : Simulates the testing data to check the validation of the current version.
 		if (strcmp(argv[i], "-OP_Test") == 0){
 			Result.Operation = Command_Line_OP_TEST;
+			continue;
 		}
 			// -OP_SAF   : Loads a problem definition from a file and simulates it until a solution is found.
 		if (strcmp(argv[i], "-OP_SAF") == 0){
 			Result.Operation = Command_Line_OP_SAF;
+			continue;
 		}
 			// -OP_CS	 : Load a solution and simulate it and give the result if it is valid.
 		if (strcmp(argv[i], "-OP_CS") == 0){
 			Result.Operation = Command_Line_OP_CS;
+			continue;
+		}
+		
+			// -h or --help  : provide the usage for the user.
+		if (strcmp(argv[i], "-h") == 0){
+				// Print the usage and exit.
+			PrintUsage();
+
+			Result.Operation = Command_Line_OP_NOP;
+			return Result;
 		}
 
+			// -f <filepath> : the input file.
+		if (strcmp(argv[i], "-f") == 0){
 
-		// -h or --help  : provide the usage for the user.
+			// The file command has to be followed by a path.
+			if ((i + 1) < argc){
 
-		// -f <filepath> : the input file.
+					// Set the filepath and increase i;
+				Result.In_FilePath = argv[i + 1];
+				
+				i++;
 
-		// -r <filepath> : the output file.
+				continue;
+			}else{
+					// Return with the error code.
+				Result.Status_Code = Command_Line_Missing_Path;
 
-		// -d or --debugging : enable debugging infomation.
+				return Result;
+			}
+		}
+			// -r <filepath> : the output file.
+		if (strcmp(argv[i], "-r") == 0){
+
+			// The file command has to be followed by a path.
+			if ((i + 1) < argc){
+
+				// Set the filepath and increase i;
+				Result.Out_FilePath = argv[i + 1];
+
+				i++;
+
+				continue;
+			}else{
+				// Return with the error code.
+				Result.Status_Code = Command_Line_Missing_Path;
+
+				return Result;
+			}
+		}
+
+			// -c : Output result to console.
+		if (strcmp(argv[i], "-c") == 0){
+			Result.Flag_ShouldDumpToConsole = true;
+			continue;
+		}
+
+			// -d or --debugging : enable debugging infomation.
+		if (strcmp(argv[i], "-d") == 0 || strcmp(argv[i], "--debugging") == 0){
+			Result.Flag_ShouldDisplayDebugging = true;
+			continue;
+		}
 	}
 
 	return Result;
@@ -236,12 +293,29 @@ int main(int argc, char *argv[]) {
 		PrintStartInfomation();
 	}
 
-		// Load the file argument. Create the definition of the problem that needs to be solved.	
-	Problem_Definition Simulation_Definition = LoadProblemDefinitionFile("debugging");
+		// If there is no task quit.
+	if (User_Input.Operation == Command_Line_OP_NOP || User_Input.Status_Code != Command_Line_NoError){
+		return User_Input.Status_Code;
+	}
+
+		// If a standard simulation is the operation.
+	if (User_Input.Operation == Command_Line_OP_CS || Command_Line_OP_SAF){
+
+			// Load the file argument. Create the definition of the problem that needs to be solved.	
+		Problem_Definition Simulation_Definition = LoadProblemDefinitionFile("debugging");
+
+			// Handle the input file.
+		int Result_Code = Handle_Input(Simulation_Definition);
+
+			// Exit with simulation code.
+		return Result_Code;
+	}
 	
-		// Handle the input file.
-	int Result_Code = Handle_Input(Simulation_Definition);
+		// If the embedded testing is requested give control to that.
+	if (User_Input.Operation == Command_Line_OP_TEST){
+
+	}
 
 		// Return the code.
-	return Result_Code;
+	return User_Input.Status_Code;
 }

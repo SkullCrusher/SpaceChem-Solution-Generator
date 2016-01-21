@@ -21,13 +21,17 @@
 #define Error_Set_Int_Tile_OOB			2
 
 	// The definitions of the tasks.
+#define Command_Line_OP_NOP				-1
 #define Command_Line_OP_TEST			0
 #define Command_Line_OP_SAF				1
 #define Command_Line_OP_CS				2
 
+#define Command_Line_Missing_Path		5
+#define Command_Line_NoError			4
+
 	// (Main) The range of arguments that are required to process a problem.
 #define Minimum_Argument_Count			0	// 0 mainly for debugging.
-#define Maximum_Argument_Count			5
+#define Maximum_Argument_Count			100
 
 	// Red and blue so it's easier to remember.
 #define Red_Tile						true

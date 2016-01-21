@@ -17,7 +17,10 @@
     <Filter Include="Common">
       <UniqueIdentifier>{1c57e392-9602-488d-b8c1-7ea701db92ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="_Debugging">
+    <Filter Include="Embedded Quality Assurance">
+      <UniqueIdentifier>{9a5a2418-3819-4eb2-8ef1-31df00d75227}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Embedded Quality Assurance\_Debugging">
       <UniqueIdentifier>{a012a004-73d0-4944-aca7-af56f964724d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -80,13 +83,16 @@
     </ClInclude>
     <ClInclude Include="TODO.h" />
     <ClInclude Include="Debugging_Sernimir_II_Testing.h">
-      <Filter>_Debugging</Filter>
+      <Filter>Embedded Quality Assurance\_Debugging</Filter>
     </ClInclude>
     <ClInclude Include="Utilities.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Fitness_Data.h">
       <Filter>Generation</Filter>
+    </ClInclude>
+    <ClInclude Include="Embedded_Quality_Assurance.h">
+      <Filter>Embedded Quality Assurance</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
