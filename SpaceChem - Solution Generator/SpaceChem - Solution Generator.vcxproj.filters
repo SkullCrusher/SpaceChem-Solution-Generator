@@ -20,7 +20,7 @@
     <Filter Include="Embedded Quality Assurance">
       <UniqueIdentifier>{9a5a2418-3819-4eb2-8ef1-31df00d75227}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Embedded Quality Assurance\_Debugging">
+    <Filter Include="Embedded Quality Assurance\Validation_Tests">
       <UniqueIdentifier>{a012a004-73d0-4944-aca7-af56f964724d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -82,9 +82,6 @@
       <Filter>Generation</Filter>
     </ClInclude>
     <ClInclude Include="TODO.h" />
-    <ClInclude Include="Debugging_Sernimir_II_Testing.h">
-      <Filter>Embedded Quality Assurance\_Debugging</Filter>
-    </ClInclude>
     <ClInclude Include="Utilities.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -93,6 +90,9 @@
     </ClInclude>
     <ClInclude Include="Embedded_Quality_Assurance.h">
       <Filter>Embedded Quality Assurance</Filter>
+    </ClInclude>
+    <ClInclude Include="Sernimir_II_Testing.h">
+      <Filter>Embedded Quality Assurance\Validation_Tests</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

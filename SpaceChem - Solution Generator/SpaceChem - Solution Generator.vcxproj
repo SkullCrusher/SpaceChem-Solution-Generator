@@ -157,7 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Atom.h" />
-    <ClInclude Include="Debugging_Sernimir_II_Testing.h" />
+    <ClInclude Include="Sernimir_II_Testing.h" />
     <ClInclude Include="Definitions.h" />
     <ClInclude Include="Embedded_Quality_Assurance.h" />
     <ClInclude Include="Fitness_Calculator.h" />

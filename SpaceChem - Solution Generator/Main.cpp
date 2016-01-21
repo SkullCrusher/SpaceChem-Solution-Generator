@@ -32,6 +32,9 @@
 	// Functions that are used by the main.
 #include "Utilities.h"
 
+	// Used for testing.
+#include "Embedded_Quality_Assurance.h"
+
 Odds Debug_Generate_Odds() {
 	Odds Temp;
 
@@ -313,6 +316,10 @@ int main(int argc, char *argv[]) {
 	
 		// If the embedded testing is requested give control to that.
 	if (User_Input.Operation == Command_Line_OP_TEST){
+
+		Embedded_Quality_Assurance Quality;
+
+
 
 	}
 

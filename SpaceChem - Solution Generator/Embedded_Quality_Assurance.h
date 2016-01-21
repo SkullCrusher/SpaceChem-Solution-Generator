@@ -32,11 +32,30 @@
 
 */
 
+#ifndef Embedded_Quality_Assurance_H
+#define Embedded_Quality_Assurance_H
+
+struct Expected_Result{
+
+	int Result_Code = 0;
+
+	int Cycle_Count = 0;
+};
+
+
 class Embedded_Quality_Assurance{
 
-public:	Embedded_Quality_Assurance(){
+	public:	Embedded_Quality_Assurance(){
 
 	}
 
+		// Generates all of the test data.
+	public: std::string ValidateAll() {
+
+
+		return "";
+	}
 
 };
+
+#endif
