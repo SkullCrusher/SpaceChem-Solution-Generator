@@ -30,7 +30,7 @@
 #include "Generation.h"
 
 	// Debugging, Senimir II
-#include "Debugging_Sernimir_II_Testing.h"
+#include "Sernimir_II_Testing.h"
 
 
 class Simulation_Controller{

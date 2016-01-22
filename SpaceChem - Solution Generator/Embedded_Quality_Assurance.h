@@ -35,6 +35,8 @@
 #ifndef Embedded_Quality_Assurance_H
 #define Embedded_Quality_Assurance_H
 
+#include "Sernimir_II_Testing.h"
+
 struct Expected_Result{
 
 	int Result_Code = 0;
@@ -45,12 +47,42 @@ struct Expected_Result{
 
 class Embedded_Quality_Assurance{
 
+	private: bool Test_Sernimir_II(int Total_Successful, int &Total_Tests){
+
+	}
+
 	public:	Embedded_Quality_Assurance(){
 
 	}
 
+private: std::string GenerateResultFormat(std::string MapName, ){
+
+		return "";
+	}
+
 		// Generates all of the test data.
 	public: std::string ValidateAll() {
+
+		std::string Result = "Self Test\n";
+		
+			// Sernimir II
+		bool Sernimir_II_Result = Test_Sernimir_II();
+
+		Result += "Sernimir II: ";
+
+		if (Sernimir_II_Result){
+
+		}
+		
+		// Sernimir IV
+		// Danopth
+		// Alkonost
+		// Sikutar
+		// Hephaestus IV
+		// Atropos Station
+
+
+
 
 
 		return "";
