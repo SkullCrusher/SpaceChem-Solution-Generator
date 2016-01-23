@@ -23,6 +23,9 @@
     <Filter Include="Embedded Quality Assurance\Validation_Tests">
       <UniqueIdentifier>{a012a004-73d0-4944-aca7-af56f964724d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Simulation\Mechanics">
+      <UniqueIdentifier>{50805d68-ede1-4db7-a5d6-80cb2ebea815}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -34,20 +37,20 @@
     <ClCompile Include="Generation.cpp">
       <Filter>Generation</Filter>
     </ClCompile>
-    <ClCompile Include="Simulation.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
     <ClCompile Include="Simulation_Controller.cpp">
       <Filter>Simulation</Filter>
     </ClCompile>
     <ClCompile Include="Solution.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="Waldo.cpp">
-      <Filter>Simulation</Filter>
-    </ClCompile>
     <ClCompile Include="Atom.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation.cpp">
+      <Filter>Simulation\Mechanics</Filter>
+    </ClCompile>
+    <ClCompile Include="Waldo.cpp">
+      <Filter>Simulation\Mechanics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,9 +59,6 @@
     </ClInclude>
     <ClInclude Include="Generation.h">
       <Filter>Generation</Filter>
-    </ClInclude>
-    <ClInclude Include="Simulation.h">
-      <Filter>Simulation</Filter>
     </ClInclude>
     <ClInclude Include="Definitions.h">
       <Filter>Common</Filter>
@@ -75,9 +75,6 @@
     <ClInclude Include="Atom.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Waldo.h">
-      <Filter>Simulation</Filter>
-    </ClInclude>
     <ClInclude Include="Fitness_Calculator.h">
       <Filter>Generation</Filter>
     </ClInclude>
@@ -93,6 +90,12 @@
     </ClInclude>
     <ClInclude Include="Sernimir_II_Testing.h">
       <Filter>Embedded Quality Assurance\Validation_Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation.h">
+      <Filter>Simulation\Mechanics</Filter>
+    </ClInclude>
+    <ClInclude Include="Waldo.h">
+      <Filter>Simulation\Mechanics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

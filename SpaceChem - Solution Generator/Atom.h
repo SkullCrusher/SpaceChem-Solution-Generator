@@ -159,7 +159,8 @@ class Molecule {
 
 
 	// TO DO Future, rotate the molecule to handle different rotations.
-	
+	#pragma message ("Atom.h: TDAP - Rotate molecules.")
+
 	return true;
 }
  
@@ -186,5 +187,50 @@ class Molecule {
 		}
 	}
 };
+
+ // To check if a molecule matches for solution. (they just have to have molecule the same).
+ inline bool operator==(Molecule a, Packed_Molecule b){
+
+		// Catch.
+	 if (b.IsEmpty){
+		 return false;
+	 }
+
+	 // Find the first atom and move it all the way to the top left.
+	 a.Align_Top_Left();
+	 b.Items[0].Align_Top_Left();
+
+	 for (unsigned int i = 0; i < 11; i++) {
+		 for (unsigned int g = 0; g < 11; g++) {
+
+			 Atom a_temp = a.Get_Atom(i, g);
+			 Atom b_temp = b.Items[0].Get_Atom(i, g);
+
+			 // Make sure both placeholder values match.
+			 if (a_temp.Placeholder != b_temp.Placeholder) {
+				 return false;
+			 }
+
+			 // Make sure the atomic numbers match.
+			 if (a_temp.Details.Atomic_Number != b_temp.Details.Atomic_Number) {
+				 return false;
+			 }
+
+			 // Check all four of the bonds to make sure they match.
+			 if (a_temp.Down_Bond != b_temp.Down_Bond ||
+				 a_temp.Left_Bond != b_temp.Left_Bond ||
+				 a_temp.Right_Bond != b_temp.Right_Bond ||
+				 a_temp.Up_Bond != b_temp.Up_Bond) {
+
+				 return false;
+			 }
+		 }
+	 }
+
+
+	 // TO DO Future, rotate the molecule to handle different rotations.
+	#pragma message ("Atom.h: TDAP - Handle multiple outputs based on percentage.")
+	 return true;
+ }
 
 #endif
