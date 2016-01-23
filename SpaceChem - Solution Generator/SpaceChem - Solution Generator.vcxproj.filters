@@ -26,6 +26,9 @@
     <Filter Include="Simulation\Mechanics">
       <UniqueIdentifier>{50805d68-ede1-4db7-a5d6-80cb2ebea815}</UniqueIdentifier>
     </Filter>
+    <Filter Include="File I/O">
+      <UniqueIdentifier>{fb7de985-e133-4a20-84de-369516903c32}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -96,6 +99,9 @@
     </ClInclude>
     <ClInclude Include="Waldo.h">
       <Filter>Simulation\Mechanics</Filter>
+    </ClInclude>
+    <ClInclude Include="File_IO.h">
+      <Filter>File I/O</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

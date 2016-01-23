@@ -60,6 +60,10 @@ class Simulation{
 		// The molecules currently in the reactor.
 	private: std::vector<Molecule> Active_Molecules;
 
+	public: unsigned int Get_Active_Molecules_Size() {
+		return Active_Molecules.size();
+	}
+
 		// The order of placement, has the index of it.
 	private: std::vector<unsigned int> Output_Omega_Order;
 	private: std::vector<unsigned int> Output_Phi_Order;

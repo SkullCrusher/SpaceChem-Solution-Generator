@@ -35,6 +35,7 @@
 #ifndef Embedded_Quality_Assurance_H
 #define Embedded_Quality_Assurance_H
 
+#include "Simulation.h"
 #include "Simulation_Controller.h"
 
 #include "Sernimir_II_Testing.h"
@@ -51,20 +52,27 @@ class Embedded_Quality_Assurance{
 
 	// This tests, fitness results, result code of the simulation, cycle count.
 
-
+	/*
 	private: std::string Test_Sernimir_II(){
-
-	
-
-	}
-
-	public:	Embedded_Quality_Assurance(){
 
 		Simulation_Controller Controller;
 
-		Controller.Simulate_Single_Reactor();
+		Problem_Definition Problem_Rules;
+		Solution_Reactor argument;
+		Simulation RunMe;
+		Packed_Molecule InputForAlpha;
+		Packed_Molecule InputForBeta;
+		Packed_Molecule Expected_Out_Omega;
+		Packed_Molecule Expected_Out_Phi;
 
+		Controller.Set_Problem_Definition(Problem_Rules);
+
+		Controller.Simulate_Single_Reactor(argument, RunMe, InputForAlpha, InputForBeta, Expected_Out_Omega, Expected_Out_Phi);
 	}
+
+	*/
+
+	public:	Embedded_Quality_Assurance(){}
 
 			// In the future.
 //private: std::string GenerateResultFormat(std::string MapName){ return ""; }
@@ -75,9 +83,9 @@ class Embedded_Quality_Assurance{
 		std::string Result = "Self Test\n";
 		
 			// Sernimir II
-		std::string Sernimir_II_Result = Test_Sernimir_II();
+		//std::string Sernimir_II_Result = Test_Sernimir_II();
 
-		Result += "-- Sernimir II -- \n" + Sernimir_II_Result;		
+		//Result += "-- Sernimir II -- \n" + Sernimir_II_Result;		
 		
 		// Sernimir IV
 		// Danopth

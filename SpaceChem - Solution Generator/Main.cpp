@@ -141,7 +141,7 @@ int Handle_Input(Problem_Definition Simulation_Definition){
 		Generation_Handle.Generate_Single_Reactor(Simulation_Definition, Solution_Pool);
 
 		// Simulate the pool.
-		Simulation_Handle.Tick(Solution_Pool);
+		Simulation_Handle.Tick(Solution_Pool, &Fitness_Handle);
 
 		// Process the results, Note this should have the Solution_Pool as an argument.
 		Fitness_Handle.Calculate_Fitness(Solution_Pool);
@@ -191,10 +191,9 @@ int main(int argc, char *argv[]) {
 		// If the embedded testing is requested give control to that.
 	if (User_Input.Operation == Command_Line_OP_TEST){
 
+			// Needs file I/O before can be completed.
 		Embedded_Quality_Assurance Quality;
-
-
-
+		
 	}
 
 		// Return the code.

@@ -25,18 +25,44 @@
 #include "Definitions.h"
 
 #include "Fitness_Data.h"
+#include "Simulation.h"
+
+#include "Atom.h"
 
 class Fitness_Calculator{
 
 	public: Fitness_Calculator() {
-
-
+		
 	}
 
 		// This generates the fitness of the input reactor.
-	private: void Generate_Reactor_Fitness(Solution_Reactor &argument){
+	public: Fitness Generate_Reactor_Fitness(Simulation &RunMe){
 
+		Fitness Result;
+
+		// Debugging Infomation.
+		Atom_Info Info;
+		Info.Atomic_Number = 9;
+		Info.Max_Bonds = 1;
+
+		Atom F;
+		F.Placeholder = false;
+		F.Details = Info;
+
+		Molecule Solution_Molecule;
+
+		// Create the requirements for the output.
+		Solution_Molecule.Set_Atom(1, 1, F);
+
+		if (RunMe.Get_Active_Molecules_Size() > 0) {
+			int debug = 0;
+		}
+
+		int debug = 0;
+
+		return Result;
 	}
+
 		// Process the input pool and generate a fitness for each of the elements if they were simualated.
 	public: void Calculate_Fitness(std::vector<Solution_Reactor> &argument) {
 	
@@ -45,7 +71,7 @@ class Fitness_Calculator{
 				// Check if the solution has been simulated.
 			if (argument[i].Get_HasBeenSimulated()){
 					// Generate fitness data about it.
-				Generate_Reactor_Fitness(argument[i]);
+//				Generate_Reactor_Fitness(argument[i]);
 			}
 		}
 	}

@@ -59,7 +59,7 @@ class Solution_Reactor {
 	private: unsigned long Cycles;
 
 		// The level of fitness based off settings.
-	private: Fitness Fit_Data;
+	public: Fitness Fit_Data;
 
 		// How many cycles the Solution has lived, the higher the life span the better chance it is good.
 	private: unsigned long long Life_Span;

@@ -29,8 +29,10 @@
 #include "Simulation.h"
 #include "Generation.h"
 
-	// Debugging, Senimir II
-#include "Sernimir_II_Testing.h"
+	// For the fitness calculator.
+#include "Fitness_Data.h"
+#include "Fitness_Calculator.h"
+
 
 
 class Simulation_Controller{
@@ -43,16 +45,15 @@ class Simulation_Controller{
 		// Default destructor
 	public: ~Simulation_Controller(){}
 
-			//argument, Problem_Rules, RunMe, InputForAlpha, AlphaIn, InputForBeta, BetaIn, Expected_Out_Omega, Expected_Out_Phi
-			/*
-	private: void Preprocess_Single_Reactor(Solution_Reactor &argument,
-											Problem_Definition &Problem_Rules, 
-											Simulation &RunMe, 
-											Packed_Molecule &InputForAlpha, 
-											Molecule &AlphaIn, 
-											Packed_Molecule &BetaIn,
-											Molecule &Expected_Out_Omega,
-											Molecule &Solution) {
+		// For debugging the first generation test and creating fitness.
+	private: int Prototype_Simulate_Reactor(Solution_Reactor &argument, Fitness_Calculator* Fit_Calc) {
+
+		Simulation RunMe;
+		Packed_Molecule InputForAlpha;
+		Packed_Molecule InputForBeta;
+		Packed_Molecule Expected_Out_Omega;
+		Packed_Molecule Expected_Out_Phi;
+
 
 		// Set the reactor to simulate.
 		RunMe.Set_Solution(argument);
@@ -69,6 +70,8 @@ class Simulation_Controller{
 		F.Placeholder = false;
 		F.Details = Info;
 
+		Molecule AlphaIn;
+
 		// Create the input molecule.
 		AlphaIn.Set_Atom(1, 1, F);
 		AlphaIn.Set_Atom(2, 1, F);
@@ -77,27 +80,27 @@ class Simulation_Controller{
 
 		AlphaIn.Set_IsEmpty(false);
 
-		// Create the input molecule.
+		// Create the requirements for the output.
+		Molecule Solution;
 		Solution.Set_Atom(1, 1, F);
+
+		Expected_Out_Omega.Items.push_back(Solution);
 
 		// Just the input for the simulation.
 		InputForAlpha.Items.push_back(AlphaIn);
 		InputForAlpha.Set_IsEmpty(false);
 
-		RunMe.Add_To_Input(Input_For_Debugging, Simulation_Add_To_Input_Alpha);
-		RunMe.Add_To_Input(Input_For_Debugging, Simulation_Add_To_Input_Alpha);
-		RunMe.Add_To_Input(Input_For_Debugging, Simulation_Add_To_Input_Alpha);
+		RunMe.Add_To_Input(InputForAlpha, Simulation_Add_To_Input_Alpha);
+		RunMe.Add_To_Input(InputForAlpha, Simulation_Add_To_Input_Alpha);
+		RunMe.Add_To_Input(InputForAlpha, Simulation_Add_To_Input_Alpha);
 
+		Simulate_Single_Reactor(argument, RunMe, InputForAlpha, InputForBeta, Expected_Out_Omega, Expected_Out_Phi, Fit_Calc);
+
+		return 0;
 	}
-	*/
 
 		// Made for the prototype and is only used when a single reactor is in question and not a set of reactors.
-	public: int Simulate_Single_Reactor(Solution_Reactor &argument,
-													Simulation RunMe,				 
-													Packed_Molecule InputForAlpha,
-													Packed_Molecule InputForBeta,
-													Packed_Molecule Expected_Out_Omega,
-													Packed_Molecule Expected_Out_Phi){
+	public: int Simulate_Single_Reactor(Solution_Reactor &argument, Simulation RunMe, Packed_Molecule InputForAlpha, Packed_Molecule InputForBeta, Packed_Molecule Expected_Out_Omega, Packed_Molecule Expected_Out_Phi, Fitness_Calculator* Fit_Calc){
 
 		// Set the reactor to simulate.
 		RunMe.Set_Solution(argument);
@@ -152,111 +155,43 @@ class Simulation_Controller{
 					// Pull the solution data from the simulation.
 				argument = RunMe.GetSolution();
 
-				return Simulation_Complete;
-			}
-		}
+					// Calculate the fitness.
+				if (Fit_Calc != NULL) {
+					argument.Fit_Data = Fit_Calc->Generate_Reactor_Fitness(RunMe);
 
-		RunMe.Set_Simulation_Status(Results);
-		RunMe.Set_Is_Simulated(true);
-
-			// Pull the solution data from the simulation.
-		argument = RunMe.GetSolution();
-
-		return Results;
-	}
-
-   
-			 /*
-		// Calls the simulation of a single reactor, this is used for the prototype.
-	private: int Prototype_Simulate_Reactor(Solution_Reactor &argument) {
-		
-			// Debugging I am just putting my solution in to test the simulation
-	//	Solution_Reactor TheChosenOne; // Provided by outside source.
-			
-		Simulation RunMe;
-
-			// Debugging, Create the input molecule.
-		Molecule AlphaIn;
-		
-			// Debugging, Create the input molecule.
-		Molecule Solution;
-
-			// Debugging, Just the input for the prototype simulation.
-		Packed_Molecule Input_For_Debugging;
-
-			//A debugging Test problem.
-		//Debug_Test_Sernimir_II_006(TheChosenOne, Problem_Rules, RunMe, Input_For_Debugging, AlphaIn, Solution);
-		//TheChosenOne = argument;
-
-		Debug_Prototype_Fill_In_Reactor(argument, Problem_Rules, RunMe, Input_For_Debugging, AlphaIn, Solution);
-
-		
-
-		int Total_Correct_Output = 0;
-
-			// Process the simulation.
-		int Results = Simulation_Continue;
-		while (Results == Simulation_Continue) {
-
-				// Keep adding the input to the simulation to make sure it's full.
-			RunMe.Add_To_Input(Input_For_Debugging, Simulation_Add_To_Input_Alpha);
-			RunMe.Add_To_Input(Input_For_Debugging, Simulation_Add_To_Input_Alpha);
-
-				// Simulate the simulation
-			Results = RunMe.Tick();
-
-				// Pull from the output.
-			Packed_Molecule Temp = RunMe.Remove_From_Output();
-
-				// Process the output.
-			if (!Temp.IsEmpty) {
-					// We check if the result molecule is the same as the solution. (note they don't have to apperent on the same position of the grid.)
-				if (Temp.Items.size() >= 1) {
-					if (Temp.Items[0] == Solution) {
-						Total_Correct_Output++;
-					}else{
-						RunMe.Set_Simulation_Status(Simulation_Invalid_Output);
-						RunMe.Set_Is_Simulated(true);
-						RunMe.Increment_Cycle_Count(); // Because the validation is outside of the simulation it needs to increase one cycle.
-						break;
-					}
-				}else {
-					RunMe.Set_Simulation_Status(Simulation_Invalid_Output);
-					RunMe.Set_Is_Simulated(true);
-					break;
+					int debug = 0;
 				}
-			}
-
-				// We accept it and return.
-			if (Total_Correct_Output == 10) {
-				RunMe.Set_Simulation_Status(Simulation_Complete);
-				RunMe.Set_Is_Simulated(true);
-
-					// Pull the solution data from the simulation.
-				argument = RunMe.GetSolution();
 
 				return Simulation_Complete;
 			}
 		}
-		
+
 		RunMe.Set_Simulation_Status(Results);
 		RunMe.Set_Is_Simulated(true);
 
 			// Pull the solution data from the simulation.
 		argument = RunMe.GetSolution();
 
+			// Calculate the fitness.
+		if (Fit_Calc != NULL) {
+			argument.Fit_Data = Fit_Calc->Generate_Reactor_Fitness(RunMe);
+
+			int debug = 0;
+		}
+		
 		return Results;
 	}
-	*/
-		// Run the program.
-	public: int Tick(std::vector<Solution_Reactor> &Solution_Pool){
+
+
+		// Run the program, pass the solution reactor pool plus the fitness calculator to the simulator.
+	public: int Tick(std::vector<Solution_Reactor> &Solution_Pool, Fitness_Calculator* Fit_Calc){
 		
 			// In the future the simulation controller will handle multiple reactors but for the prototype it just handles one.
 		for (unsigned int i = 0; i < Solution_Pool.size(); i++) {
 
 				// If the solution has not been simulated, simulate it.
 			if (!Solution_Pool[i].Get_HasBeenSimulated()) {
-			//	Prototype_Simulate_Reactor(Solution_Pool[i]);
+				Prototype_Simulate_Reactor(Solution_Pool[i], Fit_Calc);
 			}
 		}		
 
@@ -267,6 +202,5 @@ class Simulation_Controller{
 	public: void Set_Problem_Definition(Problem_Definition argument){ Problem_Rules = argument; }
 	
 };
-
 
 #endif

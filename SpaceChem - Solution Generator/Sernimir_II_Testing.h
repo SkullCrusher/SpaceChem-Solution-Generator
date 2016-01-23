@@ -21,23 +21,16 @@
 
 #include "Simulation.h"
 #include "Problem_Definiton.h"
+#include "Simulation_Controller.h"
 
-	// This calls all of the functions that are in sernimir.
-void Test_Sernimir_II_All(){
+// Required for definitions and global class.
+#include "Definitions.h"
+#include "Problem_Definiton.h"
+#include "Solution.h"
 
-	Solution_Reactor TheChosenOne;
-	Problem_Definition Problem_Rules;	
-	Simulation RunMe;		
-	Packed_Molecule Input_For_Debugging;
-	Molecule AlphaIn;		
-	Molecule Solution;
-
-
-
-
-
-}
-
+// Core parts of the program.
+#include "Simulation.h"
+#include "Generation.h"
 
 	// Fills in the testing data for Sernimir II 001, check Validation of simulations for more details.
 void Debug_Test_Sernimir_II_001(Solution_Reactor &TheChosenOne, Problem_Definition &Problem_Rules, Simulation &RunMe, Packed_Molecule &Input_For_Debugging, Molecule &AlphaIn, Molecule &Solution) {

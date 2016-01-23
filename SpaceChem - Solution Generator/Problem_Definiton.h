@@ -105,8 +105,7 @@ class Problem_Definition{
 		return Allow_Instructions[index];
 	}
 	public: short Get_Instruction_Size() { return (short) Allow_Instructions.size(); }
-
-
+			
 		// How many solutions should be paired.
 	private: int Number_To_Crossover; // not sure what this was for. Debugging
 
