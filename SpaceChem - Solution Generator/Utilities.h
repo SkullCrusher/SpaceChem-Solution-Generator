@@ -19,7 +19,8 @@
 	Utilities.h - Used to store functions called directly by main.
 */
 
-
+#ifndef Utilities_H
+#define Utilities_H
 
 	// To be done after.
 void PrintUsage() {
@@ -62,8 +63,7 @@ struct CommandLine{
 
 	// Should for large pools the data be dumped to the hard drive unless in use.
 	/*Future maybe*/bool Flag_ShouldCache = false;
-
-
+	
 };
 
 
@@ -181,3 +181,5 @@ char *LoadFileByName(std::string argument) {
 
 	return memblock;
 }
+
+#endif

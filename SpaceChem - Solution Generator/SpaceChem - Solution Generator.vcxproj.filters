@@ -17,17 +17,23 @@
     <Filter Include="Common">
       <UniqueIdentifier>{1c57e392-9602-488d-b8c1-7ea701db92ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Embedded Quality Assurance">
-      <UniqueIdentifier>{9a5a2418-3819-4eb2-8ef1-31df00d75227}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Embedded Quality Assurance\Validation_Tests">
-      <UniqueIdentifier>{a012a004-73d0-4944-aca7-af56f964724d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Simulation\Mechanics">
       <UniqueIdentifier>{50805d68-ede1-4db7-a5d6-80cb2ebea815}</UniqueIdentifier>
     </Filter>
     <Filter Include="File I/O">
       <UniqueIdentifier>{fb7de985-e133-4a20-84de-369516903c32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Handle Input">
+      <UniqueIdentifier>{8489c3b3-b6e3-4fd6-a771-31ae76e7d8cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Debugging">
+      <UniqueIdentifier>{cda72208-5e92-4832-be92-b04c32c2e290}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Debugging\Embedded Quality Assurance">
+      <UniqueIdentifier>{9a5a2418-3819-4eb2-8ef1-31df00d75227}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Debugging\Embedded Quality Assurance\Validation_Tests">
+      <UniqueIdentifier>{a012a004-73d0-4944-aca7-af56f964724d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -89,10 +95,10 @@
       <Filter>Generation</Filter>
     </ClInclude>
     <ClInclude Include="Embedded_Quality_Assurance.h">
-      <Filter>Embedded Quality Assurance</Filter>
+      <Filter>Debugging\Embedded Quality Assurance</Filter>
     </ClInclude>
     <ClInclude Include="Sernimir_II_Testing.h">
-      <Filter>Embedded Quality Assurance\Validation_Tests</Filter>
+      <Filter>Debugging\Embedded Quality Assurance\Validation_Tests</Filter>
     </ClInclude>
     <ClInclude Include="Simulation.h">
       <Filter>Simulation\Mechanics</Filter>
@@ -102,6 +108,9 @@
     </ClInclude>
     <ClInclude Include="File_IO.h">
       <Filter>File I/O</Filter>
+    </ClInclude>
+    <ClInclude Include="Handle_Input.h">
+      <Filter>Handle Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
