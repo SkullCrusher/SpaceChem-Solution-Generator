@@ -18,7 +18,6 @@
 #include "Fitness_Calculator.h"
 
 // Include the classes to process the input into lexical chunks.
-//#include "Lexical_Unit.h"
 #include "LexicalAnalyzer.h"
 
 

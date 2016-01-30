@@ -1,3 +1,116 @@
-bossy bossy bossy
+/* 
+	SpaceChem Solution Generator - Solves problems using the genetic algorithm.
+			Copyright(C) 2016 by David Harkins.
 
-bossy = {bossy, bss}
+	This program is free software : you can redistribute it and / or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation version 3 of the License.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
+/* General information about the file */
+
+		/* The version of the definition loader */
+	FileInfo_Version = 1	
+	
+	FileInfo_Simulation_Name = ""
+	
+	/*    End of general information about the file    */
+	
+
+/* General information about the simulation */
+
+		/* Add the instructions that can be used. */
+	Allow_Instructions = {Instruction_Start_Left, Instruction_Start_Right, Instruction_Start_Up, Instruction_Start_Down, Instruction_Left, Instruction_Right, Instruction_Down, Instruction_Up, Instruction_Bond_Add, Instruction_Bond_Remove, Instruction_In_Alpha, Instruction_Out_Omega, Instruction_Rotate_R, Instruction_Rotate_L, Instruction_Grab, Instruction_Drop, Instruction_GrabDrop}
+	
+		/* The hard cap for the total cycles allow in the entire simulation. (Max of 18,446,744,073,709,551,615, 0 for unlimited)*/
+	Cycle_Limit_Total = 10000000
+	
+		/* The hard cap for a single simulation. (Max of 4,294,967,295, 0 for unlimited) */
+	Cycle_Limit_Simulation = 200
+
+		/* The hard cap for the number of simulations that can run before halting. (Max of 4,294,967,295, 0 for unlimited) */
+	Simulation_Max = 10000
+
+		/* The hard cap for the of number of solutions found before halting. */
+	Simulation_Solution_Max = 1
+
+		/* How many solutions to dump on halting. (Max of 4,294,967,295, 0 for unlimited.) */
+	Simulation_Solution_Toaccept = 1
+
+		/* The number of simulations to work with. */
+	Solution_Pool_Size = 500
+
+		/* How many bonding pads are in a standard reactor. */
+	Reactor_Standard_Bonding_Count = 2
+	
+		/* What is the max number of reactors that can be placed. */
+	Reactor_Max = 1
+	
+
+		/* How many of each reactors can be placed a a time. */
+	Reactor_Limit_Standard = 0
+	Reactor_Limit_Assembly = 0
+	Reactor_Limit_Disassembly = 0
+	Reactor_Limit_Sensor = 0
+	Reactor_Limit_Fusion = 0
+
+		/* Used in some missions for storing atoms. */
+	Storage_Tank_Max = 0
+
+		/* How many Recycling Plants there are. */
+	Recycling_Plant_Count = 0
+
+	/*    End of information about the simulation    */
+	
+	
+	
+/* The random chance odds for the generation and mutations */
+		/*    Odds for random mutations    */		
+	OddsTo_Mutate =
+	
+		/*    The odds for adding a new instruction on mutation    */
+	Mutate_Add_Instruction = 
+	
+		/*    The odds for removing a existing instruction on mutation    */
+	Mutate_Remove_Instruction = 
+	
+		/*    The odds for changing a existing instruction on mutation    */
+	Mutate_Change_Instruction = 
+	
+		/*    The odds for moving a existing instruction on mutation    */
+	Mutate_Move_Instruction = 
+	
+		/*    The odds to swap the color for a instruction on mutation    */
+	Mutate_Change_Color = 
+	
+		/*    The odds to change the direction of a instruction on mutation    */
+	Mutate_Change_Direction =
+		
+		/*    Odds for if the Generate_Mate_Reactor    */
+	How_Many_To_Mate = 10
+
+		/*    What are the odds to randomly generate a new one    */
+	Randomly_Generate =
+
+		/*    The odds on randomly generating to place an instruction object    */
+	Random_ToPlace = 5
+
+		/*    The odds on randomly generating to place an instuction    */
+	Set_Instruction = 7
+
+		/*    Used by random generation to determine if a new direction should be placed    */
+	Set_Direction = 7
+
+		/*    Used by random, if it is not red it will be blue. (normally 50/50 so 1 out of 2)    */
+	Color = 2
+
+	/*    End of information about random odds    */

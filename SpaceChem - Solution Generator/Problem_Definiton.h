@@ -96,18 +96,6 @@ class Problem_Definition{
 
 		// The instructions that are possible to use.
 	private: std::vector<short> Allow_Instructions;
-
-		// Get an allowed instruction by index.
-	public: short Get_Instruction(unsigned int index) {
-
-			// Catch.
-		if (index >= Allow_Instructions.size()) {
-			return Instruction_NOP;
-		}
-
-		return Allow_Instructions[index];
-	}
-	public: short Get_Instruction_Size() { return (short) Allow_Instructions.size(); }
 			
 		// How many solutions should be paired.
 	private: int Number_To_Crossover; // not sure what this was for. Debugging
@@ -121,26 +109,29 @@ class Problem_Definition{
 		// How many bonding pads are in a standard reactor.
 	public: short Reactor_Standard_Bonding_Count;
 
+		// What is the max number of reactors that can be placed.
+	public: int Reactor_Max;
 
+		// How many of each reactors can be placed a a time.
+	public: short Reactor_Limit_Standard;
+	public: short Reactor_Limit_Assembly;
+	public: short Reactor_Limit_Disassembly;
+	public: short Reactor_Limit_Sensor;
+	public: short Reactor_Limit_Fusion;
 
+		// Used in some missions for storing atoms.
+	public: int Storage_Tank_Max;
+
+		// How many Recycling Plants there are.
+	public: int Recycling_Plant_Count;
 
 
 
 	
+
+
+
 //---------- For future use ------------
-		// What is the max number of reactors that can be placed.
-	int Reactor_Max;
-	short Reactor_Limit_Standard;
-	short Reactor_Limit_Assembly;
-	short Reactor_Limit_Disassembly;
-	short Reactor_Limit_Sensor;
-	short Reactor_Limit_Fusion;
-
-		// Used in some missions for storing atoms.
-	int Storage_Tank_Max;
-
-		// How many Recycling Plants there are.
-	int Recycling_Plant_Count;
 
 		// The percent of cycle decrease that is required to share.
 	double Sharing_Req_Percent;
@@ -196,6 +187,18 @@ class Problem_Definition{
 
 		// Default destructor.
 	public: ~Problem_Definition(){}
+
+			// Get an allowed instruction by index.
+	public: short Get_Instruction(unsigned int index) {
+
+		// Catch.
+		if (index >= Allow_Instructions.size()) {
+			return Instruction_NOP;
+		}
+
+		return Allow_Instructions[index];
+	}
+	public: short Get_Instruction_Size() { return (short)Allow_Instructions.size(); }
 
 	public: void Add_Instruction(int InstructionID)						{ Allow_Instructions.push_back(InstructionID); }
 	public: void Set_Cycle_Limit_Total(unsigned long long argument)		{ Cycle_Limit_Total = argument; }

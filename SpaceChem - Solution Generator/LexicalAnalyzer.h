@@ -23,6 +23,8 @@
 
 #include "Lexical_Unit.h"
 
+#include <stdio.h>
+#include <ctype.h>
 #include <vector>
 
 class LexicalAnalyzer{
@@ -31,11 +33,63 @@ class LexicalAnalyzer{
 	public: LexicalAnalyzer() {
 	
 	}
+		// Checks if char is a space or tab.
+	private: bool IsWhitespace(char argument) {
+		if (argument == ' ' || argument == '\t') {
+			return true;
+		}else {
+			return false;
+		}
+	}
 
-		// Run.
+		// Checks if char is a letter.
+	private: bool IsCharacterLetter(char argument) {
+		return isalpha((int) argument);
+	}
+
+		// Checks if the char is a number.
+	private: bool IsCharacterNumber(char argument) {
+
+		if (argument >= '0' && argument <= '9') {
+			return true;
+		}
+
+		return false;
+	}
+
+		// Convert the string to LexicalUnits.
 	public: std::vector<LexicalUnit> Process(std::string argument) {
 
 		std::vector<LexicalUnit> Result;
+
+			// Process each character.
+		for (unsigned int i = 0; i < argument.size(); i++) {
+
+			//bool Debug = IsCharacterLetter(argument[i]);
+
+			//bool Tru = IsCharacterNumber('0');
+
+				// Skip white spaces.
+			if (IsWhitespace(argument[i])) {
+				continue;
+			}
+
+				// Skip comments.
+			if (argument[i] == '*') {
+
+					// Check to see if the size if big enough 
+				if () {
+
+				}
+				//argument[i + 1] = "";
+				
+
+			}
+
+
+			int debug = 0;
+
+		}
 
 
 		return Result;
