@@ -29,12 +29,6 @@
     <Filter Include="Debugging">
       <UniqueIdentifier>{cda72208-5e92-4832-be92-b04c32c2e290}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Debugging\Embedded Quality Assurance">
-      <UniqueIdentifier>{9a5a2418-3819-4eb2-8ef1-31df00d75227}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Debugging\Embedded Quality Assurance\Validation_Tests">
-      <UniqueIdentifier>{a012a004-73d0-4944-aca7-af56f964724d}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -94,12 +88,6 @@
     <ClInclude Include="Fitness_Data.h">
       <Filter>Generation</Filter>
     </ClInclude>
-    <ClInclude Include="Embedded_Quality_Assurance.h">
-      <Filter>Debugging\Embedded Quality Assurance</Filter>
-    </ClInclude>
-    <ClInclude Include="Sernimir_II_Testing.h">
-      <Filter>Debugging\Embedded Quality Assurance\Validation_Tests</Filter>
-    </ClInclude>
     <ClInclude Include="Simulation.h">
       <Filter>Simulation\Mechanics</Filter>
     </ClInclude>
@@ -111,6 +99,15 @@
     </ClInclude>
     <ClInclude Include="Handle_Input.h">
       <Filter>Handle Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Sernimir_II_Testing.h">
+      <Filter>Debugging</Filter>
+    </ClInclude>
+    <ClInclude Include="LexicalAnalyzer.h">
+      <Filter>File I/O</Filter>
+    </ClInclude>
+    <ClInclude Include="Lexical_Unit.h">
+      <Filter>File I/O</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

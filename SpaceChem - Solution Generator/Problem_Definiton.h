@@ -76,20 +76,23 @@ struct Odds {
 
 class Problem_Definition{
 
+		// If the problem was found to be invalid.
+	private: bool Invalid;
+
 		// The hard cap for the total cycles allow in the entire simulation.
-	private: unsigned long long Cycle_Limit_Total; //Max of 18,446,744,073,709,551,615, 0 for unlimited.
+	private: unsigned long long Cycle_Limit_Total; // Max of 18,446,744,073,709,551,615, 0 for unlimited.
 
 		// The hard cap for a single simulation.
-	private: unsigned long Cycle_Limit_Simulation; //Max of 4,294,967,295, 0 for unlimited.
+	private: unsigned long Cycle_Limit_Simulation; // Max of 4,294,967,295, 0 for unlimited.
 
 		// The hard cap for the number of simulations that can run before halting.
-	private: unsigned long Simulation_Max; //Max of 4,294,967,295, 0 for unlimited.
+	private: unsigned long Simulation_Max; // Max of 4,294,967,295, 0 for unlimited.
 
 		// The hard cap for the of number of solutions found before halting.
-	private: unsigned long Simulation_Solution_Max; //Max of 4,294,967,295, 0 for unlimited.
+	private: unsigned long Simulation_Solution_Max; // Max of 4,294,967,295, 0 for unlimited.
 
 		// How many solutions to dump on halting.
-	private: unsigned long Simulation_Solution_Toaccept; //Max of 4,294,967,295, 0 for unlimited.
+	private: unsigned long Simulation_Solution_Toaccept; // Max of 4,294,967,295, 0 for unlimited.
 
 		// The instructions that are possible to use.
 	private: std::vector<short> Allow_Instructions;
@@ -169,8 +172,11 @@ class Problem_Definition{
 		Number_To_Crossover			= 1;
 		Solution_Pool_Size			= 1;
 
+			// The problem is not invalid.
+		Invalid						= false;
 
-			//----- Future use --------
+
+			// ----- Future use --------
 		Reactor_Max					= -1;
 		Reactor_Limit_Standard		= -1;
 		Reactor_Limit_Assembly		= -1;
@@ -197,6 +203,7 @@ class Problem_Definition{
 	public: void Set_Simulation_Max(unsigned long argument)				{ Simulation_Max = argument; }
 	public: void Set_Simulation_Solution_Max(unsigned long argument)	{ Simulation_Solution_Max = argument; }
 	public: void Set_Simulation_Solution_Toaccept(unsigned long argument)	{ Simulation_Solution_Toaccept = argument;}
+	public: void Set_Invalid(bool argument) { Invalid = argument; }
 
 
 	public: unsigned long long Get_Cycle_Limit_Total()		    { return Cycle_Limit_Total; }
@@ -204,6 +211,7 @@ class Problem_Definition{
 	public: unsigned long Get_Simulation_Max()				{ return Simulation_Max; }
 	public: unsigned long Get_Simulation_Solution_Max()	    { return Simulation_Solution_Max; }
 	public: unsigned long Get_Simulation_Solution_Toaccept()	{ return Simulation_Solution_Toaccept; }
+	public: bool Get_Invalid() { return Invalid; }
 };
 
 #endif

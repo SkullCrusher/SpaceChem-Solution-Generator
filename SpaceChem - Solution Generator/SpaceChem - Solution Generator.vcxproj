@@ -159,9 +159,10 @@
     <ClInclude Include="Atom.h" />
     <ClInclude Include="File_IO.h" />
     <ClInclude Include="Handle_Input.h" />
+    <ClInclude Include="LexicalAnalyzer.h" />
+    <ClInclude Include="Lexical_Unit.h" />
     <ClInclude Include="Sernimir_II_Testing.h" />
     <ClInclude Include="Definitions.h" />
-    <ClInclude Include="Embedded_Quality_Assurance.h" />
     <ClInclude Include="Fitness_Calculator.h" />
     <ClInclude Include="Fitness_Data.h" />
     <ClInclude Include="Generation.h" />

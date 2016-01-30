@@ -17,7 +17,6 @@
 
 #include <iostream>
 #include <stdlib.h>
-#include <fstream>
 
 	// Each core part of the program.
 #include "Simulation_Controller.h"
@@ -34,8 +33,8 @@
 	// Functions that are used by the main.
 #include "Utilities.h"
 
-	// Used for testing.
-#include "Embedded_Quality_Assurance.h"
+	// Used to load and save the problem definitons.
+#include "File_IO.h"
 
 
 int main(int argc, char *argv[]) {
@@ -67,22 +66,22 @@ int main(int argc, char *argv[]) {
 	if (User_Input.Operation == Command_Line_OP_CS || Command_Line_OP_SAF){
 
 			// Load the file argument. Create the definition of the problem that needs to be solved.
-		Problem_Definition Simulation_Definition = LoadProblemDefinitionFile("debugging");
+		Problem_Definition Simulation_Definition = LoadProblemDefinitionFile("testinput.txt");
 
-			// Handle the input file.
-		int Result_Code = Handle_Input(Simulation_Definition);
+			// Check if the problem_definition which was loaded is invalid.
+		if (Simulation_Definition.Get_Invalid()) {
 
-			// Exit with simulation code.
-		return Result_Code;
+			return 1000; // Exit with simulation code.
+		}else{
+
+				// Handle the input file.
+			int Result_Code = Handle_Input(Simulation_Definition);
+
+				// Exit with simulation code.
+			return Result_Code;
+		}		
 	}
 	
-		// If the embedded testing is requested give control to that.
-	if (User_Input.Operation == Command_Line_OP_TEST){
-
-			// Needs file I/O before can be completed.
-		Embedded_Quality_Assurance Quality;		
-	}
-
 		// Return the code.
 	return User_Input.Status_Code;
 }

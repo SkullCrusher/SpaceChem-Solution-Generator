@@ -75,10 +75,12 @@ CommandLine ParseCommandLine(int argc, char *argv[]){
 	for (int i = 1; i < argc; i++){
 		// Operations:
 		// -OP_Test  : Simulates the testing data to check the validation of the current version.
+		/*
 		if (strcmp(argv[i], "-OP_Test") == 0){
 			Result.Operation = Command_Line_OP_TEST;
 			continue;
 		}
+		*/
 		// -OP_SAF   : Loads a problem definition from a file and simulates it until a solution is found.
 		if (strcmp(argv[i], "-OP_SAF") == 0){
 			Result.Operation = Command_Line_OP_SAF;
