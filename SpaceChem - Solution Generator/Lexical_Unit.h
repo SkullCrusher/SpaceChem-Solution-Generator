@@ -23,15 +23,16 @@
 
 #include <string>
 
-#define Token_Null				0
-#define Token_Integer			1
-#define Token_Identifier		2
-#define Token_Left_Bracket		3
-#define Token_Right_Bracket		4
-#define Token_Comma				5
-#define Token_Equals			6
-#define Token_Unknown			7
-#define Token_NewLine			8
+#define Token_Null					0
+#define Token_Integer				1
+#define Token_Identifier			2
+#define Token_Left_Bracket			3
+#define Token_Right_Bracket			4
+#define Token_Comma					5
+#define Token_Equals				6
+#define Token_Unknown				7
+#define Token_Missing_Comment_Tag	8
+#define Token_NewLine				9
 
 
 struct LexicalUnit{

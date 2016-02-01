@@ -21,7 +21,7 @@
 		/* The version of the definition loader */
 	FileInfo_Version = 1	
 	
-	FileInfo_Simulation_Name = ""
+	FileInfo_Simulation_Name = "Michael"
 	
 	/*    End of general information about the file    */
 	
@@ -75,31 +75,31 @@
 	
 /* The random chance odds for the generation and mutations */
 		/*    Odds for random mutations    */		
-	OddsTo_Mutate =
+	OddsTo_Mutate = 
 	
 		/*    The odds for adding a new instruction on mutation    */
-	Mutate_Add_Instruction = 
+	Mutate_Add_Instruction = 10
 	
 		/*    The odds for removing a existing instruction on mutation    */
-	Mutate_Remove_Instruction = 
+	Mutate_Remove_Instruction = 10
 	
 		/*    The odds for changing a existing instruction on mutation    */
-	Mutate_Change_Instruction = 
+	Mutate_Change_Instruction = 10
 	
 		/*    The odds for moving a existing instruction on mutation    */
-	Mutate_Move_Instruction = 
+	Mutate_Move_Instruction = 10
 	
 		/*    The odds to swap the color for a instruction on mutation    */
-	Mutate_Change_Color = 
+	Mutate_Change_Color = 10
 	
 		/*    The odds to change the direction of a instruction on mutation    */
-	Mutate_Change_Direction =
+	Mutate_Change_Direction = 10
 		
 		/*    Odds for if the Generate_Mate_Reactor    */
 	How_Many_To_Mate = 10
 
 		/*    What are the odds to randomly generate a new one    */
-	Randomly_Generate =
+	Randomly_Generate = 10
 
 		/*    The odds on randomly generating to place an instruction object    */
 	Random_ToPlace = 5

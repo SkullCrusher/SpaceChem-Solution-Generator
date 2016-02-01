@@ -30,12 +30,11 @@
 class LexicalAnalyzer{
 
 		// Default constructor.
-	public: LexicalAnalyzer() {
-	
-	}
+	public: LexicalAnalyzer() {}
+
 		// Checks if char is a space or tab.
 	private: bool IsWhitespace(char argument) {
-		if (argument == ' ' || argument == '\t') {
+		if (argument == ' ' || argument == '\t' || argument == '\n') {
 			return true;
 		}else {
 			return false;
@@ -44,7 +43,7 @@ class LexicalAnalyzer{
 
 		// Checks if char is a letter.
 	private: bool IsCharacterLetter(char argument) {
-		return isalpha((int) argument);
+		return isalpha((int)argument) || (argument == '_');
 	}
 
 		// Checks if the char is a number.
@@ -57,6 +56,50 @@ class LexicalAnalyzer{
 		return false;
 	}
 
+		// Takes a string input and continues until a *\ is found or -1 if one is not contained.
+	private: int SkipComment(std::string argument, int i) {
+
+		for (unsigned int g = i + 2; g < argument.size() - 1; g++) {
+
+			if (argument[g] == '*' && argument[(g + 1)] == '/') {
+					return (g + 1);
+			}
+		}
+
+		return -1;
+	}
+
+		// Look up extra characters.
+	private: void Lookup(char argument, std::vector<LexicalUnit> &Result) {
+
+		LexicalUnit Temp;
+		Temp.lexeme = argument;
+
+		switch (argument) {
+			case '{':
+				Temp.Token = Token_Left_Bracket;
+				break;
+
+			case '}':
+				Temp.Token = Token_Right_Bracket;
+				break;
+
+			case ',':
+				Temp.Token = Token_Comma;			
+				break;
+
+			case '=':			
+				Temp.Token = Token_Equals;
+				break;
+
+			default:			
+				Temp.Token = Token_Unknown;
+				break;
+		}
+
+		Result.push_back(Temp);
+	}
+
 		// Convert the string to LexicalUnits.
 	public: std::vector<LexicalUnit> Process(std::string argument) {
 
@@ -65,38 +108,121 @@ class LexicalAnalyzer{
 			// Process each character.
 		for (unsigned int i = 0; i < argument.size(); i++) {
 
-			//bool Debug = IsCharacterLetter(argument[i]);
-
-			//bool Tru = IsCharacterNumber('0');
-
 				// Skip white spaces.
 			if (IsWhitespace(argument[i])) {
 				continue;
 			}
 
 				// Skip comments.
-			if (argument[i] == '*') {
+			if (argument[i] == '/') {
 
 					// Check to see if the size if big enough 
-				if () {
+				if ((i + 1) < argument.size()) {
+					if (argument[i + 1] == '*') {
+						int Offset = SkipComment(argument, i);
 
+						if (Offset != -1) {
+							i = Offset;
+							continue;
+						}else {
+							LexicalUnit Temp;
+							Temp.Token = Token_Missing_Comment_Tag;
+							Temp.lexeme = "Error.";
+							Result.push_back(Temp);
+							continue;
+						}
+					}
+				} else {
+						// A without a matching * so dump it as a unknown.
+					LexicalUnit Temp;
+
+					Temp.lexeme = "/";
+					Temp.Token = Token_Unknown;
+
+					Result.push_back(Temp);
+					continue;
 				}
-				//argument[i + 1] = "";
-				
-
 			}
 
+				// Do function with ""
+			if (argument[i] == '\"') {
+				LexicalUnit Temp;
+				Temp.Token = Token_Identifier;
+				Temp.lexeme = "";
+				
+				i++;
 
-			int debug = 0;
+					// Continue until it is a whitespace or an invalid character.
+				while (i < argument.size()) {
+					if (argument[i] != '\"') {
+						Temp.lexeme += argument[i];
+						i++;
+					} else {
+						break;
+					}
+				}
 
+				Result.push_back(Temp);
+				continue;
+			}
+
+				// Is Identifier?
+			if (IsCharacterLetter(argument[i])) {
+				LexicalUnit Temp;
+				Temp.Token = Token_Identifier;
+				Temp.lexeme = "";
+				Temp.lexeme += argument[i];
+
+				i++;
+
+					// Continue until it is a whitespace or an invalid character.
+				while (i < argument.size()) {
+					if (IsCharacterLetter(argument[i]) || IsCharacterNumber(argument[i])) {
+						Temp.lexeme += argument[i];
+						i++;
+					} else {
+						break;
+					}
+				}
+
+				i--;
+
+				Result.push_back(Temp);
+				continue;
+			}
+
+				// Is it a number.
+			if (IsCharacterNumber(argument[i])) {
+				LexicalUnit Temp;
+				Temp.Token = Token_Identifier;
+				Temp.lexeme = "";
+				Temp.lexeme += argument[i];
+
+				i++;
+
+					// Continue until it is a whitespace or an invalid character.
+				while (i < argument.size()) {
+					if (IsCharacterNumber(argument[i])) {
+						Temp.lexeme += argument[i];
+						i++;
+					} else {
+						break;
+					}
+				}
+
+				i--;
+
+				Result.push_back(Temp);
+				continue;
+			}
+
+				// The character has not been found so look it up.
+			Lookup(argument[i], Result);
 		}
-
-
+		
 		return Result;
 	}
 
 };
-
-
 
 #endif
