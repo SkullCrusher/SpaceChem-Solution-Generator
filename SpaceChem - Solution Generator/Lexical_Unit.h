@@ -43,6 +43,9 @@ struct LexicalUnit{
 		// Holds the value.
 	std::string lexeme = "";
 
+		// What line the error is on.
+	int LineNumber = 0;
+
 	LexicalUnit() {
 
 	}

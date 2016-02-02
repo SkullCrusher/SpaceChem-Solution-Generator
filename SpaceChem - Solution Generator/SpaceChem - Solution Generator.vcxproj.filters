@@ -109,6 +109,12 @@
     <ClInclude Include="Lexical_Unit.h">
       <Filter>File I/O</Filter>
     </ClInclude>
+    <ClInclude Include="Interpreter.h">
+      <Filter>File I/O</Filter>
+    </ClInclude>
+    <ClInclude Include="Common_Functions.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="License.txt" />

@@ -32,9 +32,18 @@ class LexicalAnalyzer{
 		// Default constructor.
 	public: LexicalAnalyzer() {}
 
+		// Checks if char is newline.
+	private: bool IsNewline(char argument) {
+		if (argument == '\n') {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
 		// Checks if char is a space or tab.
 	private: bool IsWhitespace(char argument) {
-		if (argument == ' ' || argument == '\t' || argument == '\n') {
+		if (argument == ' ' || argument == '\t') {
 			return true;
 		}else {
 			return false;
@@ -70,7 +79,7 @@ class LexicalAnalyzer{
 	}
 
 		// Look up extra characters.
-	private: void Lookup(char argument, std::vector<LexicalUnit> &Result) {
+	private: void Lookup(char argument, int LineNumber, std::vector<LexicalUnit> &Result) {
 
 		LexicalUnit Temp;
 		Temp.lexeme = argument;
@@ -97,6 +106,8 @@ class LexicalAnalyzer{
 				break;
 		}
 
+		Temp.LineNumber = LineNumber;
+
 		Result.push_back(Temp);
 	}
 
@@ -105,11 +116,20 @@ class LexicalAnalyzer{
 
 		std::vector<LexicalUnit> Result;
 
+			// What line the input is currently on.
+		int Linenumber = 0;
+
 			// Process each character.
 		for (unsigned int i = 0; i < argument.size(); i++) {
 
-				// Skip white spaces.
+				// Skip white spaces and tabs.
 			if (IsWhitespace(argument[i])) {
+				continue;
+			}
+
+				// Skip newlines and increase line count.
+			if (IsNewline(argument[i])){
+				Linenumber++;
 				continue;
 			}
 
@@ -128,6 +148,7 @@ class LexicalAnalyzer{
 							LexicalUnit Temp;
 							Temp.Token = Token_Missing_Comment_Tag;
 							Temp.lexeme = "Error.";
+							Temp.LineNumber = Linenumber;
 							Result.push_back(Temp);
 							continue;
 						}
@@ -138,7 +159,7 @@ class LexicalAnalyzer{
 
 					Temp.lexeme = "/";
 					Temp.Token = Token_Unknown;
-
+					Temp.LineNumber = Linenumber;
 					Result.push_back(Temp);
 					continue;
 				}
@@ -149,7 +170,8 @@ class LexicalAnalyzer{
 				LexicalUnit Temp;
 				Temp.Token = Token_Identifier;
 				Temp.lexeme = "";
-				
+				Temp.LineNumber = Linenumber;
+
 				i++;
 
 					// Continue until it is a whitespace or an invalid character.
@@ -172,6 +194,7 @@ class LexicalAnalyzer{
 				Temp.Token = Token_Identifier;
 				Temp.lexeme = "";
 				Temp.lexeme += argument[i];
+				Temp.LineNumber = Linenumber;
 
 				i++;
 
@@ -197,6 +220,7 @@ class LexicalAnalyzer{
 				Temp.Token = Token_Identifier;
 				Temp.lexeme = "";
 				Temp.lexeme += argument[i];
+				Temp.LineNumber = Linenumber;
 
 				i++;
 
@@ -217,7 +241,7 @@ class LexicalAnalyzer{
 			}
 
 				// The character has not been found so look it up.
-			Lookup(argument[i], Result);
+			Lookup(argument[i], Linenumber, Result);
 		}
 		
 		return Result;

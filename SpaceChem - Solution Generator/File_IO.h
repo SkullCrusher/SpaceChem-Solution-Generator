@@ -19,6 +19,7 @@
 
 // Include the classes to process the input into lexical chunks.
 #include "LexicalAnalyzer.h"
+#include "Interpreter.h"
 
 
 	// Loads a entire file from the path provided.
@@ -40,8 +41,7 @@ std::string LoadFile(std::string Filepath) {
 	return Result;
 }
 
-
-// Handles loading a new file and returns the problem_definition from it.
+	// Handles loading a new file and returns the problem_definition from it.
 Problem_Definition LoadProblemDefinitionFile(std::string Path) {
 
 	Problem_Definition Result;
@@ -55,20 +55,28 @@ Problem_Definition LoadProblemDefinitionFile(std::string Path) {
 		return Result;
 	}
 
+		// Create a instance of the LexicalAnalyer which turns a raw input string into Lexical_Units.
 	LexicalAnalyzer Lexical_Processor;
 
 		// Process the input file.
 	std::vector<LexicalUnit> Step_One_Result = Lexical_Processor.Process(InputFile);
+	
+		// Create the interpreter to turn the Lexical_Units into a Problem_Definiton.
+	Interpreter Lexical_Interpreter;
+
+		// Used to store the errors that are generated in the interpreter.
+	std::vector<std::string> ErrorReport;
+
+		// Process the LexicalUnits into the Problem_Definiton.
+	Result = Lexical_Interpreter.Process(Step_One_Result, ErrorReport);
 
 
+	return Result;
+}
 
+#endif
 
-
-
-	int debug = 0;
-
-
-	/*
+/*
 
 	// For debugging the definition is just hard coded.
 	Problem_Definition debugging_def;
@@ -121,10 +129,4 @@ Problem_Definition LoadProblemDefinitionFile(std::string Path) {
 	// There are two bonding pads in a standard reactor.
 	debugging_def.Reactor_Limit_Standard = 2;
 
-	*/
-	return Result;
-}
-
-
-
-#endif
+*/
