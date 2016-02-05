@@ -22,99 +22,38 @@
 #ifndef Handle_Input_H
 #define Handle_Input_H
 
-#include <iostream>
-#include <stdlib.h>
-#include <fstream>
+#include <string>
 
-	// Each core part of the program.
-#include "Simulation_Controller.h"
-#include "Generation.h"
+	// Used to dump the result to a file.
+#include "File_IO.h"
 
-	// Commonly used definitions for all core parts of the program.
-#include "Definitions.h"
-#include "Problem_Definiton.h"
-#include "Fitness_Calculator.h"
-
-	// Functions that are used by the main.
-#include "Utilities.h"
-
-Odds Debug_Generate_Odds() {
-	Odds Temp;
-
-		// The odds to mutate.
-	Temp.OddsTo_Mutate = 10;  // (1 out of 10)
-
-							  // The odds on mutation to add a new instruction.
-	Temp.Mutate_Add_Instruction = 5;
-	Temp.Mutate_Remove_Instruction = 5;
-	Temp.Mutate_Change_Instruction = 5;
-	Temp.Mutate_Move_Instruction = 5;
-	Temp.Mutate_Change_Color = 5;
-	Temp.Mutate_Change_Direction = 1;
-
-		// Randomly generate
-	Temp.Set_Instruction = 7;
-	Temp.Set_Direction = 7;
-	Temp.Color = 2;
-
-	return Temp;
-}
-
-
-bool CheckIfComplete(std::vector<Solution_Reactor> &Solution_Pool) {
-
-	for (unsigned int i = 0; i < Solution_Pool.size(); i++) {
-			//Check if there is an answer
-			#pragma message ("Handle_Input.h: TDAP - Change to accept only if the definition was met.")
-		if (Solution_Pool[i].Get_Status() == Solution_Accepted) {
-
-			int debug = 0;
-
-			return true;
-		}
-	}
-
-	return false;
-}
+	// The two possible paths from the input file.
+#include "Create_Solution.h"
+#include "Solution_Validate.h"
 	
 	// Takes a problem definition and processes it and exits the program.
 int Handle_Input(Problem_Definition Simulation_Definition) {
 
-		// Create the simulation controller that handles all simulations.
-	Simulation_Controller Simulation_Handle;
+	std::string Result = "Invalid";
 
-		// Set the definition into the simulation controller.
-	Simulation_Handle.Set_Problem_Definition(Simulation_Definition);
-	
-		// The pool of solutions that need to be simulated.
-	std::vector<Solution_Reactor> Solution_Pool;
-
-		// The class that handles the generation and mutation of solutions.
-	Generation Generation_Handle;
-
-		// The class that handles post processing of the solutions.
-	Fitness_Calculator Fitness_Handle;
-
-
-	bool Accepted_Solution = false;
-
-	while (!Accepted_Solution) {
-
-			// Handle generation.
-		Generation_Handle.Generate_Single_Reactor(Simulation_Definition, Solution_Pool);
-
-			// Simulate the pool.
-		Simulation_Handle.Tick(Solution_Pool, &Fitness_Handle);
-
-			// Process the results, Note this should have the Solution_Pool as an argument.
-		Fitness_Handle.Calculate_Fitness(Solution_Pool);
-
-			// Check if the problem has been solved based off the problem definition.
-		if (CheckIfComplete(Solution_Pool)) {
-			Accepted_Solution = true;
-		}
+		// The input is a problem to solve.
+	if (Simulation_Definition.Simulation_Type == "Solve") {
+		Result = Create_Solution(Simulation_Definition);
 	}
 
+		// The input is a solution to simulate.
+	if (Simulation_Definition.Simulation_Type == "Validate") {
+		Result = Solution_Validate(Simulation_Definition);
+	}
+
+		// Check for errors.
+	if (Result == "Invalid") {
+		return -10;
+	}
+
+		// Dump the results.
+	DumpFile(Simulation_Definition.FileInfo_Simulation_Name + ".txt", Result);
+	
 	return 0;
 }
 

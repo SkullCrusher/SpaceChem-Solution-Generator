@@ -74,10 +74,29 @@ struct Odds {
 	}
 };
 
+
+	// Holds the information about a single reactor simulation.
+struct SingleReactor {
+
+		// Input.
+	Packed_Molecule InputForAlpha;
+	Packed_Molecule InputForBeta;
+
+	Where I was, I am working on solution validation and for a single reactor simulation I am storing the input molecules in the problem definiton.
+		I need to create input structs so there can be percentages on input and output and requirements such as "10 of these";
+
+		// Output requirements.
+	Packed_Molecule Expected_Out_Omega;
+	Packed_Molecule Expected_Out_Phi;
+
+};
+
+
 class Problem_Definition{
 
 		// If the problem was found to be invalid.
 	public: bool Invalid;
+
 
 		// The problem was loaded from a file.
 	public: int FileInfo_Version;
@@ -85,8 +104,10 @@ class Problem_Definition{
 		// The name of the simulation.
 	public: std::string FileInfo_Simulation_Name;
 
-		// What type of simulation to do, "Solve" or "Validate"
+		// What type of simulation to do, "Solve" or "Validate".
 	public: std::string Simulation_Type;
+
+
 
 		// The hard cap for the total cycles allow in the entire simulation.
 	public: unsigned long long Cycle_Limit_Total; // Max of 18,446,744,073,709,551,615, 0 for unlimited.
@@ -105,6 +126,9 @@ class Problem_Definition{
 
 		// The instructions that are possible to use.
 	public: std::vector<short> Allow_Instructions;
+
+
+
 			
 		// How many solutions should be paired.
 	public: int Number_To_Crossover; // not sure what this was for. Debugging
@@ -118,29 +142,30 @@ class Problem_Definition{
 		// How many bonding pads are in a standard reactor.
 	public: short Reactor_Standard_Bonding_Count;
 
-		// What is the max number of reactors that can be placed.
-	public: int Reactor_Max;
+
+
+
+		
+
+
+		
+//---------- For future use ------------
+
+// What is the max number of reactors that can be placed.
+public: int Reactor_Max;
 
 		// How many of each reactors can be placed a a time.
-	public: short Reactor_Limit_Standard;
-	public: short Reactor_Limit_Assembly;
-	public: short Reactor_Limit_Disassembly;
-	public: short Reactor_Limit_Sensor;
-	public: short Reactor_Limit_Fusion;
+public: short Reactor_Limit_Standard;
+public: short Reactor_Limit_Assembly;
+public: short Reactor_Limit_Disassembly;
+public: short Reactor_Limit_Sensor;
+public: short Reactor_Limit_Fusion;
 
 		// Used in some missions for storing atoms.
-	public: int Storage_Tank_Max;
+public: int Storage_Tank_Max;
 
-		// How many Recycling Plants there are.
-	public: int Recycling_Plant_Count;
-
-
-
-	
-
-
-
-//---------- For future use ------------
+// How many Recycling Plants there are.
+public: int Recycling_Plant_Count;
 
 		// The percent of cycle decrease that is required to share.
 	double Sharing_Req_Percent;
@@ -161,6 +186,8 @@ class Problem_Definition{
 	bool Share_Node_Randomly;
 
 //---------- End of future use ------------
+
+
 
 		// Default constructor.
 	public: Problem_Definition(){
@@ -183,7 +210,7 @@ class Problem_Definition{
 
 		Simulation_Type = "Unknown";
 
-
+		
 			// ----- Future use --------
 		Reactor_Max					= -1;
 		Reactor_Limit_Standard		= -1;
@@ -199,6 +226,7 @@ class Problem_Definition{
 		Share_Node_Trade_Count		= -1;
 		Share_Node_Trade_Percent	= -1;
 		Share_Node_Randomly			= false;
+		
 
 	}
 

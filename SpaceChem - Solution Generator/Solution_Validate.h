@@ -28,7 +28,27 @@
 	// Validate the input problem definition.
 std::string Solution_Validate(Problem_Definition argument) {
 
+		// Create the simulation controller that handles the simulation.
+	Simulation_Controller Simulation_Handle;
 
+		// Set the definition into the simulation controller.
+	Simulation_Handle.Set_Problem_Definition(argument);
+
+		// The class that handles post processing of the solution.
+	Fitness_Calculator Fitness_Handle;
+			
+	
+		// Simulate the solution.
+	//Simulation_Handle.Simulate_Single_Reactor()
+	
+		// Calculate the fitness.
+	//Fitness_Handle.Calculate_Fitness(Solution_Pool);
+
+		// Generate the results.
+	//std::string Result = Generate_Report_Validation(Simulation, Fitness);
+	
+
+	return "valid";
 }
 
 

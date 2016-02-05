@@ -121,6 +121,9 @@
     <ClInclude Include="Create_Solution.h">
       <Filter>Handle Input</Filter>
     </ClInclude>
+    <ClInclude Include="Report_Generation.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="License.txt" />

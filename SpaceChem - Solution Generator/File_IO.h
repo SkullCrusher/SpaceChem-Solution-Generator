@@ -56,6 +56,35 @@ std::string LoadFile(std::string Filepath) {
 	return Result;
 }
 
+	// Dump the input string to a file.
+void DumpFile(std::string Path, std::string data) {
+
+	std::ofstream myfile;
+	myfile.open(Path.c_str());
+	myfile << "";
+	
+		// Tac on this trash because it's important.
+	myfile << "	SpaceChem Solution Generator - Solves problems using the genetic algorithm.\n";
+	myfile << "			Copyright(C) 2016 by David Harkins.\n";
+	myfile << "\n";
+	myfile << "	This program is free software : you can redistribute it and / or modify\n";
+	myfile << "	it under the terms of the GNU General Public License as published by\n";
+	myfile << "	the Free Software Foundation version 3 of the License.\n";
+	myfile << "\n";
+	myfile << "	This program is distributed in the hope that it will be useful,\n";
+	myfile << "	but WITHOUT ANY WARRANTY; without even the implied warranty of\n";
+	myfile << "	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.See the\n";
+	myfile << "	GNU General Public License for more details.\n";
+	myfile << "\n";
+	myfile << "	You should have received a copy of the GNU General Public License\n";
+	myfile << "	along with this program. If not, see <http://www.gnu.org/licenses/>.\n\n\n";
+	
+		// Output the data.
+	myfile << data;
+	myfile.close();
+
+}
+
 	// Handles loading a new file and returns the problem_definition from it.
 Problem_Definition LoadProblemDefinitionFile(std::string Path) {
 

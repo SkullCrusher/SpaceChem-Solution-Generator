@@ -161,6 +161,7 @@
     <ClInclude Include="Create_Solution.h" />
     <ClInclude Include="File_IO.h" />
     <ClInclude Include="Handle_Input.h" />
+    <ClInclude Include="Report_Generation.h" />
     <ClInclude Include="Solution_Validate.h" />
     <ClInclude Include="Interpreter.h" />
     <ClInclude Include="LexicalAnalyzer.h" />
