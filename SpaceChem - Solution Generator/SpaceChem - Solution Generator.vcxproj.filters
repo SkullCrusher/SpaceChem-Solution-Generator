@@ -115,6 +115,12 @@
     <ClInclude Include="Common_Functions.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Solution_Validate.h">
+      <Filter>Handle Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Create_Solution.h">
+      <Filter>Handle Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="License.txt" />

@@ -16,7 +16,7 @@
 */
 
 /*
-	Utilities.h - Used to store functions called directly by main.
+	Handle_Input.h - Used to take the input and move it to the correct simulation path.
 */
 
 #ifndef Handle_Input_H

@@ -158,8 +158,10 @@
   <ItemGroup>
     <ClInclude Include="Atom.h" />
     <ClInclude Include="Common_Functions.h" />
+    <ClInclude Include="Create_Solution.h" />
     <ClInclude Include="File_IO.h" />
     <ClInclude Include="Handle_Input.h" />
+    <ClInclude Include="Solution_Validate.h" />
     <ClInclude Include="Interpreter.h" />
     <ClInclude Include="LexicalAnalyzer.h" />
     <ClInclude Include="Lexical_Unit.h" />

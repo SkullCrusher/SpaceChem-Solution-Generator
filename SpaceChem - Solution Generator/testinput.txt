@@ -21,7 +21,11 @@
 		/* The version of the definition loader */
 	FileInfo_Version = 1	
 	
+		/* What to name the output */
 	FileInfo_Simulation_Name = "Michael"
+	
+		/* What type of simulation to do, problem solve or solution validation */
+	FileInfo_Simulation_Type = "Validate"
 	
 	/*    End of general information about the file    */
 	
@@ -75,7 +79,7 @@
 	
 /* The random chance odds for the generation and mutations */
 		/*    Odds for random mutations    */		
-	OddsTo_Mutate = 
+	OddsTo_Mutate = 10
 	
 		/*    The odds for adding a new instruction on mutation    */
 	Mutate_Add_Instruction = 10

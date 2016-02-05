@@ -77,28 +77,37 @@ struct Odds {
 class Problem_Definition{
 
 		// If the problem was found to be invalid.
-	private: bool Invalid;
+	public: bool Invalid;
+
+		// The problem was loaded from a file.
+	public: int FileInfo_Version;
+
+		// The name of the simulation.
+	public: std::string FileInfo_Simulation_Name;
+
+		// What type of simulation to do, "Solve" or "Validate"
+	public: std::string Simulation_Type;
 
 		// The hard cap for the total cycles allow in the entire simulation.
-	private: unsigned long long Cycle_Limit_Total; // Max of 18,446,744,073,709,551,615, 0 for unlimited.
+	public: unsigned long long Cycle_Limit_Total; // Max of 18,446,744,073,709,551,615, 0 for unlimited.
 
 		// The hard cap for a single simulation.
-	private: unsigned long Cycle_Limit_Simulation; // Max of 4,294,967,295, 0 for unlimited.
+	public: unsigned long Cycle_Limit_Simulation; // Max of 4,294,967,295, 0 for unlimited.
 
 		// The hard cap for the number of simulations that can run before halting.
-	private: unsigned long Simulation_Max; // Max of 4,294,967,295, 0 for unlimited.
+	public: unsigned long Simulation_Max; // Max of 4,294,967,295, 0 for unlimited.
 
 		// The hard cap for the of number of solutions found before halting.
-	private: unsigned long Simulation_Solution_Max; // Max of 4,294,967,295, 0 for unlimited.
+	public: unsigned long Simulation_Solution_Max; // Max of 4,294,967,295, 0 for unlimited.
 
 		// How many solutions to dump on halting.
-	private: unsigned long Simulation_Solution_Toaccept; // Max of 4,294,967,295, 0 for unlimited.
+	public: unsigned long Simulation_Solution_Toaccept; // Max of 4,294,967,295, 0 for unlimited.
 
 		// The instructions that are possible to use.
-	private: std::vector<short> Allow_Instructions;
+	public: std::vector<short> Allow_Instructions;
 			
 		// How many solutions should be paired.
-	private: int Number_To_Crossover; // not sure what this was for. Debugging
+	public: int Number_To_Crossover; // not sure what this was for. Debugging
 
 		// The number of simulations to work with.
 	public: unsigned int Solution_Pool_Size;
@@ -165,6 +174,14 @@ class Problem_Definition{
 
 			// The problem is not invalid.
 		Invalid						= false;
+
+			// The version of the file.
+		FileInfo_Version = 1;
+
+			// The name of the simulation.
+		FileInfo_Simulation_Name = "Unnamed";
+
+		Simulation_Type = "Unknown";
 
 
 			// ----- Future use --------
